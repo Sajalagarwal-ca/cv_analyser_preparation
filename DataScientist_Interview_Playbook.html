@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sajal Agarwal — Data Scientist Interview Playbook</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-2: #0ea5e9;
+    --good: #16a34a;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --border: #e2e8f0;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --chip: #eef2ff;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%);
+    color: white;
+    padding: 44px 24px 60px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 2.2rem; letter-spacing: -0.5px; }
+  header.hero p.sub { margin: 0; opacity: 0.95; font-size: 1.05rem; }
+  header.hero .chips { margin-top: 18px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  header.hero .chips span {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 5px 14px; border-radius: 999px; font-weight: 600; font-size: 0.85rem;
+  }
+  .container { max-width: 1020px; margin: -32px auto 64px; padding: 0 20px; }
+  nav.toc {
+    background: var(--card); border-radius: 12px; padding: 20px 24px;
+    box-shadow: 0 4px 18px rgba(15,23,42,0.08); margin-bottom: 28px;
+    border-top: 4px solid var(--accent);
+  }
+  nav.toc h2 { margin: 0 0 12px; font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  nav.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 24px; }
+  nav.toc li { margin: 4px 0; break-inside: avoid; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover { text-decoration: underline; }
+
+  section.block {
+    background: var(--card); border-radius: 12px; padding: 26px 30px;
+    margin-bottom: 26px; box-shadow: 0 4px 18px rgba(15,23,42,0.06);
+    border-left: 4px solid var(--accent);
+  }
+  section.block h2 {
+    margin: 0 0 14px; font-size: 1.5rem; color: #0f172a;
+    display: flex; align-items: center; gap: 10px;
+  }
+  section.block h2 .num {
+    background: var(--accent); color: white; width: 32px; height: 32px;
+    border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  section.block h3 { margin-top: 22px; color: #0f172a; font-size: 1.15rem; border-bottom: 1px dashed var(--border); padding-bottom: 6px; }
+  .pill { display: inline-block; background: var(--chip); color: var(--accent); padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; margin-right: 6px; }
+  .callout {
+    background: #f0f9ff; border-left: 4px solid var(--accent-2);
+    padding: 12px 16px; border-radius: 6px; margin: 12px 0;
+  }
+  .callout.good { background: #f0fdf4; border-left-color: var(--good); }
+  .callout.warn { background: #fffbeb; border-left-color: var(--warn); }
+  blockquote.pitch {
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 18px 22px; margin: 12px 0; font-style: italic;
+    border-left: 4px solid var(--accent-2);
+  }
+  blockquote.pitch strong { color: #fde68a; font-style: normal; }
+  details {
+    background: #f8fafc; border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; margin: 8px 0;
+  }
+  details[open] { background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  details summary { cursor: pointer; font-weight: 600; color: #0f172a; }
+  details summary:hover { color: var(--accent); }
+  details .answer { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #0f172a; }
+  pre { background: var(--code-bg); color: var(--code-text); padding: 14px 16px; border-radius: 8px; overflow-x: auto; font-size: 0.88rem; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #f1f5f9; color: #0f172a; font-size: 0.9rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 12px 0; }
+  .card {
+    background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .card h4 { margin: 0 0 6px; color: var(--accent); font-size: 1rem; }
+  .star { display: grid; grid-template-columns: 90px 1fr; gap: 8px 14px; margin: 10px 0; }
+  .star .label { font-weight: 700; color: var(--accent); }
+  .flow {
+    display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; align-items: center;
+  }
+  .flow .step {
+    background: var(--chip); color: var(--accent); padding: 8px 14px;
+    border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+  }
+  .flow .arrow { color: var(--muted); font-weight: 700; }
+  .back-to-top {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--accent); color: white; padding: 10px 14px;
+    border-radius: 999px; text-decoration: none; font-weight: 600;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.4); font-size: 0.9rem;
+  }
+  @media print {
+    header.hero { background: #1e3a8a !important; -webkit-print-color-adjust: exact; }
+    .back-to-top { display: none; }
+    details { break-inside: avoid; }
+    details[open] .answer { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Data Scientist Interview Playbook</h1>
+  <p class="sub">Sajal Agarwal &middot; 15+ yrs &middot; ML, GenAI, Azure &middot; Toronto</p>
+  <div class="chips">
+    <span>Opening pitches</span><span>Project storytelling</span>
+    <span>STAR narratives</span><span>Interview flow</span><span>Q&amp;A drills</span>
+  </div>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+  <h2>Playbook contents</h2>
+  <ol>
+    <li><a href="#pitch">Opening pitches — "Tell me about yourself"</a></li>
+    <li><a href="#about">"About me" — behavioural framing</a></li>
+    <li><a href="#experience">Walking through experience</a></li>
+    <li><a href="#projects">Project deep-dives (STAR)</a></li>
+    <li><a href="#flow">Interview flow &amp; navigation strategy</a></li>
+    <li><a href="#technical">Technical Q&amp;A drills</a></li>
+    <li><a href="#behavioural">Behavioural Q&amp;A drills</a></li>
+    <li><a href="#genai">GenAI / LLM Q&amp;A drills</a></li>
+    <li><a href="#questions">Questions to ask the interviewer</a></li>
+    <li><a href="#closing">Closing statement</a></li>
+  </ol>
+</nav>
+
+<!-- =========================================== -->
+<section class="block" id="pitch">
+  <h2><span class="num">1</span> Opening pitches — "Tell me about yourself"</h2>
+  <p>Prepare three versions. Use the <strong>60-second</strong> one by default; extend or compress based on cues.</p>
+
+  <h3>🎯 60-second version (default)</h3>
+  <blockquote class="pitch">
+    "I'm <strong>Sajal Agarwal</strong>, a Senior Data Scientist with over <strong>15 years</strong> of experience across BFSI, insurance, healthcare and retail. For the last five years I've been with <strong>TCS on the Manulife account in Toronto</strong>, building production ML systems on Azure. My flagship work is a cloud-cost anomaly detection platform using <strong>Facebook Prophet</strong> that delivered <strong>$12.8 million CAD in annual savings</strong>. I've also shipped credit-risk PD/LGD models with <strong>XGBoost</strong>, fraud detection with Random Forest and SMOTE, and more recently a suite of <strong>GenAI applications</strong> — a RAG document assistant, an NL-to-SQL agent on PostgreSQL, and an insurance fraud investigation chatbot on <strong>Azure OpenAI GPT-4</strong>. My core stack is Python, PostgreSQL, Databricks, LangChain and FAISS. I'm looking for a role where I can combine classical ML rigour with modern GenAI to move business metrics — which is exactly what drew me to this position."
+  </blockquote>
+
+  <h3>⚡ 30-second version (elevator)</h3>
+  <blockquote class="pitch">
+    "I'm a Senior Data Scientist with 15+ years across banking, insurance and healthcare. At Manulife I built an Azure anomaly-detection model that saved <strong>$12.8M CAD a year</strong>, plus credit-risk, fraud and GenAI RAG applications on LangChain and Azure OpenAI. I bring classical ML rigour and hands-on LLM engineering to production problems."
+  </blockquote>
+
+  <h3>🧭 2-minute version (senior/technical panel)</h3>
+  <p>Same as 60-second, then add:</p>
+  <ul>
+    <li>One-line career arc: <em>started in analytics consulting (WNS, GMR), moved into ML at Tata Steel, then a decade of financial-services modelling.</em></li>
+    <li>One line on <em>how</em> you work: <em>"I like owning the full lifecycle — problem framing, feature engineering, model validation, deployment on Databricks/FastAPI, and stakeholder storytelling with Power BI and Grafana."</em></li>
+    <li>End with a <em>forward hook</em>: <em>"I'm now focused on production GenAI — RAG, agents, evaluation — and that's where I want to grow next."</em></li>
+  </ul>
+
+  <div class="callout warn">
+    <strong>Delivery tips:</strong> lead with the <em>$12.8M</em> number — it anchors the whole conversation. Slow down at the numbers. Do not list every project; tease 2–3 so the interviewer picks which to dig into.
+  </div>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="about">
+  <h2><span class="num">2</span> "About me" — behavioural framing</h2>
+  <p>When asked <em>"tell me a bit about yourself as a person"</em> or <em>"what motivates you"</em>, avoid repeating the resume. Use this frame:</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4>What I do</h4>
+      <p>Translate ambiguous business problems into ML solutions that survive production — not just notebooks.</p>
+    </div>
+    <div class="card">
+      <h4>How I work</h4>
+      <p>Hypothesis-first. I start with the decision the model must support, then work backwards to features and metrics.</p>
+    </div>
+    <div class="card">
+      <h4>What I'm known for</h4>
+      <p>Bridging the ML team and the business — turning SHAP values into stories a CFO can act on.</p>
+    </div>
+    <div class="card">
+      <h4>Where I'm heading</h4>
+      <p>Production GenAI — RAG, agentic workflows, LLM evaluation, and grounding LLMs in enterprise data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="experience">
+  <h2><span class="num">3</span> Walking through experience</h2>
+  <p>When asked <em>"walk me through your resume"</em>, use a <strong>reverse-chronological arc</strong> and spend ~70% of the time on Manulife.</p>
+
+  <div class="flow">
+    <span class="step">WNS (2017–18)<br/>Analytics foundation</span>
+    <span class="arrow">→</span>
+    <span class="step">GMR Airport (2018–19)<br/>Commercial BI</span>
+    <span class="arrow">→</span>
+    <span class="step">Tata Steel (2019–20)<br/>First ML models</span>
+    <span class="arrow">→</span>
+    <span class="step">Manulife (2020–now)<br/>Production ML + GenAI</span>
+  </div>
+
+  <h3>Talking points per role</h3>
+  <table>
+    <thead><tr><th>Role</th><th>Anchor line</th><th>Number to drop</th></tr></thead>
+    <tbody>
+      <tr><td>WNS — Deputy Manager</td><td>"Learned to work with global stakeholders and Nielsen/IMS data."</td><td>Led a team of 5 analysts</td></tr>
+      <tr><td>GMR Airport — Manager</td><td>"First taste of data-driven revenue design."</td><td>INR 2M incremental revenue</td></tr>
+      <tr><td>Tata Steel — Assistant Consultant</td><td>"First production ML — regression, clustering, PCA on manufacturing yield."</td><td>Yield improvement on mild-steel door line</td></tr>
+      <tr><td>Manulife — Data Scientist</td><td>"Full ML lifecycle on Azure, credit risk to GenAI."</td><td><strong>$12.8M CAD saved / year</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Bridging line to use:</strong> <em>"Each role added a layer — reporting at WNS, commercial analytics at GMR, classical ML at Tata Steel, and end-to-end production ML plus GenAI at Manulife. That's the arc."</em>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="projects">
+  <h2><span class="num">4</span> Project deep-dives — STAR narratives</h2>
+  <p>Have <strong>4 classical ML</strong> and <strong>3 GenAI</strong> stories ready. Open each with a one-line hook, then STAR.</p>
+
+  <!-- Project 1 -->
+  <h3>🏦 Project 1 — Cloud Cost Anomaly Detection (flagship)</h3>
+  <p><strong>Hook:</strong> <em>"This is the one that delivered $12.8M CAD in savings, so let me start here."</em></p>
+  <div class="star">
+    <div class="label">Situation</div><div>Manulife's Azure spend was growing double-digits YoY; cost-centre owners were reacting to monthly invoices instead of daily signals.</div>
+    <div class="label">Task</div><div>Detect anomalous daily spend at the cost-centre level early enough for owners to act, without drowning them in false alerts.</div>
+    <div class="label">Action</div><div>Built a daily time-series pipeline in Azure Data Factory pulling consumption data into PostgreSQL. Trained <strong>Facebook Prophet</strong> per cost-centre with holiday/weekend seasonality. Flagged deviations above a tuned confidence-interval threshold. Automated resource-level breakdown emails via Azure Functions and surfaced trends in Grafana &amp; Power BI.</div>
+    <div class="label">Result</div><div><strong>$12.8M CAD annualised savings</strong>, alert precision tuned to keep noise low, and adoption by finance + FinOps as the source of truth.</div>
+  </div>
+  <details>
+    <summary>Likely follow-up: "Why Prophet and not ARIMA/LSTM?"</summary>
+    <div class="answer">Prophet handles multiple seasonalities, holidays and missing days out of the box, is interpretable to non-ML stakeholders, and scales well per-series. ARIMA needed per-series stationarity work; LSTM was overkill given data volume per cost-centre and would have hurt interpretability which was a hard requirement.</div>
+  </details>
+  <details>
+    <summary>"How did you avoid alert fatigue?"</summary>
+    <div class="answer">Tuned the CI width per cost-centre based on historical volatility, added a minimum absolute-dollar threshold so tiny percentage swings on small centres didn't alert, and required 2 consecutive breach days for lower-priority centres.</div>
+  </details>
+  <details>
+    <summary>"How did you attribute $12.8M?"</summary>
+    <div class="answer">Compared post-intervention run-rate versus Prophet's counterfactual forecast for the same period, cross-checked against FinOps ticket resolutions tagged to alerts. Finance signed off on the methodology.</div>
+  </details>
+
+  <!-- Project 2 -->
+  <h3>💳 Project 2 — Credit Risk PD / LGD / ECL</h3>
+  <p><strong>Hook:</strong> <em>"IFRS 9-aligned expected credit loss, deployed as a Streamlit tool risk officers actually use."</em></p>
+  <div class="star">
+    <div class="label">Situation</div><div>Risk team needed on-demand borrower-level ECL, not batch quarterly runs.</div>
+    <div class="label">Task</div><div>Estimate PD and LGD from the same feature set and combine into ECL = PD × LGD × EAD.</div>
+    <div class="label">Action</div><div>Dual XGBoost heads on engineered credit/income/repayment features. Validated with AUC and KS for PD, and calibration curves for LGD. Deployed as Streamlit with SHAP for explainability.</div>
+    <div class="label">Result</div><div>On-demand scoring for risk officers, aligned with IFRS 9 / Basel-style reporting, and interpretable drivers for audit.</div>
+  </div>
+  <details>
+    <summary>"Why XGBoost over logistic regression for PD?"</summary>
+    <div class="answer">Logistic gave us the baseline and interpretability floor; XGBoost captured non-linear interactions (DTI × loan purpose × FICO band) and lifted AUC meaningfully. I kept logistic as a challenger and used SHAP to preserve interpretability.</div>
+  </details>
+  <details>
+    <summary>"How do you calibrate PD probabilities?"</summary>
+    <div class="answer">Isotonic regression on a held-out set, then reliability diagrams before sign-off. For LGD (bounded [0,1]) I used beta-calibration.</div>
+  </details>
+
+  <!-- Project 3 -->
+  <h3>🕵️ Project 3 — Fraudulent Loan Application Detection</h3>
+  <p><strong>Hook:</strong> <em>"Classic class-imbalance problem — fraud was under 3% of applications."</em></p>
+  <div class="star">
+    <div class="label">Situation</div><div>Manual fraud review was slow and inconsistent.</div>
+    <div class="label">Task</div><div>Auto-flag high-risk applications with recall high enough to catch fraud but precision high enough not to swamp reviewers.</div>
+    <div class="label">Action</div><div>SMOTE oversampling on the training fold only (never on validation), Random Forest tuned with GridSearchCV, threshold selected on the precision-recall curve, not accuracy.</div>
+    <div class="label">Result</div><div>F1 &gt; 0.75; top drivers were FICO, DTI, loan purpose. Proposed a RF + GBM ensemble and a real-time inference architecture.</div>
+  </div>
+  <details>
+    <summary>"Why not SMOTE on validation?"</summary>
+    <div class="answer">Because validation must reflect production distribution. Synthetic minority samples in validation give optimistic recall and hide model overfitting to the SMOTE manifold.</div>
+  </details>
+
+  <!-- Project 4 -->
+  <h3>🏥 Project 4 — Health Insurance Premium Predictor</h3>
+  <p><strong>Hook:</strong> <em>"Pricing model with explainability baked in — underwriters wouldn't sign off otherwise."</em></p>
+  <div class="star">
+    <div class="label">Situation</div><div>Manual premium quoting was inconsistent across underwriters.</div>
+    <div class="label">Task</div><div>Predict premiums from age, medical history, lifestyle, demographics — with a defensible reason for every quote.</div>
+    <div class="label">Action</div><div>XGBoost + scikit-learn pipelines, feature engineering, RMSE/MAE/R² for eval, SHAP for driver explanation, Streamlit for delivery.</div>
+    <div class="label">Result</div><div>Instant quotes with SHAP-backed rationale; underwriters used it as a decision-support tool, not a black box.</div>
+  </div>
+
+  <!-- GenAI section -->
+  <h3>🤖 Project 5 — Insurance Fraud Investigation Assistant (RAG)</h3>
+  <div class="star">
+    <div class="label">Situation</div><div>Claims investigators drowned in mixed structured + unstructured evidence.</div>
+    <div class="label">Task</div><div>Summarise long claim files and surface anomalies against historical fraud patterns.</div>
+    <div class="label">Action</div><div>Azure OpenAI GPT-4 with LangChain orchestration; FAISS embeddings over claim documents, transactions and email; Power BI dashboard for auditability.</div>
+    <div class="label">Result</div><div>Investigator triage time cut significantly; audit-ready summaries with source citations.</div>
+  </div>
+
+  <h3>🗄️ Project 6 — Natural Language to SQL over PostgreSQL</h3>
+  <div class="star">
+    <div class="label">Situation</div><div>Business users wanted answers without waiting on analysts.</div>
+    <div class="label">Task</div><div>Safe, conversational SQL over an operational Postgres.</div>
+    <div class="label">Action</div><div>LangChain <code>create_sql_agent</code> + OpenAI, SQLAlchemy read-only connection, conversational memory, Streamlit UI on Databricks.</div>
+    <div class="label">Result</div><div>Ad-hoc queries answered in seconds with the generated SQL shown for transparency.</div>
+  </div>
+
+  <h3>📚 Project 7 — Personal RAG Document Assistant</h3>
+  <div class="star">
+    <div class="label">Situation</div><div>Needed grounded answers over mixed-format personal/enterprise docs.</div>
+    <div class="label">Task</div><div>Local RAG with citations.</div>
+    <div class="label">Action</div><div>HuggingFace <code>all-MiniLM-L6-v2</code> embeddings, FAISS, GPT-4o-mini for generation; returns source file, page, chunk id and snippet.</div>
+    <div class="label">Result</div><div>Grounded, citation-first answers — the pattern I now reuse for enterprise RAG.</div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="flow">
+  <h2><span class="num">5</span> Interview flow &amp; navigation strategy</h2>
+
+  <h3>Typical DS interview arc (60 min)</h3>
+  <table>
+    <thead><tr><th>Minute</th><th>What happens</th><th>Your move</th></tr></thead>
+    <tbody>
+      <tr><td>0–5</td><td>Intros + "tell me about yourself"</td><td>Deliver 60-sec pitch, tease 2–3 projects</td></tr>
+      <tr><td>5–20</td><td>Resume walkthrough</td><td>Reverse-chrono, land on Manulife, drop $12.8M</td></tr>
+      <tr><td>20–40</td><td>Project deep-dive (they pick)</td><td>STAR, then invite follow-ups; expect "why this model?"</td></tr>
+      <tr><td>40–55</td><td>Technical / scenario Qs</td><td>Think aloud, state assumptions, note trade-offs</td></tr>
+      <tr><td>55–60</td><td>Your questions</td><td>Ask 2 sharp ones (see §9)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Steering rules</h3>
+  <div class="callout good"><strong>Anchor early:</strong> mention the $12.8M savings in the first 90 seconds so it becomes the interviewer's natural next question.</div>
+  <div class="callout"><strong>Offer forks:</strong> end project stories with <em>"I can go deeper on the modelling side or the deployment side — which is more useful?"</em></div>
+  <div class="callout warn"><strong>Signal GenAI:</strong> if the JD emphasises LLMs, pivot after Manulife into RAG/NL-to-SQL. If it emphasises risk/insurance, stay on credit risk and fraud.</div>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="technical">
+  <h2><span class="num">6</span> Technical Q&amp;A drills</h2>
+
+  <details><summary>1. Explain bias–variance trade-off with a project example.</summary>
+    <div class="answer">Bias = error from wrong assumptions (underfitting), variance = sensitivity to training data (overfitting). In the credit-risk PD model, a shallow tree had high bias (missed FICO×purpose interactions); a deep unregularised XGBoost overfit. I tuned <code>max_depth</code>, <code>min_child_weight</code>, and used early stopping on a validation fold to land on the sweet spot.</div>
+  </details>
+  <details><summary>2. Why SMOTE, and when is it wrong?</summary>
+    <div class="answer">SMOTE synthesises minority-class points along k-NN lines. Wrong when: (a) minority class is genuinely noisy — you amplify noise; (b) high-dimensional sparse features — synthetic points fall in unrealistic regions; (c) applied on validation/test — leaks optimism. Alternatives: class-weighting, focal loss, threshold tuning.</div>
+  </details>
+  <details><summary>3. How do you choose the classification threshold?</summary>
+    <div class="answer">Never default to 0.5. Pick from the precision-recall curve based on business cost: for fraud, false negatives are more expensive, so I move toward higher recall; for premium pricing, I optimise on business KPIs (loss ratio) not just F1.</div>
+  </details>
+  <details><summary>4. Prophet vs ARIMA vs LSTM for daily cost series?</summary>
+    <div class="answer">Prophet wins when you need interpretability, multiple seasonalities and holidays, and you have many parallel series. ARIMA when the series is stationary and short. LSTM only when you have long history, lots of series, and non-linear autoregressive structure — and you're willing to lose interpretability.</div>
+  </details>
+  <details><summary>5. Explain SHAP in one minute.</summary>
+    <div class="answer">SHAP assigns each feature a contribution to a single prediction based on Shapley values from cooperative game theory — average marginal contribution across all feature-subset orderings. It's locally faithful, globally aggregatable, and model-agnostic (TreeSHAP is exact and fast for XGBoost).</div>
+  </details>
+  <details><summary>6. Model drift — how do you detect it in production?</summary>
+    <div class="answer">Monitor (a) input drift: PSI / KS on features, (b) prediction drift: distribution of scores, (c) performance drift when labels arrive. In the cost anomaly model I also watched alert precision weekly. Trigger retraining on threshold breach, not on a fixed cadence.</div>
+  </details>
+  <details><summary>7. Write a SQL query for top-3 spending resources per cost-centre.</summary>
+    <div class="answer">
+<pre><code>SELECT cost_centre, resource_id, total_cost
+FROM (
+  SELECT cost_centre, resource_id,
+         SUM(cost) AS total_cost,
+         ROW_NUMBER() OVER (
+           PARTITION BY cost_centre
+           ORDER BY SUM(cost) DESC
+         ) AS rn
+  FROM azure_consumption
+  WHERE billing_date &gt;= CURRENT_DATE - INTERVAL '30 days'
+  GROUP BY cost_centre, resource_id
+) t
+WHERE rn &lt;= 3
+ORDER BY cost_centre, total_cost DESC;</code></pre>
+    </div>
+  </details>
+  <details><summary>8. Difference between window functions and GROUP BY?</summary>
+    <div class="answer">GROUP BY collapses rows into aggregates; window functions compute aggregates <em>alongside</em> each row without collapsing. Use windows for ranking, running totals, per-partition top-N — the query above is a classic example.</div>
+  </details>
+  <details><summary>9. Regularisation — L1 vs L2 vs ElasticNet?</summary>
+    <div class="answer">L1 (Lasso) drives coefficients to zero — feature selection. L2 (Ridge) shrinks smoothly — handles multicollinearity. ElasticNet mixes both — useful when you want selection but have correlated groups of features.</div>
+  </details>
+  <details><summary>10. Feature engineering — walk me through one example.</summary>
+    <div class="answer">In credit risk: raw features were income, EMI, tenure. Engineered: DTI = EMI/income, payment-to-income ratio, count of late payments in last 6/12/24 months, ratio of revolving to installment credit. These lifted AUC by ~4 points because they encoded behaviour, not just state.</div>
+  </details>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="behavioural">
+  <h2><span class="num">7</span> Behavioural Q&amp;A drills (STAR)</h2>
+
+  <details><summary>Tell me about a time you influenced a business decision.</summary>
+    <div class="answer"><strong>S:</strong> Cost-centre owners at Manulife were disputing anomaly alerts. <strong>T:</strong> Get buy-in without watering down detection. <strong>A:</strong> Built a Grafana view showing each alert with the Prophet forecast band and the offending resources; ran a workshop with FinOps to co-design the alert thresholds. <strong>R:</strong> Adoption jumped, complaints dropped, and the platform became the FinOps source of truth — enabling the $12.8M savings.</div>
+  </details>
+  <details><summary>A time you disagreed with a stakeholder.</summary>
+    <div class="answer">Risk team wanted a pure logistic regression for PD "because it's explainable". I proposed a champion-challenger: logistic in production, XGBoost + SHAP as challenger. Once SHAP outputs proved interpretable and the AUC lift was material, we promoted XGBoost. Lesson: don't argue explainability in the abstract — show it.</div>
+  </details>
+  <details><summary>A failure and what you learned.</summary>
+    <div class="answer">Early Prophet rollout: alerts were too noisy on small cost-centres because I only used percentage CIs. Missed adoption in week 1. Fix: added absolute-dollar floor and consecutive-day rule. Learning: <em>ship the alerting logic with the same rigour as the model.</em></div>
+  </details>
+  <details><summary>Working with ambiguity.</summary>
+    <div class="answer">The GenAI fraud assistant started with "help investigators go faster" — no metric. I ran three investigator interviews, defined "time to triage" as the target, agreed a baseline, and only then chose the RAG architecture. The metric drove the design.</div>
+  </details>
+  <details><summary>Leading without authority.</summary>
+    <div class="answer">Ran a weekly ML office hour for the Manulife analytics team — reviewed each other's models, shared feature-engineering patterns. Not a formal role, but standardised how the team validated and documented models.</div>
+  </details>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="genai">
+  <h2><span class="num">8</span> GenAI / LLM Q&amp;A drills</h2>
+
+  <details><summary>Explain RAG in one minute.</summary>
+    <div class="answer">Retrieval-Augmented Generation grounds an LLM in your own data: (1) chunk documents, (2) embed chunks into a vector store (FAISS in my case), (3) at query time embed the question, retrieve top-k chunks, (4) stuff them into the LLM prompt with the question. It reduces hallucination and enables citations.</div>
+  </details>
+  <details><summary>Chunking strategy — what did you use?</summary>
+    <div class="answer">Started with recursive character splitting (~500–800 tokens, 10–15% overlap). For structured docs (tables, claims forms), switched to semantic/section-aware chunking so a claim row wasn't split across chunks. Always store metadata (source, page, chunk_id) so citations are possible.</div>
+  </details>
+  <details><summary>Why FAISS over pgvector or a managed vector DB?</summary>
+    <div class="answer">FAISS was ideal for local/experimental workloads — fast, no infra. For enterprise Manulife-style deployment I'd choose pgvector (already have Postgres) or Azure AI Search for hybrid keyword+vector, RBAC, and managed scaling.</div>
+  </details>
+  <details><summary>How do you evaluate a RAG system?</summary>
+    <div class="answer">Two layers: <strong>retrieval</strong> (recall@k, MRR on a labelled question–chunk set) and <strong>generation</strong> (faithfulness — does the answer stick to retrieved context; answer relevance; and human eval for high-stakes cases). Frameworks: RAGAS, TruLens, or a bespoke LLM-as-judge with guardrails.</div>
+  </details>
+  <details><summary>Hallucination — how do you reduce it?</summary>
+    <div class="answer">Ground with RAG, force citations in the prompt, lower temperature, use "answer only from context; if not present say I don't know", and validate output with a second LLM or rules pass. For fraud, we also required structured JSON output validated against a schema.</div>
+  </details>
+  <details><summary>Prompt injection — how do you defend?</summary>
+    <div class="answer">Separate system and user prompts, strip/escape retrieved content, use allow-lists for tool calls, and for NL-to-SQL enforce a read-only DB role and a SQL parser that rejects DDL/DML. Never trust the retrieved chunk to be benign.</div>
+  </details>
+  <details><summary>Agent vs chain — when do you use which?</summary>
+    <div class="answer">Chain = deterministic sequence; use when steps are known. Agent = LLM decides which tool to call next; use when the path is data-dependent (e.g. NL-to-SQL where the model must inspect schema, draft, validate, retry).</div>
+  </details>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="questions">
+  <h2><span class="num">9</span> Questions to ask the interviewer</h2>
+  <p>Ask <strong>2 sharp questions</strong>. Prefer ones that signal seniority and delivery orientation.</p>
+  <ol>
+    <li>"What does the ML lifecycle look like here — do data scientists own deployment and monitoring, or is there a separate MLOps function?"</li>
+    <li>"Where is the team on the classical-ML vs GenAI curve today, and where do you want it in 12 months?"</li>
+    <li>"What's the biggest model or product decision the team is wrestling with right now?"</li>
+    <li>"How is model impact measured — is it tied to business KPIs or ML metrics?"</li>
+    <li>"If I joined, what would a successful first 90 days look like?"</li>
+  </ol>
+</section>
+
+<!-- =========================================== -->
+<section class="block" id="closing">
+  <h2><span class="num">10</span> Closing statement</h2>
+  <blockquote class="pitch">
+    "Thanks — this was a great conversation. What draws me to this role is the mix of <strong>classical ML rigour and production GenAI</strong>, which is exactly the arc I've been on at Manulife. I've delivered measurable business impact — the <strong>$12.8M</strong> anomaly-detection platform — and I've shipped GenAI systems end-to-end. I'd love to bring both to your team. What are the next steps in your process?"
+  </blockquote>
+
+  <div class="callout good">
+    <strong>Pre-interview 15-minute drill:</strong>
+    <ol>
+      <li>Say the 60-second pitch out loud, twice.</li>
+      <li>Pick one classical + one GenAI project and rehearse STAR (2 min each).</li>
+      <li>Read the JD once more and pick which 2 projects to lead with.</li>
+      <li>Have Grafana / Streamlit demo tabs pre-loaded if it's virtual.</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+
+<a href="#" class="back-to-top">↑ Top</a>
+
+</body>
+</html>

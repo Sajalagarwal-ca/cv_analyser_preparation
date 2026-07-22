@@ -1,0 +1,31 @@
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets
+.env
+*.key
+*.pem
+
+# Personal / non-project files (excluded from remote)
+Parking_Ticket_Dispute.md
+reply to parking notice.txt
+NYC_Itinerary.html
+NYC_Checklist.html
+20260617_*.jpg
+20260623_*.jpg
+*.jpeg

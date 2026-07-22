@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Python Interview Practice – FAANG & Tiger</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<style>
+    :root{
+        --bg:#0f1115;
+        --panel:#161a22;
+        --panel2:#1e2330;
+        --text:#e6e8ee;
+        --muted:#9aa3b2;
+        --accent:#4da3ff;
+        --accent2:#57e0a2;
+        --warn:#f5b642;
+        --border:#2a3040;
+    }
+    *{box-sizing:border-box}
+    body{
+        margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;
+        background:var(--bg);color:var(--text);line-height:1.55;
+    }
+    header{
+        padding:28px 32px;background:linear-gradient(90deg,#1b2233,#0f1115);
+        border-bottom:1px solid var(--border);
+    }
+    header h1{margin:0;font-size:26px}
+    header p{margin:6px 0 0;color:var(--muted)}
+    .layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 92px)}
+    nav.sidebar{
+        background:var(--panel);border-right:1px solid var(--border);
+        padding:18px;position:sticky;top:0;height:100vh;overflow-y:auto;
+    }
+    nav.sidebar h3{font-size:13px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;letter-spacing:.06em}
+    nav.sidebar a{
+        display:block;color:var(--text);text-decoration:none;padding:6px 8px;border-radius:6px;font-size:14px;
+    }
+    nav.sidebar a:hover{background:var(--panel2);color:var(--accent)}
+    main{padding:24px 32px 60px;max-width:1100px}
+    .filters{
+        display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;
+        background:var(--panel);padding:12px;border:1px solid var(--border);border-radius:10px;
+    }
+    .chip{
+        background:var(--panel2);color:var(--text);border:1px solid var(--border);
+        padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;user-select:none;
+    }
+    .chip.active{background:var(--accent);color:#0b0e14;border-color:var(--accent);font-weight:600}
+    .card{
+        background:var(--panel);border:1px solid var(--border);border-radius:12px;
+        padding:20px 22px;margin-bottom:22px;
+    }
+    .card h2{margin:0 0 6px;font-size:19px;color:#fff}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+    .tag{
+        font-size:11px;padding:2px 10px;border-radius:10px;background:var(--panel2);
+        border:1px solid var(--border);color:var(--muted);
+    }
+    .tag.company{color:var(--accent);border-color:#274866}
+    .tag.cat{color:var(--accent2);border-color:#265a44}
+    .tag.diff-easy{color:#7ee787;border-color:#2f5f35}
+    .tag.diff-medium{color:var(--warn);border-color:#5f4a1e}
+    .tag.diff-hard{color:#ff7b72;border-color:#5f2a26}
+    .problem{color:#d7dbe4}
+    details{margin-top:12px;background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+    details summary{cursor:pointer;font-weight:600;color:var(--accent);outline:none}
+    details[open] summary{color:var(--accent2)}
+    pre[class*="language-"]{border-radius:8px;font-size:13.5px;margin:10px 0}
+    code.inline{background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:13px;color:#ffd580}
+    .complexity{font-size:13px;color:var(--muted);margin-top:6px}
+    .complexity b{color:var(--text)}
+    footer{padding:20px 32px;color:var(--muted);border-top:1px solid var(--border);font-size:13px}
+    .hidden{display:none !important}
+    @media (max-width:820px){
+        .layout{grid-template-columns:1fr}
+        nav.sidebar{position:static;height:auto}
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Python Interview Practice</h1>
+    <p>Curated FAANG &amp; Tiger Analytics style questions — algorithms, data structures, and pandas. Click a card to reveal hints and full solutions.</p>
+</header>
+
+<div class="layout">
+    <nav class="sidebar">
+        <h3>Categories</h3>
+        <a href="#arrays">Arrays &amp; Hashing</a>
+        <a href="#strings">Strings</a>
+        <a href="#twop">Two Pointers / Sliding Window</a>
+        <a href="#intervals">Intervals</a>
+        <a href="#linked">Linked List / Trees</a>
+        <a href="#dp">Dynamic Programming</a>
+        <a href="#design">Design</a>
+        <a href="#pandas">Pandas &amp; Data</a>
+        <a href="#python">Python Language</a>
+        <h3>How to use</h3>
+        <p style="font-size:12px;color:var(--muted)">Filter by tag, attempt on paper first, then expand the solution.</p>
+    </nav>
+
+    <main>
+        <div class="filters" id="filters">
+            <span class="chip active" data-filter="all">All</span>
+            <span class="chip" data-filter="Google">Google</span>
+            <span class="chip" data-filter="Meta">Meta</span>
+            <span class="chip" data-filter="Amazon">Amazon</span>
+            <span class="chip" data-filter="Apple">Apple</span>
+            <span class="chip" data-filter="Netflix">Netflix</span>
+            <span class="chip" data-filter="Microsoft">Microsoft</span>
+            <span class="chip" data-filter="Tiger">Tiger Analytics</span>
+            <span class="chip" data-filter="Easy">Easy</span>
+            <span class="chip" data-filter="Medium">Medium</span>
+            <span class="chip" data-filter="Hard">Hard</span>
+        </div>
+
+        <!-- ============== ARRAYS & HASHING ============== -->
+        <h2 id="arrays" style="border-bottom:1px solid var(--border);padding-bottom:6px">1. Arrays &amp; Hashing</h2>
+
+        <div class="card" data-tags="Amazon Google Easy">
+            <h2>1.1 Two Sum</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag company">Google</span>
+                <span class="tag cat">Array / HashMap</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <p class="problem">Given <code class="inline">nums</code> and <code class="inline">target</code>, return the indices of two numbers that add up to target. Exactly one solution exists.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def two_sum(nums, target):
+    seen = {}                       # value -> index
+    for i, n in enumerate(nums):
+        need = target - n
+        if need in seen:
+            return [seen[need], i]
+        seen[n] = i
+    return []
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Meta Google Medium">
+            <h2>1.2 Group Anagrams</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag company">Google</span>
+                <span class="tag cat">HashMap / Strings</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <p class="problem">Group a list of strings so that anagrams are together.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">from collections import defaultdict
+
+def group_anagrams(words):
+    groups = defaultdict(list)
+    for w in words:
+        key = tuple(sorted(w))       # or a 26-length count tuple for O(n*k)
+        groups[key].append(w)
+    return list(groups.values())
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n · k log k) &nbsp; <b>Space:</b> O(n · k)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Meta Amazon Medium">
+            <h2>1.3 Top K Frequent Elements</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag company">Amazon</span>
+                <span class="tag cat">Heap / Bucket</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <p class="problem">Return the k most frequent elements.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">from collections import Counter
+
+def top_k_frequent(nums, k):
+    freq = Counter(nums)
+    # Bucket sort: index = frequency
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for num, f in freq.items():
+        buckets[f].append(num)
+    out = []
+    for i in range(len(buckets) - 1, 0, -1):
+        for n in buckets[i]:
+            out.append(n)
+            if len(out) == k:
+                return out
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Meta Amazon Medium">
+            <h2>1.4 Product of Array Except Self</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag company">Amazon</span>
+                <span class="tag cat">Prefix / Suffix</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <p class="problem">Return an array where <code class="inline">out[i]</code> is the product of all elements except <code class="inline">nums[i]</code>. No division. O(n) time.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def product_except_self(nums):
+    n = len(nums)
+    out = [1] * n
+    left = 1
+    for i in range(n):
+        out[i] = left
+        left *= nums[i]
+    right = 1
+    for i in range(n - 1, -1, -1):
+        out[i] *= right
+        right *= nums[i]
+    return out
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(1) extra</div>
+            </details>
+        </div>
+
+        <!-- ============== STRINGS ============== -->
+        <h2 id="strings" style="border-bottom:1px solid var(--border);padding-bottom:6px">2. Strings</h2>
+
+        <div class="card" data-tags="Google Easy">
+            <h2>2.1 Valid Parentheses</h2>
+            <div class="tags">
+                <span class="tag company">Google</span><span class="tag cat">Stack</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <p class="problem">Check if a string of <code class="inline">()[]{}</code> is valid.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def is_valid(s):
+    pairs = {')': '(', ']': '[', '}': '{'}
+    stack = []
+    for c in s:
+        if c in '([{':
+            stack.append(c)
+        else:
+            if not stack or stack.pop() != pairs[c]:
+                return False
+    return not stack
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Tiger Amazon Easy">
+            <h2>2.2 First Non-Repeating Character</h2>
+            <div class="tags">
+                <span class="tag company">Tiger Analytics</span><span class="tag company">Amazon</span>
+                <span class="tag cat">HashMap</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <p class="problem">Return the index of the first non-repeating character in a string, or -1.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">from collections import Counter
+
+def first_unique(s):
+    freq = Counter(s)
+    for i, c in enumerate(s):
+        if freq[c] == 1:
+            return i
+    return -1
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(1) (fixed alphabet)</div>
+            </details>
+        </div>
+
+        <!-- ============== TWO POINTERS / SLIDING WINDOW ============== -->
+        <h2 id="twop" style="border-bottom:1px solid var(--border);padding-bottom:6px">3. Two Pointers &amp; Sliding Window</h2>
+
+        <div class="card" data-tags="Amazon Meta Medium">
+            <h2>3.1 Longest Substring Without Repeating Characters</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag company">Meta</span>
+                <span class="tag cat">Sliding Window</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def length_of_longest_substring(s):
+    last = {}
+    left = best = 0
+    for right, c in enumerate(s):
+        if c in last and last[c] >= left:
+            left = last[c] + 1
+        last[c] = right
+        best = max(best, right - left + 1)
+    return best
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(min(n, charset))</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Meta Easy">
+            <h2>3.2 Move Zeros to End (in place)</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag cat">Two Pointers</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def move_zeros(nums):
+    write = 0
+    for read in range(len(nums)):
+        if nums[read] != 0:
+            nums[write], nums[read] = nums[read], nums[write]
+            write += 1
+    return nums
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(1)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Amazon Google Medium">
+            <h2>3.3 Container With Most Water</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag company">Google</span>
+                <span class="tag cat">Two Pointers</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def max_area(height):
+    l, r = 0, len(height) - 1
+    best = 0
+    while l < r:
+        best = max(best, (r - l) * min(height[l], height[r]))
+        if height[l] < height[r]:
+            l += 1
+        else:
+            r -= 1
+    return best
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(1)</div>
+            </details>
+        </div>
+
+        <!-- ============== INTERVALS ============== -->
+        <h2 id="intervals" style="border-bottom:1px solid var(--border);padding-bottom:6px">4. Intervals</h2>
+
+        <div class="card" data-tags="Google Meta Medium">
+            <h2>4.1 Merge Intervals</h2>
+            <div class="tags">
+                <span class="tag company">Google</span><span class="tag company">Meta</span>
+                <span class="tag cat">Sorting</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <p class="problem">Given a list of intervals, merge overlapping ones.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def merge(intervals):
+    intervals.sort(key=lambda x: x[0])
+    out = [intervals[0]]
+    for start, end in intervals[1:]:
+        if start <= out[-1][1]:
+            out[-1][1] = max(out[-1][1], end)
+        else:
+            out.append([start, end])
+    return out
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n log n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Amazon Medium">
+            <h2>4.2 Meeting Rooms II (min rooms needed)</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag cat">Heap</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import heapq
+
+def min_meeting_rooms(intervals):
+    intervals.sort(key=lambda x: x[0])
+    heap = []                          # min-heap of end times
+    for s, e in intervals:
+        if heap and heap[0] <= s:
+            heapq.heappop(heap)
+        heapq.heappush(heap, e)
+    return len(heap)
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n log n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <!-- ============== LINKED / TREES ============== -->
+        <h2 id="linked" style="border-bottom:1px solid var(--border);padding-bottom:6px">5. Linked List &amp; Trees</h2>
+
+        <div class="card" data-tags="Microsoft Amazon Easy">
+            <h2>5.1 Reverse a Linked List</h2>
+            <div class="tags">
+                <span class="tag company">Microsoft</span><span class="tag company">Amazon</span>
+                <span class="tag cat">Linked List</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def reverse_list(head):
+    prev, cur = None, head
+    while cur:
+        cur.next, prev, cur = prev, cur, cur.next
+    return prev
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(1)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Meta Google Medium">
+            <h2>5.2 Binary Tree Level Order Traversal</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag company">Google</span>
+                <span class="tag cat">BFS</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">from collections import deque
+
+def level_order(root):
+    if not root: return []
+    q, out = deque([root]), []
+    while q:
+        level = []
+        for _ in range(len(q)):
+            node = q.popleft()
+            level.append(node.val)
+            if node.left:  q.append(node.left)
+            if node.right: q.append(node.right)
+        out.append(level)
+    return out
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <!-- ============== DP ============== -->
+        <h2 id="dp" style="border-bottom:1px solid var(--border);padding-bottom:6px">6. Dynamic Programming</h2>
+
+        <div class="card" data-tags="Amazon Easy">
+            <h2>6.1 Climbing Stairs / Fibonacci</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag cat">DP</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def climb_stairs(n):
+    a, b = 1, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n) &nbsp; <b>Space:</b> O(1)</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Google Medium">
+            <h2>6.2 Coin Change (min coins)</h2>
+            <div class="tags">
+                <span class="tag company">Google</span><span class="tag cat">DP</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">def coin_change(coins, amount):
+    INF = amount + 1
+    dp = [0] + [INF] * amount
+    for a in range(1, amount + 1):
+        for c in coins:
+            if c <= a:
+                dp[a] = min(dp[a], dp[a - c] + 1)
+    return dp[amount] if dp[amount] != INF else -1
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n · amount) &nbsp; <b>Space:</b> O(amount)</div>
+            </details>
+        </div>
+
+        <!-- ============== DESIGN ============== -->
+        <h2 id="design" style="border-bottom:1px solid var(--border);padding-bottom:6px">7. Design</h2>
+
+        <div class="card" data-tags="Amazon Meta Medium">
+            <h2>7.1 LRU Cache</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag company">Meta</span>
+                <span class="tag cat">OrderedDict</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.cap:
+            self.cache.popitem(last=False)
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(1) get/put &nbsp; <b>Space:</b> O(capacity)</div>
+            </details>
+        </div>
+
+        <!-- ============== PANDAS ============== -->
+        <h2 id="pandas" style="border-bottom:1px solid var(--border);padding-bottom:6px">8. Pandas &amp; Data Wrangling</h2>
+
+        <div class="card" data-tags="Tiger Netflix Easy">
+            <h2>8.1 Group By &amp; Aggregation</h2>
+            <div class="tags">
+                <span class="tag company">Tiger Analytics</span><span class="tag company">Netflix</span>
+                <span class="tag cat">Pandas</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <p class="problem">Compute total <code class="inline">cost</code> per <code class="inline">cost_center</code> per <code class="inline">month</code> from a DataFrame.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import pandas as pd
+
+def monthly_cost(df: pd.DataFrame) -> pd.DataFrame:
+    return (
+        df.groupby(['month', 'cost_center'], as_index=False)['cost']
+          .sum()
+          .sort_values(['month', 'cost'], ascending=[True, False])
+    )
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Tiger Amazon Medium">
+            <h2>8.2 Month-over-Month % Change (equivalent to your SQL LAG query)</h2>
+            <div class="tags">
+                <span class="tag company">Tiger Analytics</span><span class="tag company">Amazon</span>
+                <span class="tag cat">Pandas</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <p class="problem">Compute previous-month charges and MoM % change per month.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import pandas as pd
+
+def mom_change(df: pd.DataFrame) -> pd.DataFrame:
+    monthly = (df.groupby('month', as_index=False)['cost']
+                 .sum()
+                 .rename(columns={'cost': 'charges'})
+                 .sort_values('month'))
+    monthly['previous_month_charges'] = monthly['charges'].shift(1)
+    monthly['mom_pct'] = (
+        (monthly['charges'] - monthly['previous_month_charges'])
+        / monthly['previous_month_charges'] * 100
+    )
+    return monthly.sort_values('month', ascending=False)
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Tiger Medium">
+            <h2>8.3 Median / Percentiles per Group</h2>
+            <div class="tags">
+                <span class="tag company">Tiger Analytics</span><span class="tag cat">Pandas</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <p class="problem">Equivalent of <code class="inline">PERCENTILE_CONT</code> in Python for cost per month.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import pandas as pd
+
+def cost_percentiles(df: pd.DataFrame) -> pd.DataFrame:
+    return (df.groupby('month')['cost']
+              .quantile([0.25, 0.5, 0.9, 0.99])
+              .unstack()
+              .rename(columns={0.25:'p25', 0.5:'median', 0.9:'p90', 0.99:'p99'})
+              .reset_index())
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Netflix Amazon Medium">
+            <h2>8.4 Rolling 7-Day Average</h2>
+            <div class="tags">
+                <span class="tag company">Netflix</span><span class="tag company">Amazon</span>
+                <span class="tag cat">Pandas</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import pandas as pd
+
+def rolling_avg(df: pd.DataFrame, date_col='date', value_col='cost') -> pd.DataFrame:
+    df = df.sort_values(date_col).copy()
+    df['rolling_7d_avg'] = (
+        df[value_col].rolling(window=7, min_periods=1).mean()
+    )
+    return df
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Meta Google Medium">
+            <h2>8.5 Merge / Join DataFrames + Handle Missing</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag company">Google</span>
+                <span class="tag cat">Pandas</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import pandas as pd
+
+def enrich_orders(orders, customers):
+    merged = orders.merge(customers, how='left', on='customer_id',
+                          suffixes=('_ord', '_cust'))
+    merged['country'] = merged['country'].fillna('UNKNOWN')
+    return merged
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Tiger Amazon Hard">
+            <h2>8.6 Consecutive Login Streaks (≥ 3 days) — pandas version</h2>
+            <div class="tags">
+                <span class="tag company">Tiger Analytics</span><span class="tag company">Amazon</span>
+                <span class="tag cat">Pandas</span><span class="tag diff-hard">Hard</span>
+            </div>
+            <p class="problem">Same problem you solved in SQL — find users with 3+ consecutive login days, in pandas.</p>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import pandas as pd
+
+def users_with_streak(logins: pd.DataFrame, min_len=3):
+    df = (logins.assign(login_date=pd.to_datetime(logins['login_date']))
+                .drop_duplicates(['user_id', 'login_date'])
+                .sort_values(['user_id', 'login_date']))
+    # rank within each user
+    df['rn'] = df.groupby('user_id').cumcount()
+    df['grp'] = df['login_date'] - pd.to_timedelta(df['rn'], unit='D')
+    streaks = (df.groupby(['user_id', 'grp'])
+                 .size()
+                 .reset_index(name='length'))
+    return streaks.loc[streaks['length'] >= min_len, 'user_id'].unique().tolist()
+</code></pre>
+                <div class="complexity"><b>Time:</b> O(n log n) &nbsp; <b>Space:</b> O(n)</div>
+            </details>
+        </div>
+
+        <!-- ============== PYTHON LANGUAGE ============== -->
+        <h2 id="python" style="border-bottom:1px solid var(--border);padding-bottom:6px">9. Python Language Deep Dives</h2>
+
+        <div class="card" data-tags="Meta Google Easy">
+            <h2>9.1 List vs Generator — memory difference</h2>
+            <div class="tags">
+                <span class="tag company">Meta</span><span class="tag company">Google</span>
+                <span class="tag cat">Language</span><span class="tag diff-easy">Easy</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python"># List: builds all values in memory
+squares_list = [x * x for x in range(10_000_000)]      # ~big RAM
+
+# Generator: lazy, one at a time
+squares_gen = (x * x for x in range(10_000_000))       # ~tiny RAM
+
+total = sum(squares_gen)   # streams through, no full materialization
+</code></pre>
+                <div class="complexity"><b>Use generators</b> for large streams / pipelines to save memory.</div>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Amazon Microsoft Medium">
+            <h2>9.2 Decorator: timing a function</h2>
+            <div class="tags">
+                <span class="tag company">Amazon</span><span class="tag company">Microsoft</span>
+                <span class="tag cat">Language</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import time
+from functools import wraps
+
+def timed(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        try:
+            return fn(*args, **kwargs)
+        finally:
+            elapsed = time.perf_counter() - start
+            print(f"{fn.__name__} took {elapsed:.4f}s")
+    return wrapper
+
+@timed
+def slow(n):
+    return sum(range(n))
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Google Medium">
+            <h2>9.3 Context Manager (custom)</h2>
+            <div class="tags">
+                <span class="tag company">Google</span><span class="tag cat">Language</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">from contextlib import contextmanager
+
+@contextmanager
+def open_upper(path):
+    f = open(path, 'r', encoding='utf-8')
+    try:
+        yield (line.upper() for line in f)
+    finally:
+        f.close()
+
+# usage
+# with open_upper('data.txt') as lines:
+#     for line in lines: print(line)
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Apple Meta Medium">
+            <h2>9.4 Deep vs Shallow Copy</h2>
+            <div class="tags">
+                <span class="tag company">Apple</span><span class="tag company">Meta</span>
+                <span class="tag cat">Language</span><span class="tag diff-medium">Medium</span>
+            </div>
+            <details><summary>Show Solution</summary>
+<pre><code class="language-python">import copy
+
+a = [[1, 2], [3, 4]]
+b = copy.copy(a)          # shallow – inner lists shared
+c = copy.deepcopy(a)      # deep – fully independent
+
+b[0].append(99)           # affects a as well
+c[0].append(42)           # does NOT affect a
+</code></pre>
+            </details>
+        </div>
+
+        <div class="card" data-tags="Netflix Tiger Hard">
+            <h2>9.5 Concurrency: I/O vs CPU-bound</h2>
+            <div class="tags">
+                <span class="tag company">Netflix</span><span class="tag company">Tiger Analytics</span>
+                <span class="tag cat">Language</span><span class="tag diff-hard">Hard</span>
+            </div>
+            <p class="problem">When would you use <code class="inline">threading</code> vs <code class="inline">multiprocessing</code> vs <code class="inline">asyncio</code>?</p>
+            <details><summary>Show Answer</summary>
+                <ul>
+                    <li><b>asyncio</b> – best for many concurrent I/O calls (HTTP, DB). Single thread, cooperative.</li>
+                    <li><b>threading</b> – I/O-bound where libs are blocking (files, some DB drivers). GIL limits CPU work.</li>
+                    <li><b>multiprocessing</b> – CPU-bound work (NumPy loops, image processing). Bypasses the GIL by spawning processes.</li>
+                </ul>
+<pre><code class="language-python">import asyncio, aiohttp
+
+async def fetch(session, url):
+    async with session.get(url) as r:
+        return await r.text()
+
+async def main(urls):
+    async with aiohttp.ClientSession() as s:
+        return await asyncio.gather(*(fetch(s, u) for u in urls))
+</code></pre>
+            </details>
+        </div>
+
+    </main>
+</div>
+
+<footer>
+    Curated for interview prep – Python (algorithms, pandas, language).<br>
+    Mirrors the goal of the PostgreSQL practice: attempt first, reveal solutions on demand.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script>
+    // Filter chips
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.card');
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const f = chip.dataset.filter;
+            cards.forEach(card => {
+                if (f === 'all' || card.dataset.tags.includes(f)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

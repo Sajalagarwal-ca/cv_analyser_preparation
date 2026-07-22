@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>7-Day Roadmap: From ML Practitioner to AI Agency Founder</title>
+<style>
+  :root {
+    --bg: #0f1216;
+    --panel: #161b22;
+    --panel-2: #1c232c;
+    --text: #e6edf3;
+    --muted: #9aa7b4;
+    --accent: #4f8cff;
+    --accent-2: #7ee2b8;
+    --warn: #ffb454;
+    --danger: #ff6b6b;
+    --border: #2a313a;
+    --code-bg: #0b0f14;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #1a2333 0%, #0f1620 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+  header.hero h1 {
+    margin: 0 0 8px;
+    font-size: 30px;
+    letter-spacing: -0.3px;
+  }
+  header.hero p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  nav.toc {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 32px;
+  }
+  nav.toc h3 {
+    margin: 0 0 10px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+  }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 20px;
+    columns: 2;
+    column-gap: 28px;
+  }
+  nav.toc a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px dashed transparent;
+  }
+  nav.toc a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  section.day {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 30px;
+    margin-bottom: 26px;
+  }
+  section.day h2 {
+    margin-top: 0;
+    font-size: 22px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    color: var(--accent);
+  }
+  section.day h3 {
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: var(--accent-2);
+    letter-spacing: 0.2px;
+  }
+  p, li { color: var(--text); }
+  ul, ol { padding-left: 22px; }
+  ul li, ol li { margin-bottom: 4px; }
+  code {
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    background: #232a33;
+    color: #f0c674;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  pre code {
+    background: transparent;
+    color: #c9d1d9;
+    padding: 0;
+    font-size: inherit;
+  }
+  .ascii {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    font-size: 13px;
+    white-space: pre;
+    overflow-x: auto;
+    color: #9ad4ff;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14.5px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--panel-2);
+    color: var(--accent-2);
+    font-weight: 600;
+  }
+  tr:nth-child(even) td { background: #1a2028; }
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: #18222f;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-size: 14.5px;
+  }
+  .callout.warn { border-left-color: var(--warn); background: #2a2218; }
+  .callout.danger { border-left-color: var(--danger); background: #2a1818; }
+  .callout.tip { border-left-color: var(--accent-2); background: #182a23; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--panel-2);
+    color: var(--muted);
+    margin-left: 8px;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .badge.advanced { color: var(--warn); border-color: #4a3b1f; }
+  .badge.mistake { color: var(--danger); border-color: #4a1f1f; }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 30px 0;
+  }
+  footer {
+    color: var(--muted);
+    text-align: center;
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  a { color: var(--accent); }
+  @media (max-width: 720px) {
+    nav.toc ol { columns: 1; }
+    .wrap { padding: 24px 14px 60px; }
+    section.day { padding: 22px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>7-Day Roadmap: From ML Practitioner to AI Agency Founder</h1>
+  <p>Practical, ship-first plan to build, deploy, and sell production AI chatbots (RAG + integrations).</p>
+</header>
+
+<nav class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#framing">Framing &amp; Stack</a></li>
+    <li><a href="#day1">Day 1 — Backend &amp; First LLM API</a></li>
+    <li><a href="#day2">Day 2 — RAG Pipeline</a></li>
+    <li><a href="#day3">Day 3 — Memory, Streaming, Limits</a></li>
+    <li><a href="#day4">Day 4 — Deployment</a></li>
+    <li><a href="#day5">Day 5 — Integrations (Web/Slack/WhatsApp)</a></li>
+    <li><a href="#day6">Day 6 — Multi-Tenant Productization</a></li>
+    <li><a href="#day7">Day 7 — Demo, Pitch, Sell</a></li>
+    <li><a href="#skills">Core Skills Recap</a></li>
+    <li><a href="#repo">Recommended Repo Structure</a></li>
+    <li><a href="#giants">Build on Giants (Repos &amp; Datasets)</a></li>
+    <li><a href="#rules">Non-Negotiables</a></li>
+    <li><a href="#start">Start Now</a></li>
+  </ol>
+</nav>
+
+<section class="day" id="framing">
+  <h2>Framing &amp; Stack (read once)</h2>
+  <ul>
+    <li>You already know ML/RAG conceptually. <strong>The gap is shipping.</strong> Every day you ship something runnable.</li>
+    <li>Commit to one stack — no swaps mid-week:</li>
+  </ul>
+  <table>
+    <tr><th>Layer</th><th>Choice</th></tr>
+    <tr><td>Backend</td><td>Python + <code>FastAPI</code></td></tr>
+    <tr><td>LLM orchestration</td><td><code>LangChain</code> / <code>LlamaIndex</code> + OpenAI/Anthropic SDK</td></tr>
+    <tr><td>Vector DB</td><td><code>Qdrant</code> (local Docker → cloud) or Pinecone</td></tr>
+    <tr><td>Frontend</td><td>Vanilla JS embed widget + Next.js demo site on Vercel</td></tr>
+    <tr><td>Hosting</td><td>Render / Railway for backend, Vercel for frontend, Docker everywhere</td></tr>
+    <tr><td>Auth</td><td>API keys via headers + <code>python-dotenv</code>, Supabase later for multi-tenant</td></tr>
+    <tr><td>Integrations</td><td>Twilio (WhatsApp), Slack Bolt SDK</td></tr>
+  </table>
+  <div class="callout">Rule: <strong>boring stack &gt; perfect stack</strong>. You have 7 days.</div>
+</section>
+
+<!-- ===================== DAY 1 ===================== -->
+<section class="day" id="day1">
+  <h2>Day 1 — Backend Foundations + Your First LLM API</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>Understand a backend = a process listening on a port returning JSON.</li>
+    <li>Build, run, and call your first FastAPI server that wraps an LLM.</li>
+  </ul>
+
+  <h3>Concepts to internalize</h3>
+  <ul>
+    <li><strong>Request/Response cycle:</strong> Client → HTTP request → Server → JSON response.</li>
+    <li><strong>REST endpoints:</strong> verbs + paths + body.</li>
+    <li><strong>Env vars:</strong> never hardcode API keys; use <code>.env</code>.</li>
+    <li><strong>Stateless servers:</strong> each request is independent unless persisted.</li>
+    <li><strong>Why FastAPI:</strong> async by default, auto OpenAPI docs at <code>/docs</code>, Pydantic validation via type hints.</li>
+  </ul>
+
+  <h3>Tools / libraries</h3>
+  <p><code>fastapi</code>, <code>uvicorn</code>, <code>pydantic</code>, <code>python-dotenv</code>, <code>openai</code>, <code>httpx</code></p>
+
+  <h3>Hands-on mini project: "Echo-GPT" API</h3>
+<pre><code># app.py
+from fastapi import FastAPI, HTTPException, Header
+from pydantic import BaseModel
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+APP_API_KEY = os.getenv("APP_API_KEY")
+
+app = FastAPI(title="EchoGPT")
+
+class ChatIn(BaseModel):
+    message: str
+    system: str | None = "You are a helpful assistant."
+
+class ChatOut(BaseModel):
+    reply: str
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+@app.post("/chat", response_model=ChatOut)
+def chat(body: ChatIn, x_api_key: str = Header(...)):
+    if x_api_key != APP_API_KEY:
+        raise HTTPException(401, "Invalid API key")
+    resp = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": body.system},
+            {"role": "user", "content": body.message},
+        ],
+    )
+    return ChatOut(reply=resp.choices[0].message.content)
+</code></pre>
+  <p>Run: <code>uvicorn app:app --reload</code> → open <code>http://localhost:8000/docs</code>.</p>
+
+  <h3>Architecture</h3>
+  <div class="ascii">[curl / Postman / Browser]  --HTTPS-->  [FastAPI :8000]  --HTTPS-->  [OpenAI API]
+                                          |
+                                       .env (keys)</div>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>Committing <code>.env</code> to git. Add to <code>.gitignore</code> on minute one.</li>
+    <li>Skipping <code>response_model</code> — lose validation and docs.</li>
+    <li>Heavy async app calling sync SDK; sync is fine for now.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> use <code>AsyncOpenAI</code> + <code>async def</code> endpoints from the start if you expect concurrency.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–1</td><td>Bootstrap repo, venv, <code>.gitignore</code>, <code>.env.example</code>, push to GitHub</td><td><code>git log</code> shows initial commit, no secrets in repo</td></tr>
+    <tr><td>1–2</td><td>Write <code>app.py</code> with <code>/health</code> only, run locally</td><td><code>curl localhost:8000/health</code> returns JSON</td></tr>
+    <tr><td>2–4</td><td>Add <code>/chat</code> with Pydantic models + API-key header guard</td><td>OpenAPI docs at <code>/docs</code> show typed schema, 401 on missing key</td></tr>
+    <tr><td>4–5</td><td>Add structured logging (<code>structlog</code> or stdlib JSON formatter) + request-id middleware</td><td>Every request line has <code>req_id</code>, <code>latency_ms</code>, <code>tokens</code></td></tr>
+    <tr><td>5–6</td><td>Write Postman / <code>httpx</code> smoke-test script + minimal <code>pytest</code> for <code>/health</code> and <code>/chat</code> (mock OpenAI)</td><td><code>pytest -q</code> green on CI</td></tr>
+    <tr><td>6–7</td><td>Add cost guard: count tokens with <code>tiktoken</code>, refuse messages &gt; N tokens</td><td>Oversized payload returns 413</td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>Internal IT helpdesk responder</strong> — wrap a stub LLM call around common ticket categories (password reset, VPN, SSO). Demo to ops teams.</li>
+    <li><strong>Sales-email draft API</strong> — input: prospect URL + value prop, output: 3 personalized cold-email variants. SDRs pay for this daily.</li>
+    <li><strong>JIRA / GitHub issue summarizer</strong> — POST issue body, return a 3-bullet TL;DR + suggested labels. Easy first install for any engineering team.</li>
+    <li><strong>Fork &amp; study:</strong> <a href="https://github.com/tiangolo/full-stack-fastapi-template">tiangolo/full-stack-fastapi-template</a> for production patterns; <a href="https://github.com/openai/openai-cookbook">openai/openai-cookbook</a> for prompt patterns.</li>
+  </ul>
+
+  <h3>End-of-day deliverable</h3>
+  <p>GitHub repo <code>ai-agency-bot</code> with a working <code>/chat</code> endpoint, protected by an API key, runnable via <code>uvicorn</code>.</p>
+</section>
+
+<!-- ===================== DAY 2 ===================== -->
+<section class="day" id="day2">
+  <h2>Day 2 — RAG Pipeline: Answer from YOUR Documents</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>End-to-end RAG: ingest → chunk → embed → store → retrieve → generate.</li>
+    <li>Understand <em>why</em> each step exists.</li>
+  </ul>
+
+  <h3>Concepts</h3>
+  <ul>
+    <li><strong>Chunking:</strong> 300–800 tokens, ~50–100 overlap.</li>
+    <li><strong>Embeddings:</strong> text → fixed-length vector; similar meaning → similar vector.</li>
+    <li><strong>Vector DB:</strong> fast nearest-neighbor search. Qdrant / Pinecone / Weaviate / pgvector.</li>
+    <li><strong>RAG:</strong> stuff top-K chunks into the prompt. The LLM <em>reads</em>, it doesn't learn.</li>
+    <li><strong>RAG vs fine-tune:</strong> RAG is cheap, updatable, traceable. Fine-tune is for style/format, not knowledge.</li>
+  </ul>
+
+  <h3>Tools / libraries</h3>
+  <p><code>langchain</code>, <code>langchain-openai</code>, <code>langchain-community</code>, <code>qdrant-client</code>, <code>pypdf</code>, <code>tiktoken</code></p>
+  <p>Run Qdrant: <code>docker run -p 6333:6333 qdrant/qdrant</code></p>
+
+  <h3>Mini project: "Docs Bot"</h3>
+<pre><code># ingest.py
+from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Qdrant
+
+docs = DirectoryLoader("./data", glob="**/*.pdf", loader_cls=PyPDFLoader).load()
+chunks = RecursiveCharacterTextSplitter(chunk_size=700, chunk_overlap=80).split_documents(docs)
+
+Qdrant.from_documents(
+    chunks,
+    OpenAIEmbeddings(model="text-embedding-3-small"),
+    url="http://localhost:6333",
+    collection_name="kb",
+)
+print(f"Ingested {len(chunks)} chunks")
+</code></pre>
+
+<pre><code># rag.py
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import Qdrant
+from qdrant_client import QdrantClient
+
+vs = Qdrant(
+    client=QdrantClient(url="http://localhost:6333"),
+    collection_name="kb",
+    embeddings=OpenAIEmbeddings(model="text-embedding-3-small"),
+)
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+def rag_answer(question: str) -> dict:
+    docs = vs.similarity_search(question, k=4)
+    context = "\n\n".join(f"[{i+1}] {d.page_content}" for i, d in enumerate(docs))
+    prompt = (
+        "Answer ONLY using the context. If unknown, say you don't know.\n\n"
+        f"Context:\n{context}\n\nQuestion: {question}"
+    )
+    return {
+        "answer": llm.invoke(prompt).content,
+        "sources": [d.metadata.get("source") for d in docs],
+    }
+</code></pre>
+
+  <h3>Architecture</h3>
+  <div class="ascii">PDFs ─► Loader ─► Splitter ─► Embeddings ─► [Qdrant]
+                                                │
+User Q ─► Embed ─► Qdrant top-k ─► Prompt + Ctx ─► LLM ─► Answer + Sources</div>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>Chunks too big = poor recall. Too small = no context.</li>
+    <li>Forgetting <code>temperature=0</code> for factual Q&amp;A.</li>
+    <li>Not returning <strong>sources</strong> — clients demand it.</li>
+    <li>Re-ingesting on every server restart. Ingestion is a separate script.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> add hybrid search (BM25 + vector) and a reranker (Cohere Rerank or <code>bge-reranker</code>). Big quality bump.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–1</td><td><code>docker run qdrant/qdrant</code>, sanity-check dashboard at <code>:6333/dashboard</code></td><td>Empty collection visible</td></tr>
+    <tr><td>1–3</td><td>Drop 5–10 real PDFs into <code>./data</code>, run <code>ingest.py</code>, inspect chunk count + sample chunks</td><td>Chunks in Qdrant; spot-check one chunk in dashboard</td></tr>
+    <tr><td>3–4</td><td>Wire <code>/rag-chat</code> endpoint reusing Day 1 auth + Pydantic schema; return <code>{answer, sources, latency_ms}</code></td><td>Curl returns answer + sources array</td></tr>
+    <tr><td>4–5</td><td>Write a <strong>10-question eval set</strong> in <code>tests/eval.jsonl</code> with expected answers + must-cite docs</td><td>Script prints recall@4 and a pass/fail per question</td></tr>
+    <tr><td>5–6</td><td>Tune chunk size (300 vs 500 vs 800) and <code>k</code> against the eval set; pick best</td><td>Eval table committed to repo</td></tr>
+    <tr><td>6–7</td><td>Split <code>ingest.py</code> behind a <code>POST /admin/ingest</code> endpoint (sync first, async on Day 6)</td><td>One HTTP call ingests a new doc</td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>SaaS docs assistant</strong> — point ingestion at any public docs site (Stripe, Twilio, Supabase). "Ask Stripe docs anything" demos brilliantly.</li>
+    <li><strong>Annual-report Q&amp;A</strong> — ingest 10-K filings from <a href="https://www.sec.gov/edgar.shtml">SEC EDGAR</a>. Finance analysts pay real money for this.</li>
+    <li><strong>HR policy bot</strong> — employee handbook + benefits PDFs. Universal need, easy to sell to any company &gt; 50 employees.</li>
+    <li><strong>Legal contract Q&amp;A</strong> — ingest a master services agreement, answer "what's the termination clause?" with citations. Law firms &amp; ops teams love it.</li>
+    <li><strong>Open datasets for testing recall:</strong> <a href="https://github.com/microsoft/MS-MARCO">MS MARCO</a>, <a href="https://hotpotqa.github.io/">HotpotQA</a>, <a href="https://sites.google.com/view/fiqa/">FiQA</a> (financial QA).</li>
+    <li><strong>Fork &amp; study:</strong> <a href="https://github.com/langchain-ai/rag-from-scratch">langchain-ai/rag-from-scratch</a>, <a href="https://github.com/run-llama/llama_index">run-llama/llama_index</a> examples folder, <a href="https://github.com/Shubhamsaboo/awesome-llm-apps">Shubhamsaboo/awesome-llm-apps</a>.</li>
+  </ul>
+
+  <h3>Deliverable</h3>
+  <p><code>/rag-chat</code> endpoint that answers from your ingested docs with citations.</p>
+</section>
+
+<!-- ===================== DAY 3 ===================== -->
+<section class="day" id="day3">
+  <h2>Day 3 — Memory, Streaming, Sessions, Rate Limits</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>Make the bot feel like a real product: streaming, per-user history, abuse protection.</li>
+  </ul>
+
+  <h3>Concepts</h3>
+  <ul>
+    <li><strong>Conversation memory:</strong> store messages per <code>session_id</code> in Postgres/Redis.</li>
+    <li><strong>Streaming (SSE):</strong> tokens flow as generated → 5× faster feel.</li>
+    <li><strong>Rate limiting:</strong> per-API-key + per-IP, protects cost.</li>
+    <li><strong>Tracing:</strong> LangSmith / Langfuse to see every prompt &amp; response.</li>
+  </ul>
+
+  <h3>Tools / libraries</h3>
+  <p><code>sqlalchemy</code> + SQLite (start) → Postgres later, <code>redis</code>, <code>slowapi</code>, <code>sse-starlette</code>, <code>langfuse</code></p>
+
+  <h3>Mini project: stateful streaming chat</h3>
+<pre><code>from sse_starlette.sse import EventSourceResponse
+
+@app.post("/chat/stream")
+async def chat_stream(body: ChatIn, x_api_key: str = Header(...)):
+    history = load_history(body.session_id)
+    async def gen():
+        full = ""
+        async for chunk in llm.astream([*history, ("user", body.message)]):
+            full += chunk.content
+            yield {"data": chunk.content}
+        save_message(body.session_id, "user", body.message)
+        save_message(body.session_id, "assistant", full)
+    return EventSourceResponse(gen())
+</code></pre>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>Storing entire history forever → token costs explode. Cap at last 10–20 turns or summarize older ones.</li>
+    <li>No request IDs in logs → debugging is impossible. Add a UUID per request.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> moderation step (OpenAI moderation endpoint) before LLM call protects you from liability.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–2</td><td>Add <code>sessions</code> + <code>messages</code> tables (SQLite via SQLAlchemy). Helper <code>load_history(session_id, last_n=20)</code></td><td>History round-trips; capped at 20 turns</td></tr>
+    <tr><td>2–4</td><td>Convert <code>/chat</code> to <code>/chat/stream</code> with SSE; verify in browser <code>EventSource</code></td><td>Tokens visibly stream in DevTools network tab</td></tr>
+    <tr><td>4–5</td><td>Add <code>slowapi</code> rate limit: 30 req/min per API key, 10 req/min per IP</td><td>Burst test returns 429 cleanly</td></tr>
+    <tr><td>5–6</td><td>Sign up for free Langfuse cloud → wrap LLM calls; verify traces with prompt, response, tokens, cost</td><td>Trace visible in Langfuse UI</td></tr>
+    <tr><td>6–7</td><td>Add <strong>summarization rollup</strong>: when history &gt; 20 turns, summarize oldest 10 into a single system message</td><td>Token usage per request stays under cap</td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>Real-estate lead qualifier</strong> — multi-turn: budget → area → bedrooms → timeline, hands off to agent via email. Sellable to any brokerage.</li>
+    <li><strong>SaaS onboarding wizard</strong> — bot walks new users through setup, remembers what step they're on. Cuts churn for any tool.</li>
+    <li><strong>Clinic intake bot</strong> — collects symptoms, insurance, preferred slot before the human nurse calls back. Books via Calendly.</li>
+    <li><strong>Fork &amp; study:</strong> <a href="https://github.com/vercel/ai-chatbot">vercel/ai-chatbot</a> (gold standard for streaming UX), <a href="https://github.com/langfuse/langfuse">langfuse/langfuse</a> self-host docs.</li>
+  </ul>
+
+  <h3>Deliverable</h3>
+  <p>Streaming endpoint with persistent per-session memory, rate-limited, traces visible in Langfuse.</p>
+</section>
+
+<!-- ===================== DAY 4 ===================== -->
+<section class="day" id="day4">
+  <h2>Day 4 — Deployment: Localhost → Public URL</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>Containerize, deploy, get a public HTTPS URL you can send to a client.</li>
+  </ul>
+
+  <h3>Concepts</h3>
+  <ul>
+    <li><strong>Docker:</strong> same behavior everywhere; image = frozen app + deps.</li>
+    <li><strong>PaaS vs IaaS:</strong> Render / Railway / Fly.io handle TLS, scaling, env vars. AWS is overkill for week 1.</li>
+    <li><strong>Managed vector DB:</strong> move to Qdrant Cloud / Pinecone — local Docker dies with your laptop.</li>
+    <li><strong>Secrets:</strong> env vars in dashboard, never in code.</li>
+  </ul>
+
+  <h3>Dockerfile</h3>
+<pre><code>FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+ENV PORT=8000
+CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port $PORT"]
+</code></pre>
+
+  <ol>
+    <li>Push repo to GitHub.</li>
+    <li>Render → New Web Service → connect repo → set env vars → deploy.</li>
+    <li>Re-run ingestion pointing at Qdrant Cloud URL.</li>
+    <li>Test the public URL with curl and <code>/docs</code>.</li>
+  </ol>
+
+  <h3>Architecture</h3>
+  <div class="ascii">[Client] ─► https://yourbot.onrender.com ─► FastAPI container
+                                              ├─► Qdrant Cloud
+                                              ├─► OpenAI
+                                              └─► Postgres (Render add-on)</div>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>Binding to <code>127.0.0.1</code> in container → unreachable. Use <code>0.0.0.0</code>.</li>
+    <li>Letting <code>pip install</code> run at runtime — bake into the image.</li>
+    <li>SQLite inside container — wipes on redeploy. Use the managed Postgres add-on.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> GitHub Action that runs tests + <code>docker build</code> on every push, with auto-deploy on main.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–1</td><td>Write <code>Dockerfile</code> + <code>.dockerignore</code>; <code>docker build</code> + <code>docker run</code> locally on port 8000</td><td>Container responds to <code>/health</code></td></tr>
+    <tr><td>1–2</td><td>Sign up Qdrant Cloud (free tier), migrate ingestion to cloud URL + API key</td><td>Vectors visible in Qdrant Cloud console</td></tr>
+    <tr><td>2–3</td><td>Push to GitHub → connect Render → set env vars (OpenAI, Qdrant, app key) → deploy</td><td>Public HTTPS URL returns <code>/health</code></td></tr>
+    <tr><td>3–4</td><td>Add Render Postgres add-on; migrate <code>sessions</code>/<code>messages</code> tables via Alembic</td><td>Chat history persists across redeploys</td></tr>
+    <tr><td>4–5</td><td>Add UptimeRobot 5-min ping on <code>/health</code>; set alert to your phone</td><td>SMS arrives when you kill the service</td></tr>
+    <tr><td>5–6</td><td>Write GitHub Action: lint → pytest → build image → deploy hook on <code>main</code></td><td>Green CI badge in README</td></tr>
+    <tr><td>6–7</td><td>Buy a domain (Namecheap/Cloudflare); map <code>api.youragency.com</code> to Render</td><td>Custom domain serves <code>/docs</code> over HTTPS</td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>Reference deploys to mimic:</strong> <a href="https://github.com/Azure-Samples/azure-search-openai-demo">Azure-Samples/azure-search-openai-demo</a> (enterprise RAG), <a href="https://github.com/microsoft/chat-copilot">microsoft/chat-copilot</a>, <a href="https://github.com/a16z-infra/companion-app">a16z-infra/companion-app</a>.</li>
+    <li><strong>One-click templates:</strong> <a href="https://render.com/docs/deploy-fastapi">Render FastAPI</a>, <a href="https://railway.app/templates">Railway templates</a>, <a href="https://fly.io/docs/languages-and-frameworks/python/">Fly.io Python</a>.</li>
+    <li><strong>Sellable angle:</strong> companies pay extra for a deployment that shows uptime + custom domain. Screenshot your UptimeRobot dashboard for sales calls.</li>
+  </ul>
+
+  <h3>Deliverable</h3>
+  <p>Public HTTPS URL of your bot. Send to a friend, have them try <code>/docs</code>.</p>
+</section>
+
+<!-- ===================== DAY 5 ===================== -->
+<section class="day" id="day5">
+  <h2>Day 5 — Integrations: Website Widget, Slack, WhatsApp</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>Put the bot where companies' users actually are.</li>
+  </ul>
+
+  <h3>Concepts</h3>
+  <ul>
+    <li><strong>CORS:</strong> browsers block cross-origin by default. Enable <code>CORSMiddleware</code> for your widget domain.</li>
+    <li><strong>Webhooks:</strong> Slack/WhatsApp POST to your URL; you reply via their API.</li>
+    <li><strong>Signature verification:</strong> always verify webhook signatures.</li>
+  </ul>
+
+  <h3>1 — Website widget (1 hour)</h3>
+<pre><code>&lt;div id="bot"&gt;&lt;/div&gt;
+&lt;script&gt;
+(function(){
+  const API = "https://yourbot.onrender.com/chat";
+  const KEY = "CLIENT_PUBLIC_KEY"; // scoped, low-priv
+  // build a floating bubble + input, fetch(API, {headers:{'x-api-key':KEY}})
+})();
+&lt;/script&gt;
+</code></pre>
+
+  <h3>2 — Slack (2 hours)</h3>
+  <ul>
+    <li><code>slack-bolt</code> SDK, subscribe to <code>app_mention</code>.</li>
+    <li>Webhook: <code>POST /slack/events</code>. Call <code>rag_answer()</code> and post the reply.</li>
+  </ul>
+
+  <h3>3 — WhatsApp via Twilio (2 hours)</h3>
+<pre><code>@app.post("/whatsapp")
+async def whatsapp(Body: str = Form(...), From: str = Form(...)):
+    answer = rag_answer(Body)["answer"]
+    return Response(
+        f"&lt;Response&gt;&lt;Message&gt;{answer}&lt;/Message&gt;&lt;/Response&gt;",
+        media_type="application/xml",
+    )
+</code></pre>
+
+  <h3>Architecture</h3>
+  <div class="ascii">[Website]  ─┐
+[Slack]    ─┼──► Same FastAPI ──► Same RAG core ──► Same LLM/VectorDB
+[WhatsApp] ─┘   (channel adapters)</div>
+  <p><strong>One backend, many adapters.</strong> This is your product moat.</p>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>Different prompts per channel without reason — keep one core, vary only output formatting.</li>
+    <li>Forgetting Slack's 3-second ack deadline — call <code>ack()</code> immediately, reply async.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> adapter pattern — every channel converts to a common <code>ChatRequest</code> before hitting your core engine.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–1</td><td>Define <code>ChatRequest</code> / <code>ChatResponse</code> dataclasses in <code>core/contracts.py</code>; refactor existing endpoint to use them</td><td>Adapters import the same contract</td></tr>
+    <tr><td>1–2</td><td>Build website widget (vanilla JS, &lt; 150 lines): floating bubble, input, fetch with API key, render markdown</td><td>Drop one <code>&lt;script&gt;</code> tag in any HTML, widget appears</td></tr>
+    <tr><td>2–4</td><td>Slack app via <a href="https://api.slack.com/apps">api.slack.com/apps</a>; <code>slack-bolt</code> Python; handle <code>app_mention</code>; ack &lt; 3s, reply async via <code>chat.postMessage</code></td><td>@mention bot in a test workspace gets a RAG reply</td></tr>
+    <tr><td>4–6</td><td>Twilio WhatsApp Sandbox; <code>POST /whatsapp</code> with TwiML response; verify Twilio signature</td><td>Sandbox WhatsApp number answers your messages</td></tr>
+    <tr><td>6–7</td><td>Enable <code>CORSMiddleware</code> for widget origins only; log channel name per request</td><td>Logs show <code>channel=slack|whatsapp|widget</code></td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>Shopify support widget</strong> — drop on a Shopify store, ingest product catalog + shipping FAQ. Conversion + ticket-deflection story.</li>
+    <li><strong>Engineering team Slack bot</strong> — ingest Notion / Confluence / internal docs; answers "how do I deploy service X?" in-channel. Sells easily to dev tools companies.</li>
+    <li><strong>WhatsApp ordering bot for restaurants</strong> — menu PDF + opening hours; takes orders, forwards to staff. Massive market in India, LATAM, MENA.</li>
+    <li><strong>Fork &amp; study:</strong> <a href="https://github.com/slackapi/bolt-python">slackapi/bolt-python</a> examples, <a href="https://github.com/twilio-labs">twilio-labs</a> samples, <a href="https://github.com/chatwoot/chatwoot">chatwoot/chatwoot</a> (open-source Intercom — learn how widgets are built).</li>
+  </ul>
+
+  <h3>Deliverable</h3>
+  <p>Bot answering in (a) a webpage, (b) Slack workspace, (c) WhatsApp sandbox.</p>
+</section>
+
+<!-- ===================== DAY 6 ===================== -->
+<section class="day" id="day6">
+  <h2>Day 6 — Productize: Multi-Tenant, Configurable Template</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>Turn "my bot" into "a bot any business can buy in 30 minutes."</li>
+  </ul>
+
+  <h3>Concepts</h3>
+  <ul>
+    <li><strong>Multi-tenancy:</strong> one deployment, many clients, data isolated per <code>tenant_id</code>.</li>
+    <li><strong>Config over code:</strong> new client = new DB row, not new repo.</li>
+    <li><strong>Vector isolation:</strong> per-tenant collection or metadata filter.</li>
+  </ul>
+
+  <h3>Data model</h3>
+<pre><code>tenants(id, name, api_key, system_prompt, brand_color, allowed_origins)
+documents(id, tenant_id, filename, status)
+chunks → vector DB with metadata.tenant_id
+sessions(id, tenant_id, user_ref, created_at)
+messages(id, session_id, role, content, created_at)
+</code></pre>
+
+  <h3>Tenant-scoped retrieval</h3>
+<pre><code>docs = vs.similarity_search(
+    question, k=4,
+    filter={"must":[{"key":"tenant_id","match":{"value":tenant.id}}]},
+)
+</code></pre>
+
+  <h3>Onboarding flow (the thing you sell)</h3>
+  <ol>
+    <li>Client signs up → create tenant row + API key.</li>
+    <li>Admin uploads docs via <code>POST /admin/upload</code>.</li>
+    <li>Background job ingests + embeds with <code>tenant_id</code> metadata.</li>
+    <li>Client pastes widget script with their key.</li>
+    <li>Live in &lt; 1 hour.</li>
+  </ol>
+
+  <h3>Pricing model (starting points — adjust to market)</h3>
+  <table>
+    <tr><th>Tier</th><th>Target</th><th>Setup</th><th>Monthly</th><th>Includes</th></tr>
+    <tr><td>Starter</td><td>Solo / small biz</td><td>$500–1,500</td><td>$99–199</td><td>1 channel, 1k msgs/mo, basic branding</td></tr>
+    <tr><td>Growth</td><td>SMB</td><td>$1,500–3,500</td><td>$299–599</td><td>2 channels, 10k msgs, analytics, human handoff</td></tr>
+    <tr><td>Pro / Custom</td><td>Mid-market</td><td>$3,500–10,000+</td><td>$999–2,500+</td><td>Custom integrations, SLAs, private deploy</td></tr>
+  </table>
+  <p>Add usage overages ($X per 1,000 messages). <strong>Always price on value (saved support hours), not tokens.</strong></p>
+
+  <h3>MVP architecture for selling</h3>
+  <div class="ascii">                  ┌───────────────┐
+[Client Site] ──► │ Embed widget  │
+[Slack]       ──► │  Adapters     │
+[WhatsApp]    ──► └──────┬────────┘
+                         │
+                  ┌──────▼──────┐  tenant_id filter
+                  │  Core API   │ ───► Vector DB (Qdrant)
+                  │  (FastAPI)  │ ───► LLM (OpenAI/Anthropic)
+                  └──────┬──────┘ ───► Postgres (tenants, msgs)
+                         │
+                  ┌──────▼──────┐
+                  │ Admin Panel │  (Next.js + Supabase Auth, optional)
+                  └─────────────┘</div>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>No tenant filter on vector search → data leak between clients. <strong>This will kill your agency.</strong> Add a test that asserts isolation.</li>
+    <li>Mixing client data in one collection without metadata. Use metadata or separate collections from day one.</li>
+    <li>Building a billing system in week 1. Use Stripe Payment Links + manual invoicing until 5+ customers.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> a <code>tenants.yaml</code> seed file lets you spin up a demo tenant in seconds during sales calls.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–1</td><td>Add <code>tenants</code>, <code>documents</code>, <code>sessions</code>, <code>messages</code> tables; Alembic migration committed</td><td><code>alembic upgrade head</code> works on a fresh DB</td></tr>
+    <tr><td>1–2</td><td>Replace API-key check with <code>resolve_tenant(api_key)</code> middleware → <code>request.state.tenant</code></td><td>Every endpoint has tenant context</td></tr>
+    <tr><td>2–3</td><td>Add <code>tenant_id</code> to every Qdrant payload at ingest time; add filter at retrieve time</td><td>Sample shows filter clause in Langfuse trace</td></tr>
+    <tr><td>3–4</td><td><strong>Write the isolation test</strong>: seed 2 tenants with overlapping topics, assert tenant A never retrieves tenant B chunks</td><td>Test in CI; red if leakage</td></tr>
+    <tr><td>4–5</td><td>CLI: <code>python -m admin.onboard --name "Acme" --docs ./acme_pdfs</code> → creates tenant + ingests + prints widget snippet</td><td>One command, &lt; 60 seconds, copy-pasteable snippet</td></tr>
+    <tr><td>5–6</td><td>Per-tenant prompt + brand color stored in <code>tenants</code> row; widget reads them from <code>/config/&lt;tenant&gt;</code></td><td>Two demo tenants visibly differ in tone &amp; color</td></tr>
+    <tr><td>6–7</td><td>Stripe Payment Links for each tier; redirect to a thank-you page that emails you</td><td>Test payment succeeds end-to-end</td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>White-label AI receptionist for clinics</strong> — one platform, dozens of clinics; each has own hours, doctors, insurance list. Strong recurring revenue.</li>
+    <li><strong>Franchise FAQ platform</strong> — one parent brand, many locations (gyms, fast-food, salons). Sell to corporate, deploy per location.</li>
+    <li><strong>Multi-restaurant ordering hub</strong> — one WhatsApp number routes per restaurant tenant. Aggregator playbook.</li>
+    <li><strong>Fork &amp; study:</strong> <a href="https://github.com/supabase/supabase">supabase/supabase</a> RLS patterns, <a href="https://github.com/calcom/cal.com">calcom/cal.com</a> multi-tenant schema, <a href="https://github.com/dittofeed/dittofeed">dittofeed/dittofeed</a> for tenant-scoped messaging.</li>
+  </ul>
+
+  <h3>Deliverable</h3>
+  <p>Repo template + deployed multi-tenant version. Onboarding script that creates a new tenant + ingests docs in one command.</p>
+</section>
+
+<!-- ===================== DAY 7 ===================== -->
+<section class="day" id="day7">
+  <h2>Day 7 — Demo, Pitch, Sell</h2>
+
+  <h3>Learning objectives</h3>
+  <ul>
+    <li>Package the tech into something a business owner <em>buys</em>.</li>
+  </ul>
+
+  <h3>5-page sales site (Next.js on Vercel, half a day)</h3>
+  <ol>
+    <li>Hero: "AI support agent trained on your business — live in 48 hours."</li>
+    <li>Live demo (your bot, pre-loaded with a fake client's docs).</li>
+    <li>Use cases: e-commerce FAQ, real-estate lead qualifier, clinic appointment bot, internal HR bot.</li>
+    <li>Pricing (3 tiers from Day 6).</li>
+    <li>Book a call (Calendly).</li>
+  </ol>
+
+  <h3>2 vertical demos (3 hours)</h3>
+  <ul>
+    <li><strong>Real estate agency:</strong> listings PDF + FAQ. Bot qualifies leads, emails the agent.</li>
+    <li><strong>Local clinic:</strong> services, hours, insurance FAQ. Books via Calendly link.</li>
+  </ul>
+  <p>Each demo lives at <code>demo.youragency.com/realestate</code>. <strong>A live demo closes deals; slides don't.</strong></p>
+
+  <h3>Outreach playbook</h3>
+  <ul>
+    <li>Target: small businesses with website + visible support pain.</li>
+    <li>Find 50 prospects on Google Maps / LinkedIn.</li>
+    <li>Send a personalized 2-min Loom: "I built a demo trained on <em>your</em> website — here's what it could do for you."</li>
+    <li>Offer a paid pilot: <strong>$500–$1,000 for 2 weeks</strong> with their real docs. Easier to sell than a subscription cold.</li>
+  </ul>
+
+  <h3>Sales structure</h3>
+  <ol>
+    <li><strong>Discovery (15 min):</strong> What questions do you answer 20× /week?</li>
+    <li><strong>Demo (15 min):</strong> Show their data inside your bot.</li>
+    <li><strong>Scope:</strong> 1 channel, their FAQ, email handoff, 48-hour delivery.</li>
+    <li><strong>Close:</strong> $X setup + $Y/mo via Stripe link. Start.</li>
+  </ol>
+
+  <h3>Common mistakes <span class="badge mistake">avoid</span></h3>
+  <ul>
+    <li>Selling "AI". Sell <strong>outcomes</strong>: "answers 80% of customer questions automatically, 24/7, in your brand voice."</li>
+    <li>Building features before customers. Sell first; build the gap.</li>
+    <li>Underpricing. A bot saving 20 hrs/mo at $25/hr = $500/mo of value.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Advanced tip <span class="badge advanced">optional</span>:</strong> productize one <strong>vertical</strong> first (e.g., real estate). One niche → repeatable pitch, docs, price. Generalist agencies die slowly.</div>
+
+  <h3>Implementation strategy (hour-by-hour)</h3>
+  <table>
+    <tr><th>Hour</th><th>Action</th><th>Definition of done</th></tr>
+    <tr><td>0–2</td><td>Spin up Next.js on Vercel from <a href="https://vercel.com/templates">a marketing template</a>; replace copy, embed your widget on hero</td><td>Live site, widget answers questions</td></tr>
+    <tr><td>2–4</td><td>Seed 2 demo tenants (real-estate + clinic) using yesterday's CLI; deploy each at <code>demo.youragency.com/&lt;vertical&gt;</code></td><td>Two distinct, fully-loaded demos</td></tr>
+    <tr><td>4–5</td><td>Build a prospect list (50 rows) in Google Sheets: company, site, contact, support-pain hypothesis. Use Google Maps + Apollo free tier</td><td>Sheet ready for outreach</td></tr>
+    <tr><td>5–6</td><td>Record one master Loom template (90s); duplicate &amp; personalize the first 30 seconds for each prospect using their site name</td><td>10 Looms recorded &amp; sent</td></tr>
+    <tr><td>6–7</td><td>Calendly + Stripe Payment Links wired to the site; pricing page mirrors Day 6 tiers</td><td>Stranger could book + pay without you</td></tr>
+  </table>
+
+  <h3>Industry-relevant projects to leverage <span class="badge">portfolio</span></h3>
+  <ul>
+    <li><strong>Real-estate vertical</strong> — ingest 20 listings PDFs + agency FAQ; bot qualifies leads, emails agent. Pitch to local brokerages.</li>
+    <li><strong>Dental / family clinic vertical</strong> — services, hours, insurance; books via Calendly. High pain, high willingness-to-pay.</li>
+    <li><strong>E-commerce returns &amp; sizing bot</strong> — return policy + size chart; cuts "where's my order?" tickets 40%+. Sell to Shopify stores via Apps.</li>
+    <li><strong>Law-firm intake</strong> — qualifies leads against practice areas; flags conflicts. High-ticket clients.</li>
+    <li><strong>Fork &amp; study (sales/landing):</strong> <a href="https://github.com/shadcn-ui/ui">shadcn-ui/ui</a> + <a href="https://magicui.design/">Magic UI</a> for landing, <a href="https://github.com/steven-tey/precedent">steven-tey/precedent</a> Next.js starter.</li>
+  </ul>
+
+  <h3>Deliverable</h3>
+  <p>Live demo site, 2 vertical demos, 50 prospects, 10 personalized Looms sent, 1 paid pilot in pipeline.</p>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section class="day" id="skills">
+  <h2>Core Skills Recap</h2>
+  <table>
+    <tr><th>Skill</th><th>Day</th><th>Minimum competency</th></tr>
+    <tr><td>APIs / FastAPI / Pydantic</td><td>1</td><td>Build a typed REST endpoint</td></tr>
+    <tr><td>RAG (chunk → embed → retrieve)</td><td>2</td><td>Ingest a new corpus in &lt; 30 min</td></tr>
+    <tr><td>Sessions, streaming, rate limits</td><td>3</td><td>Bot survives real users</td></tr>
+    <tr><td>Docker + cloud deploy</td><td>4</td><td>GitHub push → live URL</td></tr>
+    <tr><td>Webhooks (Slack/WhatsApp)</td><td>5</td><td>Verify signatures, reply async</td></tr>
+    <tr><td>Multi-tenant data isolation</td><td>6</td><td>Tenant filter on every query</td></tr>
+    <tr><td>Pricing &amp; sales motion</td><td>7</td><td>Run discovery → close cycle</td></tr>
+  </table>
+</section>
+
+<!-- ===================== REPO ===================== -->
+<section class="day" id="repo">
+  <h2>Recommended Repo Structure</h2>
+<pre><code>ai-agency-bot/
+├─ app/
+│  ├─ main.py              # FastAPI entrypoint
+│  ├─ core/                # LLM, RAG, memory
+│  ├─ adapters/            # slack.py, whatsapp.py, widget.py
+│  ├─ db/                  # models, migrations
+│  └─ admin/               # tenant + ingestion endpoints
+├─ ingest/                 # offline ingestion scripts
+├─ widget/                 # JS embed (served from CDN)
+├─ infra/
+│  ├─ Dockerfile
+│  └─ render.yaml
+├─ tests/
+├─ .env.example
+└─ README.md
+</code></pre>
+</section>
+
+<!-- ===================== BUILD ON GIANTS ===================== -->
+<section class="day" id="giants">
+  <h2>Build on Giants — Reference Repos, Datasets &amp; Templates</h2>
+  <p>Don't start blank. Fork, read, strip, rebrand. Every hour saved here is an hour spent selling.</p>
+
+  <h3>Production-grade reference apps to fork</h3>
+  <table>
+    <tr><th>Repo</th><th>Why it matters</th><th>What to steal</th></tr>
+    <tr><td><a href="https://github.com/Azure-Samples/azure-search-openai-demo">Azure-Samples/azure-search-openai-demo</a></td><td>Enterprise RAG reference — Microsoft maintained</td><td>Citation UI, eval harness, infra-as-code</td></tr>
+    <tr><td><a href="https://github.com/vercel/ai-chatbot">vercel/ai-chatbot</a></td><td>Best-in-class streaming chat UX</td><td>Streaming hooks, message persistence, auth</td></tr>
+    <tr><td><a href="https://github.com/mckaywrigley/chatbot-ui">mckaywrigley/chatbot-ui</a></td><td>Clean ChatGPT clone, easy to skin</td><td>Multi-conversation sidebar, prompt library</td></tr>
+    <tr><td><a href="https://github.com/run-llama/create-llama">run-llama/create-llama</a></td><td>One-command RAG scaffold</td><td>Project layout, ingestion CLI</td></tr>
+    <tr><td><a href="https://github.com/langchain-ai/chat-langchain">langchain-ai/chat-langchain</a></td><td>Reference RAG over LangChain docs</td><td>Retriever patterns, prompt design</td></tr>
+    <tr><td><a href="https://github.com/danny-avila/LibreChat">danny-avila/LibreChat</a></td><td>Full multi-provider chat platform</td><td>Plugin / tool architecture</td></tr>
+    <tr><td><a href="https://github.com/open-webui/open-webui">open-webui/open-webui</a></td><td>Local-first chat UI for Ollama + APIs</td><td>Self-host story for privacy-sensitive clients</td></tr>
+    <tr><td><a href="https://github.com/chatwoot/chatwoot">chatwoot/chatwoot</a></td><td>Open-source Intercom — multi-channel</td><td>Inbox model, channel adapters, human handoff</td></tr>
+    <tr><td><a href="https://github.com/botpress/botpress">botpress/botpress</a></td><td>Conversational platform</td><td>Flow design, NLU patterns</td></tr>
+    <tr><td><a href="https://github.com/Shubhamsaboo/awesome-llm-apps">Shubhamsaboo/awesome-llm-apps</a></td><td>~100 small but real LLM apps</td><td>Pick one per vertical as a demo seed</td></tr>
+  </table>
+
+  <h3>Datasets you can ingest <em>today</em> for credible demos</h3>
+  <ul>
+    <li><strong>SEC EDGAR 10-K / 10-Q filings</strong> — free, real, finance-relevant.</li>
+    <li><strong><a href="https://huggingface.co/datasets">Hugging Face Datasets</a></strong> — search by domain (medical, legal, customer-support).</li>
+    <li><strong><a href="https://github.com/microsoft/MS-MARCO">MS MARCO</a></strong>, <strong><a href="https://hotpotqa.github.io/">HotpotQA</a></strong>, <strong><a href="https://sites.google.com/view/fiqa/">FiQA</a></strong> — for RAG quality eval.</li>
+    <li><strong>Public docs sites</strong> — Stripe, Twilio, Supabase, Kubernetes, AWS, Azure. Scrape with <a href="https://github.com/unclecode/crawl4ai">crawl4ai</a> or <a href="https://github.com/mendableai/firecrawl">firecrawl</a>.</li>
+    <li><strong>Wikipedia dumps</strong> — for generalist demos.</li>
+    <li><strong><a href="https://www.kaggle.com/datasets">Kaggle</a></strong> — vertical-specific corpora (reviews, support tickets, medical Q&amp;A).</li>
+  </ul>
+
+  <h3>Evaluation &amp; observability tooling</h3>
+  <ul>
+    <li><a href="https://github.com/langfuse/langfuse">Langfuse</a> — open-source LLM observability, free cloud tier.</li>
+    <li><a href="https://github.com/explodinggradients/ragas">explodinggradients/ragas</a> — RAG eval metrics (faithfulness, context precision).</li>
+    <li><a href="https://github.com/promptfoo/promptfoo">promptfoo/promptfoo</a> — regression-test prompts in CI.</li>
+    <li><a href="https://github.com/Arize-ai/phoenix">Arize Phoenix</a> — local tracing &amp; eval.</li>
+  </ul>
+
+  <h3>Vertical seed kits — pick one, rebrand, sell</h3>
+  <table>
+    <tr><th>Vertical</th><th>Seed asset</th><th>Buyer persona</th></tr>
+    <tr><td>Real estate</td><td>20 sample listing PDFs + agency FAQ</td><td>Brokerage owner / team lead</td></tr>
+    <tr><td>Dental / clinic</td><td>Services + insurance + hours doc</td><td>Practice manager</td></tr>
+    <tr><td>E-commerce (Shopify)</td><td>Returns + shipping + sizing pages</td><td>Founder / CX lead</td></tr>
+    <tr><td>Law firm intake</td><td>Practice-area descriptions + intake form</td><td>Partner / office manager</td></tr>
+    <tr><td>SaaS docs assistant</td><td>Public docs of any small SaaS</td><td>Head of DevRel / Support</td></tr>
+    <tr><td>HR / employee handbook</td><td>Sample 50-page handbook</td><td>HR ops at 50–500 person co.</td></tr>
+    <tr><td>Fitness / gym chain</td><td>Class schedule + membership policy</td><td>Multi-location owner</td></tr>
+  </table>
+
+  <div class="callout tip"><strong>Strategy:</strong> for each vertical, maintain a public <code>demo.youragency.com/&lt;vertical&gt;</code> URL pre-loaded with synthetic data. When a prospect in that vertical replies, you re-ingest <em>their</em> data in &lt; 1 hour and ship them a new URL. <strong>That's the closing move.</strong></div>
+</section>
+
+<!-- ===================== RULES ===================== -->
+<section class="day" id="rules">
+  <h2>Non-Negotiables (read every morning)</h2>
+  <ol>
+    <li><strong>Ship daily.</strong> A broken thing online &gt; a perfect thing on localhost.</li>
+    <li><strong>One stack.</strong> No tool swaps mid-week.</li>
+    <li><strong>Sources in every RAG answer.</strong> Trust = revenue.</li>
+    <li><strong>Tenant filter on every vector query.</strong> Test it.</li>
+    <li><strong>Demo &gt; deck.</strong> Build the demo before the slides.</li>
+    <li><strong>Sell before you scale.</strong> First client teaches you what to build next.</li>
+  </ol>
+</section>
+
+<!-- ===================== START ===================== -->
+<section class="day" id="start">
+  <h2>Start Now — Day 1 Kickoff</h2>
+  <ol>
+    <li><code>mkdir ai-agency-bot &amp;&amp; cd ai-agency-bot</code></li>
+    <li><code>python -m venv .venv ; .venv\Scripts\activate</code></li>
+    <li><code>pip install fastapi uvicorn openai python-dotenv pydantic</code></li>
+    <li>Create <code>.env</code> with <code>OPENAI_API_KEY=...</code> and <code>APP_API_KEY=dev-secret-123</code></li>
+    <li>Paste the Day 1 <code>app.py</code>, run <code>uvicorn app:app --reload</code>, hit <code>http://localhost:8000/docs</code>.</li>
+  </ol>
+  <div class="callout">When <code>/chat</code> returns a reply, Day 1 is shipped. Move to Day 2.</div>
+</section>
+
+<footer>
+  Built for execution, not theory. Ship daily.
+</footer>
+
+</div>
+</body>
+</html>

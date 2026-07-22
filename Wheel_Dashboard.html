@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wheel & Covered Call Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --ink:#e2e8f0; --muted:#94a3b8;
+           --pos:#22c55e; --neg:#ef4444; --accent:#38bdf8; --violet:#a78bfa;
+           --gold:#fbbf24; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,sans-serif;
+          background:var(--bg); color:var(--ink); padding:24px; }
+  h1 { margin:0 0 4px 0; }
+  h2.section { color:var(--accent); margin-top:8px; font-size:18px; }
+  .sub { color:var(--muted); margin-bottom:20px; }
+  .banner { background:#312e81; border-left:4px solid var(--violet);
+             padding:10px 14px; border-radius:6px; margin-bottom:20px;
+             font-size:13px; }
+  .banner b { color:var(--gold); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+           gap:18px; margin-bottom:24px; }
+  .card { background:var(--card); border-radius:12px; padding:16px 18px;
+           box-shadow:0 4px 12px rgba(0,0,0,0.25); }
+  .card h2 { margin:0 0 6px 0; font-size:15px; color:var(--accent); }
+  .card .subtle { color:var(--muted); font-size:11px; margin-bottom:8px; }
+  canvas { max-height:260px; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { padding:6px 8px; border-bottom:1px solid #334155; text-align:right; }
+  th:first-child, td:first-child, th:nth-child(2), td:nth-child(2),
+  th:nth-child(3), td:nth-child(3) { text-align:left; }
+  th { position:sticky; top:0; background:#334155; color:#e2e8f0; }
+  tr:hover td { background:#273449; }
+  .pos { color:var(--pos); font-weight:600; }
+  .neg { color:var(--neg); font-weight:600; }
+  .risk-Low { color:#22c55e; }
+  .risk-Low-Med { color:#84cc16; }
+  .risk-Medium { color:#f59e0b; }
+  .risk-Med-High { color:#ef4444; }
+  .flag { color:var(--gold); font-size:11px; }
+  .footer { color:var(--muted); font-size:12px; margin-top:24px; }
+</style>
+</head>
+<body>
+  <h1>Wheel &amp; Covered Call Dashboard</h1>
+  <div class="sub">Generated 2026-07-20 17:30 — target $2,500 / month options income</div>
+
+  <div class="banner"><b>Watch flags:</b> RIVN strike 1/3 (wheel 0.0 < min); TM strike 1/3 (price 178.53 > 50); F strike 1/3 (wheel 0.0 < min); GM strike 1/3 (price 75.80 > 50); TSLA strike 1/3 (price 369.57 > 50); UNH strike 1/3 (price 421.55 > 50); MFC strike 1/3 (wheel 0.0 < min); V strike 1/3 (price 360.57 > 50); BN strike 1/3 (wheel 0.0 < min); SE strike 1/3 (price 105.69 > 50); MELI strike 1/3 (price 1832.42 > 50); TD strike 1/3 (price 120.50 > 50); BMO strike 1/3 (price 178.00 > 50); T strike 1/3 (wheel 0.0 < min); VZ strike 1/3 (wheel 0.0 < min); ON strike 1/3 (price 86.70 > 50); OSCR strike 1/3 (wheel 0.0 < min); BULL strike 1/3 (wheel 0.0 < min); NKE strike 1/3 (wheel 0.0 < min); KO strike 1/3 (price 82.12 > 50); MCD strike 1/3 (price 267.64 > 50); COST strike 1/3 (price 935.80 > 50); TRON strike 1/3 (wheel 0.0 < min); PATH strike 1/3 (wheel 0.0 < min); CVE strike 1/3 (wheel 0.0 < min); SU strike 1/3 (price 62.25 > 50); ENB strike 1/3 (price 55.73 > 50); USAR strike 1/3 (wheel 0.0 < min); CLS strike 1/3 (price 307.34 > 50); LIN strike 1/3 (price 512.05 > 50); APD strike 1/3 (price 296.63 > 50); ALAB strike 1/3 (price 309.09 > 50); AVGO strike 1/3 (price 378.16 > 50); IRM strike 1/3 (price 124.23 > 50); IPGP strike 1/3 (price 97.90 > 50); SWKS strike 1/3 (price 59.80 > 50); VIAV strike 1/3 (wheel 0.0 < min); COHR strike 1/3 (price 285.40 > 50); QCOM strike 1/3 (price 170.32 > 50); LRCX strike 1/3 (price 306.76 > 50); AMAT strike 1/3 (price 525.70 > 50); MRVL strike 1/3 (price 194.94 > 50); MU strike 1/3 (price 865.46 > 50); INTC strike 1/3 (price 97.06 > 50); AMD strike 1/3 (price 503.57 > 50); AXTI strike 1/3 (wheel 0.0 < min); MSFT strike 1/3 (price 402.29 > 50); AMZN strike 1/3 (price 249.99 > 50); MSTR strike 1/3 (price 97.82 > 50); CDNS strike 1/3 (price 329.93 > 50); SNPS strike 1/3 (price 378.46 > 50); SMCI strike 1/3 (wheel 0.0 < min); SOFI strike 1/3 (wheel 0.0 < min); SHOP strike 1/3 (price 124.48 > 50); GIB strike 1/3 (price 68.25 > 50)</div>
+
+  <h2 class="section">Overall Weekly Movers</h2>
+  <div class="grid">
+    <div class="card"><h2>Top 5 Gainers (past week)</h2><canvas id="gainers"></canvas></div>
+    <div class="card"><h2>Top 5 Losers (past week)</h2><canvas id="losers"></canvas></div>
+  </div>
+
+  <h2 class="section">Industry-wise Weekly Movers</h2>
+  <div class="grid" id="industryMoversGrid"></div>
+
+  <h2 class="section">Top 5 per Industry — Wheel Score</h2>
+  <div class="grid" id="industryGrid"></div>
+
+  <div class="card">
+    <h2>Master Screen (all tickers)</h2>
+    <div style="overflow-x:auto">
+      <table id="master">
+        <thead><tr>
+          <th>Rank</th><th>Ticker</th><th>Group</th>
+          <th>Price</th><th>Ccy</th><th>Wk %</th><th>MCap ($B)</th><th>Avg Vol</th>
+          <th>DTE</th><th>IV %</th>
+          <th>CSP K</th><th>CSP Prem</th><th>CSP OI</th><th>CSP Ann %</th>
+          <th>CC K</th><th>CC Prem</th><th>CC OI</th><th>CC Ann %</th>
+          <th>Wheel</th><th>CC</th><th>Risk</th><th>Strk</th><th>Flags</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">Data via yfinance (15-min delayed). Verify all quotes in your broker before trading. Not investment advice.</div>
+
+<script>
+const DATA = [{"ticker": "RIVN", "group": "Automobile", "currency": "USD", "price": 17.239999771118164, "market_cap": 24952633867.24362, "avg_volume": 52329870.0, "week_return_pct": -0.4, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "TM", "group": "Automobile", "currency": "USD", "price": 178.52999877929688, "market_cap": 211409632280.7616, "avg_volume": 469830.0, "week_return_pct": 2.16, "dte": 32, "csp_strike": 170.0, "csp_premium": 2.75, "csp_oi": 78, "csp_iv": 0.30249720947265624, "csp_ann_yield_pct": 18.45, "cc_strike": 185.0, "cc_premium": 3.75, "cc_oi": 49, "cc_ann_yield_pct": 23.96, "wheel_score": 4.15, "cc_score": 5.33, "risk": "Low-Med", "notes": "", "strikes": 1}, {"ticker": "F", "group": "Automobile", "currency": "USD", "price": 13.989999771118164, "market_cap": 55745848981.67624, "avg_volume": 46051300.0, "week_return_pct": 1.01, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "GM", "group": "Automobile", "currency": "USD", "price": 75.80000305175781, "market_cap": 68346224532.6638, "avg_volume": 5683380.0, "week_return_pct": -1.2, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "TSLA", "group": "Automobile", "currency": "USD", "price": 369.57000732421875, "market_cap": 1388002898513.2131, "avg_volume": 34629790.0, "week_return_pct": -6.38, "dte": 39, "csp_strike": 350.0, "csp_premium": 13.825, "csp_oi": 208, "csp_iv": 0.4718070397949219, "csp_ann_yield_pct": 36.97, "cc_strike": 390.0, "cc_premium": 15.7, "cc_oi": 166, "cc_ann_yield_pct": 39.76, "wheel_score": 6.82, "cc_score": 7.82, "risk": "Med-High", "notes": "", "strikes": 1}, {"ticker": "UNH", "group": "BFSI", "currency": "USD", "price": 421.54998779296875, "market_cap": 382828262420.4529, "avg_volume": 6516100.0, "week_return_pct": -1.76, "dte": 39, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MFC", "group": "BFSI", "currency": "USD", "price": 42.5, "market_cap": 70791165400.0, "avg_volume": 1414910.0, "week_return_pct": 2.93, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "V", "group": "BFSI", "currency": "USD", "price": 360.57000732421875, "market_cap": 685711775894.7876, "avg_volume": 8239970.0, "week_return_pct": 0.79, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "BN", "group": "BFSI", "currency": "USD", "price": 42.38999938964844, "market_cap": 94682118664.1214, "avg_volume": 3015090.0, "week_return_pct": -2.24, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SE", "group": "BFSI", "currency": "USD", "price": 105.69000244140625, "market_cap": 64733490625.50354, "avg_volume": 5228020.0, "week_return_pct": -4.49, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MELI", "group": "BFSI", "currency": "USD", "price": 1832.4200439453125, "market_cap": 92898532468.3435, "avg_volume": 374540.0, "week_return_pct": -1.87, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "TD", "group": "BFSI", "currency": "USD", "price": 120.5, "market_cap": 199072145500.0, "avg_volume": 3857200.0, "week_return_pct": -0.11, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "BMO", "group": "BFSI", "currency": "USD", "price": 178.0, "market_cap": 124674158182.0, "avg_volume": 787310.0, "week_return_pct": -0.39, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "T", "group": "Communications", "currency": "USD", "price": 21.950000762939453, "market_cap": 152516042729.41183, "avg_volume": 70334350.0, "week_return_pct": 1.86, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "VZ", "group": "Communications", "currency": "USD", "price": 43.5, "market_cap": 181636812585.0, "avg_volume": 29062690.0, "week_return_pct": 1.92, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "ON", "group": "Communications", "currency": "USD", "price": 86.69999694824219, "market_cap": 33742390505.6998, "avg_volume": 10095720.0, "week_return_pct": -4.06, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "OSCR", "group": "Consumer", "currency": "USD", "price": 29.600000381469727, "market_cap": 8924192915.010452, "avg_volume": 4421480.0, "week_return_pct": -6.33, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "BULL", "group": "Consumer", "currency": "USD", "price": 7.690000057220459, "market_cap": 4089685564.280908, "avg_volume": 8676280.0, "week_return_pct": 5.63, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "NKE", "group": "Consumer", "currency": "USD", "price": 43.470001220703125, "market_cap": 64487690430.3215, "avg_volume": 17673010.0, "week_return_pct": -0.66, "dte": 39, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "KO", "group": "Consumer", "currency": "USD", "price": 82.12000274658203, "market_cap": 353319867983.2809, "avg_volume": 17248690.0, "week_return_pct": -2.53, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MCD", "group": "Consumer", "currency": "USD", "price": 267.6400146484375, "market_cap": 190159798510.56067, "avg_volume": 4439850.0, "week_return_pct": -1.82, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "COST", "group": "Consumer", "currency": "USD", "price": 935.7999877929688, "market_cap": 415007459369.6404, "avg_volume": 2500900.0, "week_return_pct": 1.01, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "TRON", "group": "Crypto & AI", "currency": "USD", "price": 1.4600000381469727, "market_cap": 692597831.5362396, "avg_volume": 404320.0, "week_return_pct": 5.04, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "PATH", "group": "Crypto & AI", "currency": "USD", "price": 12.15999984741211, "market_cap": 6300342355.5011215, "avg_volume": 87125060.0, "week_return_pct": 2.62, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "CVE", "group": "Energy", "currency": "USD", "price": 28.260000228881836, "market_cap": 52699785366.8232, "avg_volume": 7024070.0, "week_return_pct": 2.35, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SU", "group": "Energy", "currency": "USD", "price": 62.25, "market_cap": 73501388015.25, "avg_volume": 4144750.0, "week_return_pct": 1.6, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "ENB", "group": "Energy", "currency": "USD", "price": 55.72999954223633, "market_cap": 121697400208.33311, "avg_volume": 3978170.0, "week_return_pct": 1.2, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "USAR", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 15.229999542236328, "market_cap": 3726341380.6584396, "avg_volume": 9467650.0, "week_return_pct": -11.5, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "CLS", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 307.3399963378906, "market_cap": 35335834284.33591, "avg_volume": 1667300.0, "week_return_pct": -10.96, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "LIN", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 512.0499877929688, "market_cap": 236744934441.61194, "avg_volume": 1988170.0, "week_return_pct": -2.29, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "APD", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 296.6300048828125, "market_cap": 66053772975.48804, "avg_volume": 1076610.0, "week_return_pct": -1.77, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "ALAB", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 309.0899963378906, "market_cap": 52980479237.79538, "avg_volume": 4560050.0, "week_return_pct": -14.63, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "AVGO", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 378.1600036621094, "market_cap": 1799126545098.459, "avg_volume": 22733570.0, "week_return_pct": -1.53, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "IRM", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 124.2300033569336, "market_cap": 36961492119.4006, "avg_volume": 2337140.0, "week_return_pct": 1.52, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "IPGP", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 97.9000015258789, "market_cap": 4155230071.1638184, "avg_volume": 353830.0, "week_return_pct": -6.52, "dte": 32, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SWKS", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 59.79999923706055, "market_cap": 8994276472.649357, "avg_volume": 4994050.0, "week_return_pct": 2.68, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "VIAV", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 39.43000030517578, "market_cap": 9726815136.492485, "avg_volume": 4658840.0, "week_return_pct": -3.64, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "COHR", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 285.3999938964844, "market_cap": 55835461019.31235, "avg_volume": 4321200.0, "week_return_pct": -7.15, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "QCOM", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 170.32000732421875, "market_cap": 179517287719.72656, "avg_volume": 12980350.0, "week_return_pct": -7.42, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "LRCX", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 306.760009765625, "market_cap": 383615355852.2949, "avg_volume": 11031780.0, "week_return_pct": -7.02, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "AMAT", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 525.7000122070312, "market_cap": 417384482042.8876, "avg_volume": 9035680.0, "week_return_pct": -8.64, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MRVL", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 194.94000244140625, "market_cap": 174967312010.89056, "avg_volume": 26138070.0, "week_return_pct": -10.38, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MU", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 865.4600219726562, "market_cap": 977444621280.2275, "avg_volume": 43618290.0, "week_return_pct": -7.64, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "INTC", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 97.05999755859375, "market_cap": 487823547729.4922, "avg_volume": 104993130.0, "week_return_pct": -5.88, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "AMD", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 503.57000732421875, "market_cap": 821121575724.1057, "avg_volume": 26237270.0, "week_return_pct": -5.77, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "AXTI", "group": "Helium, Semiconductors & Photonic", "currency": "USD", "price": 48.83000183105469, "market_cap": 3194614194.5134277, "avg_volume": 9026990.0, "week_return_pct": -3.23, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MSFT", "group": "Technology", "currency": "USD", "price": 402.2900085449219, "market_cap": 2988385060547.554, "avg_volume": 30824830.0, "week_return_pct": 2.89, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "AMZN", "group": "Technology", "currency": "USD", "price": 249.99000549316406, "market_cap": 2689169846996.207, "avg_volume": 37886230.0, "week_return_pct": 1.08, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "MSTR", "group": "Technology", "currency": "USD", "price": 97.81999969482422, "market_cap": 35468290260.087135, "avg_volume": 16336490.0, "week_return_pct": 6.21, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "CDNS", "group": "Technology", "currency": "USD", "price": 329.92999267578125, "market_cap": 90999970859.86328, "avg_volume": 1827400.0, "week_return_pct": -12.7, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SNPS", "group": "Technology", "currency": "USD", "price": 378.4599914550781, "market_cap": 72467263703.32413, "avg_volume": 1700380.0, "week_return_pct": -12.76, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SMCI", "group": "Technology", "currency": "USD", "price": 23.829999923706055, "market_cap": 15414984184.057505, "avg_volume": 30482680.0, "week_return_pct": -13.85, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SOFI", "group": "Technology", "currency": "USD", "price": 17.010000228881836, "market_cap": 21819428105.59616, "avg_volume": 83223700.0, "week_return_pct": -6.18, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "SHOP", "group": "Technology", "currency": "USD", "price": 124.4800033569336, "market_cap": 161532050084.46036, "avg_volume": 6987120.0, "week_return_pct": -0.21, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}, {"ticker": "CSU", "group": "Technology", "currency": "USD", "price": null, "market_cap": null, "avg_volume": null, "week_return_pct": null, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: KeyError", "strikes": 0}, {"ticker": "GIB", "group": "Technology", "currency": "USD", "price": 68.25, "market_cap": 14292918003.0, "avg_volume": 442770.0, "week_return_pct": 0.74, "dte": null, "csp_strike": null, "csp_premium": null, "csp_oi": null, "csp_iv": null, "csp_ann_yield_pct": null, "cc_strike": null, "cc_premium": null, "cc_oi": null, "cc_ann_yield_pct": null, "wheel_score": 0, "cc_score": 0, "risk": "", "notes": "error: JSONDecodeError", "strikes": 1}];
+const TOP_N = 5;
+
+// Register datalabels plugin globally so all charts show values on the bars.
+if (window.ChartDataLabels) Chart.register(ChartDataLabels);
+
+function fmt(v, d=2) { return v==null || isNaN(v) ? '—' : Number(v).toFixed(d); }
+function fmtInt(v) { return v==null ? '—' : Number(v).toLocaleString(); }
+function pct(v) {
+  if (v==null) return '—';
+  const cls = v >= 0 ? 'pos' : 'neg';
+  return `<span class="${cls}">${v.toFixed(2)}%</span>`;
+}
+
+// Master table — sort by risk (Low → Med-High), then wheel score desc within a bucket
+const RISK_ORDER = { 'Low': 1, 'Low-Med': 2, 'Medium': 3, 'Med-High': 4 };
+const riskRank = r => RISK_ORDER[r] ?? 99;
+const ranked = [...DATA].sort((a,b) => {
+  const dr = riskRank(a.risk) - riskRank(b.risk);
+  if (dr !== 0) return dr;
+  return (b.wheel_score||0) - (a.wheel_score||0);
+});
+const tbody = document.querySelector('#master tbody');
+ranked.forEach((r, i) => {
+  const tr = document.createElement('tr');
+  const mcapB = r.market_cap ? (r.market_cap/1e9).toFixed(1) : '—';
+  const ivPct = r.csp_iv ? (r.csp_iv*100).toFixed(1) : '—';
+  tr.innerHTML = `
+    <td>${i+1}</td><td><b>${r.ticker}</b></td><td>${r.group}</td>
+    <td>${fmt(r.price)}</td><td>${r.currency||'USD'}</td>
+    <td>${pct(r.week_return_pct)}</td><td>${mcapB}</td>
+    <td>${fmtInt(r.avg_volume)}</td><td>${r.dte ?? '—'}</td>
+    <td>${ivPct}</td>
+    <td>${fmt(r.csp_strike)}</td><td>${fmt(r.csp_premium)}</td>
+    <td>${fmtInt(r.csp_oi)}</td><td>${fmt(r.csp_ann_yield_pct)}</td>
+    <td>${fmt(r.cc_strike)}</td><td>${fmt(r.cc_premium)}</td>
+    <td>${fmtInt(r.cc_oi)}</td><td>${fmt(r.cc_ann_yield_pct)}</td>
+    <td><b>${fmt(r.wheel_score,1)}</b></td>
+    <td><b>${fmt(r.cc_score,1)}</b></td>
+    <td class="risk-${(r.risk||'').replace(' ','-')}">${r.risk||'—'}</td>
+    <td>${r.strikes>0?r.strikes:''}</td>
+    <td class="flag">${r.notes||''}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// Weekly movers
+const withWk = DATA.filter(d => d.week_return_pct != null);
+const gainers = [...withWk].sort((a,b) => b.week_return_pct - a.week_return_pct).slice(0,5);
+const losers  = [...withWk].sort((a,b) => a.week_return_pct - b.week_return_pct).slice(0,5);
+
+function bar(id, rows, key, color, valueFmt) {
+  new Chart(document.getElementById(id), {
+    type:'bar',
+    data:{
+      labels: rows.map(r => r.ticker + (r.group ? ' · '+r.group.slice(0,18):'') ),
+      datasets:[{ data: rows.map(r => r[key]), backgroundColor: color, borderRadius: 4 }]
+    },
+    options:{
+      indexAxis:'y',
+      layout:{ padding:{ right: 42 } },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ callbacks:{ label:(c)=>valueFmt?valueFmt(c.parsed.x):c.parsed.x } },
+        datalabels:{
+          anchor:'end', align:'end', clamp:true, clip:false,
+          color:'#e2e8f0', font:{ weight:'600', size:11 },
+          formatter:(v)=> v==null ? '' : (valueFmt ? valueFmt(v) : v)
+        }
+      },
+      scales:{
+        x:{ ticks:{color:'#94a3b8'}, grid:{color:'#334155'} },
+        y:{ ticks:{color:'#e2e8f0'}, grid:{display:false} }
+      }
+    }
+  });
+}
+
+bar('gainers', gainers, 'week_return_pct', '#22c55e', v => v.toFixed(2)+'%');
+bar('losers',  losers,  'week_return_pct', '#ef4444', v => v.toFixed(2)+'%');
+
+// Per-industry top-N — preserve insertion order from DATA
+const groupOrder = [];
+DATA.forEach(d => { if (!groupOrder.includes(d.group)) groupOrder.push(d.group); });
+const grid = document.getElementById('industryGrid');
+groupOrder.forEach((g, idx) => {
+  const rows = DATA.filter(d => d.group === g)
+                   .sort((a,b) => (b.wheel_score||0) - (a.wheel_score||0))
+                   .slice(0, TOP_N);
+  if (rows.length === 0) return;
+  const withPx = rows.filter(r=>r.price);
+  const avgPx = withPx.length ? (withPx.reduce((s,r)=>s+r.price,0)/withPx.length) : 0;
+  const card = document.createElement('div');
+  card.className = 'card';
+  const canvasId = 'grp_' + idx;
+  card.innerHTML = `
+    <h2>${g}</h2>
+    <div class="subtle">${rows.length} shown · avg px ${avgPx.toFixed(2)}</div>
+    <canvas id="${canvasId}"></canvas>
+  `;
+  grid.appendChild(card);
+  bar(canvasId, rows, 'wheel_score', '#38bdf8', v => v.toFixed(1));
+});
+
+// Per-industry weekly movers — top gainer + top loser per group
+const moversGrid = document.getElementById('industryMoversGrid');
+groupOrder.forEach((g, idx) => {
+  const rows = DATA.filter(d => d.group === g && d.week_return_pct != null);
+  if (rows.length === 0) return;
+  const sorted = [...rows].sort((a,b) => b.week_return_pct - a.week_return_pct);
+  const gTop = sorted.slice(0, 3);
+  const lTop = [...sorted].reverse().slice(0, 3);
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  const gId = 'mg_g_' + idx;
+  const lId = 'mg_l_' + idx;
+  card.innerHTML = `
+    <h2>${g}</h2>
+    <div class="subtle">Weekly gainers &amp; losers</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><div class="subtle">Gainers</div><canvas id="${gId}"></canvas></div>
+      <div><div class="subtle">Losers</div><canvas id="${lId}"></canvas></div>
+    </div>
+  `;
+  moversGrid.appendChild(card);
+  bar(gId, gTop, 'week_return_pct', '#22c55e', v => v.toFixed(2)+'%');
+  bar(lId, lTop, 'week_return_pct', '#ef4444', v => v.toFixed(2)+'%');
+});
+</script>
+</body>
+</html>

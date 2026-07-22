@@ -1,0 +1,82 @@
+{
+  "thresholds": {
+    "max_price_usd": 50.0,
+    "max_price_cad": 50.0,
+    "min_wheel_score": 3.0,
+    "strikes_to_prune": 3
+  },
+  "groups": {
+    "Automobile": [
+      "RIVN",
+      "TM",
+      "F",
+      "GM",
+      "TSLA"
+    ],
+    "BFSI": [
+      "UNH",
+      "MFC",
+      "V",
+      "BN",
+      "SE",
+      "MELI",
+      "TD",
+      "BMO"
+    ],
+    "Communications": [
+      "T",
+      "VZ",
+      "ON"
+    ],
+    "Consumer": [
+      "OSCR",
+      "BULL",
+      "NKE",
+      "KO",
+      "MCD",
+      "COST"
+    ],
+    "Crypto & AI": [
+      "TRON",
+      "PATH"
+    ],
+    "Energy": [
+      "CVE",
+      "SU",
+      "ENB"
+    ],
+    "Helium, Semiconductors & Photonic": [
+      "USAR",
+      "CLS",
+      "LIN",
+      "APD",
+      "ALAB",
+      "AVGO",
+      "IRM",
+      "IPGP",
+      "SWKS",
+      "VIAV",
+      "COHR",
+      "QCOM",
+      "LRCX",
+      "AMAT",
+      "MRVL",
+      "MU",
+      "INTC",
+      "AMD",
+      "AXTI"
+    ],
+    "Technology": [
+      "MSFT",
+      "AMZN",
+      "MSTR",
+      "CDNS",
+      "SNPS",
+      "SMCI",
+      "SOFI",
+      "SHOP",
+      "CSU",
+      "GIB"
+    ]
+  }
+}

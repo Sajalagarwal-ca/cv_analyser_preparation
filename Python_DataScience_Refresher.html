@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Python for Data Science — Refresher Course</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    --accent: #059669;
+    --accent-2: #10b981;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --border: #e2e8f0;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --chip: #ecfdf5;
+    --key: #fbbf24;
+    --str: #86efac;
+    --com: #94a3b8;
+    --num: #fca5a5;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(180deg, #f8fafc 0%, #ecfdf5 100%);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #064e3b 0%, #059669 60%, #10b981 100%);
+    color: white;
+    padding: 44px 24px 60px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 2.2rem; letter-spacing: -0.5px; }
+  header.hero p.sub { margin: 0; opacity: 0.95; font-size: 1.05rem; }
+  header.hero .chips { margin-top: 18px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  header.hero .chips span {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 5px 14px; border-radius: 999px; font-weight: 600; font-size: 0.85rem;
+  }
+  .container { max-width: 1040px; margin: -32px auto 64px; padding: 0 20px; }
+  nav.toc {
+    background: var(--card); border-radius: 12px; padding: 20px 24px;
+    box-shadow: 0 4px 18px rgba(15,23,42,0.08); margin-bottom: 28px;
+    border-top: 4px solid var(--accent);
+  }
+  nav.toc h2 { margin: 0 0 12px; font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  nav.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 24px; }
+  nav.toc li { margin: 4px 0; break-inside: avoid; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover { text-decoration: underline; }
+
+  section.block {
+    background: var(--card); border-radius: 12px; padding: 26px 30px;
+    margin-bottom: 26px; box-shadow: 0 4px 18px rgba(15,23,42,0.06);
+    border-left: 4px solid var(--accent);
+  }
+  section.block h2 {
+    margin: 0 0 14px; font-size: 1.5rem; color: #0f172a;
+    display: flex; align-items: center; gap: 10px;
+  }
+  section.block h2 .num {
+    background: var(--accent); color: white; width: 32px; height: 32px;
+    border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  section.block h3 { margin-top: 22px; color: #0f172a; font-size: 1.15rem; border-bottom: 1px dashed var(--border); padding-bottom: 6px; }
+  section.block h4 { margin: 14px 0 6px; color: #065f46; }
+  .callout {
+    background: #ecfdf5; border-left: 4px solid var(--accent-2);
+    padding: 12px 16px; border-radius: 6px; margin: 12px 0;
+  }
+  .callout.warn { background: #fffbeb; border-left-color: var(--warn); }
+  .callout.tip { background: #eff6ff; border-left-color: #2563eb; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #065f46; font-family: "Cascadia Code", "Fira Code", Consolas, monospace; }
+  pre { background: var(--code-bg); color: var(--code-text); padding: 14px 18px; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; font-family: "Cascadia Code", "Fira Code", Consolas, monospace; position: relative; }
+  pre code { background: transparent; color: var(--code-text); padding: 0; }
+  .k { color: #f472b6; }   /* keyword */
+  .s { color: #86efac; }   /* string */
+  .c { color: #94a3b8; font-style: italic; }   /* comment */
+  .n { color: #fca5a5; }   /* number */
+  .f { color: #7dd3fc; }   /* function */
+  .v { color: #fde68a; }   /* variable/module */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #ecfdf5; color: #064e3b; font-size: 0.9rem; }
+  td code { white-space: nowrap; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 12px 0; }
+  .card {
+    background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .card h4 { margin: 0 0 6px; color: var(--accent); font-size: 1rem; }
+  details {
+    background: #f8fafc; border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; margin: 8px 0;
+  }
+  details[open] { background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  details summary { cursor: pointer; font-weight: 600; color: #065f46; }
+  details summary:hover { color: var(--accent); }
+  details .answer { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  .back-to-top {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--accent); color: white; padding: 10px 14px;
+    border-radius: 999px; text-decoration: none; font-weight: 600;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.4); font-size: 0.9rem;
+  }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 6px; }
+  .badge.core { background: #dbeafe; color: #1e40af; }
+  .badge.must { background: #fee2e2; color: #991b1b; }
+  .badge.nice { background: #fef3c7; color: #92400e; }
+  @media print {
+    header.hero { -webkit-print-color-adjust: exact; }
+    .back-to-top { display: none; }
+    details[open] .answer { display: block; }
+    pre { background: #0f172a !important; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>🐍 Python for Data Science — Refresher Course</h1>
+  <p class="sub">Short, focused, data-scientist first. No web frameworks. No OOP deep-dives. Just what you use daily.</p>
+  <div class="chips">
+    <span>Python basics</span><span>NumPy</span><span>Pandas</span>
+    <span>Cleaning</span><span>Feature engineering</span><span>scikit-learn</span><span>Viz</span>
+  </div>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+  <h2>Course contents</h2>
+  <ol>
+    <li><a href="#basics">Python basics — the 20% you actually use</a></li>
+    <li><a href="#collections">Lists, dicts, comprehensions</a></li>
+    <li><a href="#functions">Functions, lambdas, map/filter</a></li>
+    <li><a href="#numpy">NumPy essentials</a></li>
+    <li><a href="#pandas-load">Pandas — loading &amp; inspecting</a></li>
+    <li><a href="#pandas-select">Pandas — selecting &amp; filtering</a></li>
+    <li><a href="#pandas-clean">Pandas — cleaning</a></li>
+    <li><a href="#pandas-transform">Pandas — transforming &amp; grouping</a></li>
+    <li><a href="#pandas-merge">Pandas — merging &amp; reshaping</a></li>
+    <li><a href="#feature-eng">Feature engineering patterns</a></li>
+    <li><a href="#viz">Visualisation quick refs</a></li>
+    <li><a href="#sklearn">scikit-learn — modelling workflow</a></li>
+    <li><a href="#cheatsheet">One-page cheat sheet</a></li>
+    <li><a href="#exercises">Practice drills</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================ -->
+<section class="block" id="basics">
+  <h2><span class="num">1</span> Python basics — the 20% you actually use</h2>
+
+  <h3>Variables &amp; core types <span class="badge must">must-know</span></h3>
+<pre><code><span class="c"># numbers, strings, booleans, None</span>
+<span class="v">age</span> = <span class="n">42</span>
+<span class="v">price</span> = <span class="n">19.99</span>
+<span class="v">name</span> = <span class="s">"Sajal"</span>
+<span class="v">is_active</span> = <span class="k">True</span>
+<span class="v">missing</span> = <span class="k">None</span>
+
+<span class="c"># type check + convert</span>
+<span class="f">type</span>(<span class="v">age</span>)         <span class="c"># &lt;class 'int'&gt;</span>
+<span class="f">int</span>(<span class="s">"42"</span>), <span class="f">float</span>(<span class="s">"3.14"</span>), <span class="f">str</span>(<span class="n">100</span>)
+</code></pre>
+
+  <h3>f-strings — always use these <span class="badge core">daily</span></h3>
+<pre><code><span class="v">rows</span>, <span class="v">cols</span> = <span class="n">1000</span>, <span class="n">25</span>
+<span class="f">print</span>(<span class="s">f"Loaded {rows:,} rows × {cols} cols"</span>)
+<span class="c"># Loaded 1,000 rows × 25 cols</span>
+
+<span class="v">pct</span> = <span class="n">0.8347</span>
+<span class="f">print</span>(<span class="s">f"Accuracy: {pct:.2%}"</span>)   <span class="c"># Accuracy: 83.47%</span>
+<span class="f">print</span>(<span class="s">f"RMSE: {123.4567:.3f}"</span>)  <span class="c"># RMSE: 123.457</span>
+</code></pre>
+
+  <h3>Conditionals &amp; loops</h3>
+<pre><code><span class="k">if</span> <span class="v">score</span> &gt;= <span class="n">0.9</span>:
+    <span class="v">band</span> = <span class="s">"A"</span>
+<span class="k">elif</span> <span class="v">score</span> &gt;= <span class="n">0.75</span>:
+    <span class="v">band</span> = <span class="s">"B"</span>
+<span class="k">else</span>:
+    <span class="v">band</span> = <span class="s">"C"</span>
+
+<span class="c"># ternary — one-liner</span>
+<span class="v">status</span> = <span class="s">"pass"</span> <span class="k">if</span> <span class="v">score</span> &gt; <span class="n">0.5</span> <span class="k">else</span> <span class="s">"fail"</span>
+
+<span class="c"># enumerate — index + value in one loop</span>
+<span class="k">for</span> <span class="v">i</span>, <span class="v">col</span> <span class="k">in</span> <span class="f">enumerate</span>(<span class="v">df</span>.<span class="v">columns</span>):
+    <span class="f">print</span>(<span class="v">i</span>, <span class="v">col</span>)
+</code></pre>
+
+  <div class="callout">
+    <strong>Rule of thumb:</strong> in data science you rarely write raw <code>for</code> loops over rows. If you find yourself doing that in pandas, look for a vectorised solution first.
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="collections">
+  <h2><span class="num">2</span> Lists, dicts, sets, comprehensions</h2>
+
+  <h3>Lists <span class="badge must">daily</span></h3>
+<pre><code><span class="v">cols</span> = [<span class="s">"age"</span>, <span class="s">"income"</span>, <span class="s">"fico"</span>]
+<span class="v">cols</span>.<span class="f">append</span>(<span class="s">"dti"</span>)          <span class="c"># add one</span>
+<span class="v">cols</span>.<span class="f">extend</span>([<span class="s">"loan_amt"</span>])   <span class="c"># add many</span>
+<span class="v">cols</span>[<span class="n">0</span>]        <span class="c"># first</span>
+<span class="v">cols</span>[-<span class="n">1</span>]       <span class="c"># last</span>
+<span class="v">cols</span>[<span class="n">1</span>:<span class="n">3</span>]      <span class="c"># slice [start:stop) → ['income','fico']</span>
+<span class="f">len</span>(<span class="v">cols</span>), <span class="s">"fico"</span> <span class="k">in</span> <span class="v">cols</span>
+</code></pre>
+
+  <h3>Dicts — the pandas &amp; JSON workhorse <span class="badge must">daily</span></h3>
+<pre><code><span class="v">row</span> = {<span class="s">"age"</span>: <span class="n">42</span>, <span class="s">"fico"</span>: <span class="n">720</span>, <span class="s">"default"</span>: <span class="n">0</span>}
+<span class="v">row</span>[<span class="s">"age"</span>]                <span class="c"># 42</span>
+<span class="v">row</span>.<span class="f">get</span>(<span class="s">"income"</span>, <span class="n">0</span>)      <span class="c"># 0 if missing — safe access</span>
+<span class="v">row</span>[<span class="s">"income"</span>] = <span class="n">75000</span>       <span class="c"># add/update</span>
+<span class="v">row</span>.<span class="f">keys</span>(), <span class="v">row</span>.<span class="f">values</span>(), <span class="v">row</span>.<span class="f">items</span>()
+</code></pre>
+
+  <h3>Sets — dedup and membership</h3>
+<pre><code><span class="v">a</span> = <span class="f">set</span>([<span class="n">1</span>,<span class="n">2</span>,<span class="n">2</span>,<span class="n">3</span>])           <span class="c"># {1, 2, 3}</span>
+<span class="v">a</span> &amp; {<span class="n">2</span>,<span class="n">3</span>,<span class="n">4</span>}                    <span class="c"># intersection {2,3}</span>
+<span class="v">a</span> | {<span class="n">2</span>,<span class="n">3</span>,<span class="n">4</span>}                    <span class="c"># union {1,2,3,4}</span>
+<span class="v">a</span> - {<span class="n">2</span>}                        <span class="c"># difference {1,3}</span>
+</code></pre>
+
+  <h3>Comprehensions — replace most loops <span class="badge must">must-know</span></h3>
+<pre><code><span class="c"># list comprehension</span>
+<span class="v">squares</span> = [<span class="v">x</span>**<span class="n">2</span> <span class="k">for</span> <span class="v">x</span> <span class="k">in</span> <span class="f">range</span>(<span class="n">10</span>)]
+<span class="v">even</span>    = [<span class="v">x</span> <span class="k">for</span> <span class="v">x</span> <span class="k">in</span> <span class="f">range</span>(<span class="n">20</span>) <span class="k">if</span> <span class="v">x</span> % <span class="n">2</span> == <span class="n">0</span>]
+
+<span class="c"># dict comprehension — great for renaming columns</span>
+<span class="v">renamer</span> = {<span class="v">c</span>: <span class="v">c</span>.<span class="f">lower</span>().<span class="f">replace</span>(<span class="s">" "</span>, <span class="s">"_"</span>) <span class="k">for</span> <span class="v">c</span> <span class="k">in</span> <span class="v">df</span>.<span class="v">columns</span>}
+<span class="v">df</span> = <span class="v">df</span>.<span class="f">rename</span>(<span class="v">columns</span>=<span class="v">renamer</span>)
+
+<span class="c"># set comprehension — unique values</span>
+<span class="v">unique_purposes</span> = {<span class="v">p</span>.<span class="f">strip</span>().<span class="f">lower</span>() <span class="k">for</span> <span class="v">p</span> <span class="k">in</span> <span class="v">df</span>[<span class="s">"purpose"</span>]}
+</code></pre>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="functions">
+  <h2><span class="num">3</span> Functions, lambdas, map/filter</h2>
+
+  <h3>Named functions</h3>
+<pre><code><span class="k">def</span> <span class="f">dti</span>(<span class="v">emi</span>, <span class="v">income</span>):
+    <span class="s">"""Debt-to-income ratio."""</span>
+    <span class="k">if</span> <span class="v">income</span> == <span class="n">0</span>:
+        <span class="k">return</span> <span class="k">None</span>
+    <span class="k">return</span> <span class="v">emi</span> / <span class="v">income</span>
+
+<span class="v">dti</span>(<span class="n">2000</span>, <span class="n">8000</span>)   <span class="c"># 0.25</span>
+</code></pre>
+
+  <h3>Default &amp; keyword args</h3>
+<pre><code><span class="k">def</span> <span class="f">score_report</span>(<span class="v">y_true</span>, <span class="v">y_pred</span>, <span class="v">threshold</span>=<span class="n">0.5</span>):
+    <span class="v">pred_cls</span> = (<span class="v">y_pred</span> &gt;= <span class="v">threshold</span>).<span class="f">astype</span>(<span class="f">int</span>)
+    <span class="k">return</span> {<span class="s">"accuracy"</span>: (<span class="v">y_true</span> == <span class="v">pred_cls</span>).<span class="f">mean</span>()}
+
+<span class="f">score_report</span>(<span class="v">y</span>, <span class="v">proba</span>, <span class="v">threshold</span>=<span class="n">0.3</span>)   <span class="c"># kwarg call</span>
+</code></pre>
+
+  <h3>Lambdas — one-line functions <span class="badge core">for pandas .apply</span></h3>
+<pre><code><span class="v">df</span>[<span class="s">"dti"</span>] = <span class="v">df</span>.<span class="f">apply</span>(<span class="k">lambda</span> <span class="v">r</span>: <span class="v">r</span>.<span class="v">emi</span>/<span class="v">r</span>.<span class="v">income</span> <span class="k">if</span> <span class="v">r</span>.<span class="v">income</span> <span class="k">else</span> <span class="k">None</span>, <span class="v">axis</span>=<span class="n">1</span>)
+<span class="v">df</span>[<span class="s">"fico_band"</span>] = <span class="v">df</span>[<span class="s">"fico"</span>].<span class="f">apply</span>(<span class="k">lambda</span> <span class="v">x</span>: <span class="s">"high"</span> <span class="k">if</span> <span class="v">x</span> &gt;= <span class="n">720</span> <span class="k">else</span> <span class="s">"low"</span>)
+</code></pre>
+
+  <div class="callout tip">
+    <strong>Prefer vectorised ops over <code>.apply(lambda …)</code></strong> — apply is a Python loop under the hood. Use it only when there is no vectorised alternative.
+  </div>
+
+  <h3>Unpacking &amp; *args, **kwargs</h3>
+<pre><code><span class="v">a</span>, <span class="v">b</span> = <span class="n">1</span>, <span class="n">2</span>                          <span class="c"># tuple unpacking</span>
+<span class="v">a</span>, *<span class="v">rest</span> = [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]              <span class="c"># a=1, rest=[2,3,4]</span>
+
+<span class="k">def</span> <span class="f">summary</span>(**<span class="v">metrics</span>):
+    <span class="k">for</span> <span class="v">k</span>, <span class="v">v</span> <span class="k">in</span> <span class="v">metrics</span>.<span class="f">items</span>():
+        <span class="f">print</span>(<span class="s">f"{k}: {v:.3f}"</span>)
+
+<span class="f">summary</span>(<span class="v">rmse</span>=<span class="n">12.3</span>, <span class="v">r2</span>=<span class="n">0.81</span>)
+</code></pre>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="numpy">
+  <h2><span class="num">4</span> NumPy essentials</h2>
+  <p>You mostly touch NumPy through pandas, but these are the calls that matter.</p>
+
+<pre><code><span class="k">import</span> <span class="v">numpy</span> <span class="k">as</span> <span class="v">np</span>
+
+<span class="v">a</span> = <span class="v">np</span>.<span class="f">array</span>([<span class="n">1</span>,<span class="n">2</span>,<span class="n">3</span>,<span class="n">4</span>])
+<span class="v">b</span> = <span class="v">np</span>.<span class="f">zeros</span>((<span class="n">3</span>,<span class="n">4</span>))
+<span class="v">c</span> = <span class="v">np</span>.<span class="f">arange</span>(<span class="n">0</span>, <span class="n">10</span>, <span class="n">0.5</span>)
+<span class="v">d</span> = <span class="v">np</span>.<span class="f">linspace</span>(<span class="n">0</span>, <span class="n">1</span>, <span class="n">11</span>)      <span class="c"># 11 points between 0 and 1</span>
+
+<span class="c"># vectorised math (fast, no loop)</span>
+<span class="v">a</span> * <span class="n">2</span>, <span class="v">np</span>.<span class="f">log</span>(<span class="v">a</span>), <span class="v">np</span>.<span class="f">sqrt</span>(<span class="v">a</span>), <span class="v">a</span> + <span class="v">a</span>**<span class="n">2</span>
+
+<span class="c"># stats</span>
+<span class="v">a</span>.<span class="f">mean</span>(), <span class="v">a</span>.<span class="f">std</span>(), <span class="v">a</span>.<span class="f">min</span>(), <span class="v">a</span>.<span class="f">max</span>(), <span class="v">np</span>.<span class="f">median</span>(<span class="v">a</span>), <span class="v">np</span>.<span class="f">percentile</span>(<span class="v">a</span>, <span class="n">95</span>)
+
+<span class="c"># boolean masking — the pattern you'll reuse in pandas</span>
+<span class="v">a</span>[<span class="v">a</span> &gt; <span class="n">2</span>]                       <span class="c"># [3, 4]</span>
+<span class="v">np</span>.<span class="f">where</span>(<span class="v">a</span> &gt; <span class="n">2</span>, <span class="s">"high"</span>, <span class="s">"low"</span>)  <span class="c"># conditional replace</span>
+
+<span class="c"># reshape / stack</span>
+<span class="v">a</span>.<span class="f">reshape</span>(<span class="n">2</span>, <span class="n">2</span>)
+<span class="v">np</span>.<span class="f">vstack</span>([<span class="v">a</span>, <span class="v">a</span>]), <span class="v">np</span>.<span class="f">hstack</span>([<span class="v">a</span>, <span class="v">a</span>])
+</code></pre>
+
+  <div class="callout warn">
+    <strong>Watch:</strong> NumPy arrays are homogeneous (one dtype). Mixing strings and numbers demotes everything to <code>object</code> and kills performance.
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="pandas-load">
+  <h2><span class="num">5</span> Pandas — loading &amp; inspecting <span class="badge must">core</span></h2>
+
+<pre><code><span class="k">import</span> <span class="v">pandas</span> <span class="k">as</span> <span class="v">pd</span>
+
+<span class="c"># load</span>
+<span class="v">df</span> = <span class="v">pd</span>.<span class="f">read_csv</span>(<span class="s">"loans.csv"</span>)
+<span class="v">df</span> = <span class="v">pd</span>.<span class="f">read_excel</span>(<span class="s">"loans.xlsx"</span>, <span class="v">sheet_name</span>=<span class="s">"raw"</span>)
+<span class="v">df</span> = <span class="v">pd</span>.<span class="f">read_parquet</span>(<span class="s">"loans.parquet"</span>)
+<span class="v">df</span> = <span class="v">pd</span>.<span class="f">read_sql</span>(<span class="s">"SELECT * FROM loans"</span>, <span class="v">conn</span>)
+
+<span class="c"># save</span>
+<span class="v">df</span>.<span class="f">to_csv</span>(<span class="s">"out.csv"</span>, <span class="v">index</span>=<span class="k">False</span>)
+<span class="v">df</span>.<span class="f">to_parquet</span>(<span class="s">"out.parquet"</span>)
+</code></pre>
+
+  <h3>The inspection ritual — run these <em>every time</em> you load data</h3>
+<pre><code><span class="v">df</span>.<span class="f">shape</span>              <span class="c"># (rows, cols)</span>
+<span class="v">df</span>.<span class="f">head</span>(), <span class="v">df</span>.<span class="f">tail</span>()
+<span class="v">df</span>.<span class="f">sample</span>(<span class="n">5</span>)          <span class="c"># random peek</span>
+<span class="v">df</span>.<span class="f">info</span>()             <span class="c"># dtypes + non-null counts</span>
+<span class="v">df</span>.<span class="f">describe</span>()         <span class="c"># numeric summary</span>
+<span class="v">df</span>.<span class="f">describe</span>(<span class="v">include</span>=<span class="s">"object"</span>)   <span class="c"># categorical summary</span>
+<span class="v">df</span>.<span class="f">dtypes</span>
+<span class="v">df</span>.<span class="f">columns</span>.<span class="f">tolist</span>()
+<span class="v">df</span>.<span class="f">isna</span>().<span class="f">sum</span>()      <span class="c"># missing per column</span>
+<span class="v">df</span>.<span class="f">nunique</span>()          <span class="c"># cardinality per column</span>
+<span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">value_counts</span>(<span class="v">dropna</span>=<span class="k">False</span>)
+</code></pre>
+
+  <div class="callout tip">
+    <strong>Print less, look more:</strong> <code>df.head()</code> and <code>df.sample()</code> are your friends. <code>df.info()</code> answers "what dtypes and how many nulls" in one call.
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="pandas-select">
+  <h2><span class="num">6</span> Pandas — selecting &amp; filtering <span class="badge must">core</span></h2>
+
+  <h3>Column selection</h3>
+<pre><code><span class="v">df</span>[<span class="s">"age"</span>]                    <span class="c"># Series</span>
+<span class="v">df</span>[[<span class="s">"age"</span>, <span class="s">"income"</span>]]        <span class="c"># DataFrame (note double brackets)</span>
+<span class="v">df</span>.<span class="v">age</span>                      <span class="c"># dot access — only if valid identifier</span>
+</code></pre>
+
+  <h3><code>.loc</code> vs <code>.iloc</code> — memorise this</h3>
+  <table>
+    <thead><tr><th>Selector</th><th>Uses</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>.loc</code></td><td>labels (row index &amp; column names)</td><td><code>df.loc[10:15, ["age","fico"]]</code></td></tr>
+      <tr><td><code>.iloc</code></td><td>integer positions</td><td><code>df.iloc[0:5, 0:3]</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Boolean filtering <span class="badge core">daily</span></h3>
+<pre><code><span class="v">df</span>[<span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">720</span>]
+<span class="v">df</span>[(<span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">720</span>) &amp; (<span class="v">df</span>[<span class="s">"income"</span>] &gt; <span class="n">50000</span>)]   <span class="c"># AND — use &amp;, not `and`</span>
+<span class="v">df</span>[(<span class="v">df</span>[<span class="s">"purpose"</span>] == <span class="s">"car"</span>) | (<span class="v">df</span>[<span class="s">"purpose"</span>] == <span class="s">"home"</span>)]  <span class="c"># OR — use |</span>
+<span class="v">df</span>[~<span class="v">df</span>[<span class="s">"default"</span>].<span class="f">isna</span>()]                                     <span class="c"># NOT — use ~</span>
+
+<span class="c"># isin — cleaner than chained OR</span>
+<span class="v">df</span>[<span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">isin</span>([<span class="s">"car"</span>, <span class="s">"home"</span>, <span class="s">"education"</span>])]
+
+<span class="c"># .query — SQL-ish, very readable</span>
+<span class="v">df</span>.<span class="f">query</span>(<span class="s">"fico &gt;= 720 and income &gt; 50000 and default == 0"</span>)
+</code></pre>
+
+  <div class="callout warn">
+    <strong>Parentheses matter:</strong> always wrap each boolean condition in <code>()</code> when combining with <code>&amp;</code> / <code>|</code>. Operator precedence bites here.
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="pandas-clean">
+  <h2><span class="num">7</span> Pandas — cleaning <span class="badge must">must-know</span></h2>
+
+  <h3>Missing values</h3>
+<pre><code><span class="v">df</span>.<span class="f">isna</span>().<span class="f">sum</span>()                       <span class="c"># count missing per column</span>
+<span class="v">df</span>.<span class="f">isna</span>().<span class="f">mean</span>().<span class="f">sort_values</span>(<span class="v">ascending</span>=<span class="k">False</span>)  <span class="c"># % missing</span>
+
+<span class="c"># drop</span>
+<span class="v">df</span>.<span class="f">dropna</span>()                             <span class="c"># any NA row</span>
+<span class="v">df</span>.<span class="f">dropna</span>(<span class="v">subset</span>=[<span class="s">"income"</span>])            <span class="c"># only if 'income' missing</span>
+<span class="v">df</span>.<span class="f">dropna</span>(<span class="v">axis</span>=<span class="n">1</span>, <span class="v">thresh</span>=<span class="f">len</span>(<span class="v">df</span>)*<span class="n">0.7</span>)   <span class="c"># drop cols &gt;30% missing</span>
+
+<span class="c"># fill</span>
+<span class="v">df</span>[<span class="s">"income"</span>] = <span class="v">df</span>[<span class="s">"income"</span>].<span class="f">fillna</span>(<span class="v">df</span>[<span class="s">"income"</span>].<span class="f">median</span>())
+<span class="v">df</span>[<span class="s">"purpose"</span>] = <span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">fillna</span>(<span class="s">"unknown"</span>)
+<span class="v">df</span>[<span class="s">"payment"</span>] = <span class="v">df</span>[<span class="s">"payment"</span>].<span class="f">fillna</span>(<span class="v">method</span>=<span class="s">"ffill"</span>)   <span class="c"># forward-fill (time series)</span>
+
+<span class="c"># group-wise imputation — better than global</span>
+<span class="v">df</span>[<span class="s">"income"</span>] = <span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"job_grade"</span>)[<span class="s">"income"</span>] \
+                    .<span class="f">transform</span>(<span class="k">lambda</span> <span class="v">s</span>: <span class="v">s</span>.<span class="f">fillna</span>(<span class="v">s</span>.<span class="f">median</span>()))
+</code></pre>
+
+  <h3>Duplicates</h3>
+<pre><code><span class="v">df</span>.<span class="f">duplicated</span>().<span class="f">sum</span>()
+<span class="v">df</span> = <span class="v">df</span>.<span class="f">drop_duplicates</span>()
+<span class="v">df</span> = <span class="v">df</span>.<span class="f">drop_duplicates</span>(<span class="v">subset</span>=[<span class="s">"loan_id"</span>], <span class="v">keep</span>=<span class="s">"last"</span>)
+</code></pre>
+
+  <h3>Type conversion</h3>
+<pre><code><span class="v">df</span>[<span class="s">"age"</span>]    = <span class="v">df</span>[<span class="s">"age"</span>].<span class="f">astype</span>(<span class="s">"Int64"</span>)             <span class="c"># nullable int</span>
+<span class="v">df</span>[<span class="s">"date"</span>]   = <span class="v">pd</span>.<span class="f">to_datetime</span>(<span class="v">df</span>[<span class="s">"date"</span>], <span class="v">errors</span>=<span class="s">"coerce"</span>)
+<span class="v">df</span>[<span class="s">"amount"</span>] = <span class="v">pd</span>.<span class="f">to_numeric</span>(<span class="v">df</span>[<span class="s">"amount"</span>], <span class="v">errors</span>=<span class="s">"coerce"</span>)
+<span class="v">df</span>[<span class="s">"purpose"</span>] = <span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">astype</span>(<span class="s">"category"</span>)     <span class="c"># saves memory</span>
+</code></pre>
+
+  <h3>String cleaning <span class="badge core">daily</span></h3>
+<pre><code><span class="v">df</span>[<span class="s">"purpose"</span>] = <span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">str</span>.<span class="f">strip</span>().<span class="f">str</span>.<span class="f">lower</span>()
+<span class="v">df</span>[<span class="s">"email"</span>]   = <span class="v">df</span>[<span class="s">"email"</span>].<span class="f">str</span>.<span class="f">replace</span>(<span class="s">r"\s+"</span>, <span class="s">""</span>, <span class="v">regex</span>=<span class="k">True</span>)
+<span class="v">df</span>[<span class="s">"has_home"</span>] = <span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">str</span>.<span class="f">contains</span>(<span class="s">"home"</span>, <span class="v">na</span>=<span class="k">False</span>)
+
+<span class="c"># split into columns</span>
+<span class="v">df</span>[[<span class="s">"first"</span>, <span class="s">"last"</span>]] = <span class="v">df</span>[<span class="s">"name"</span>].<span class="f">str</span>.<span class="f">split</span>(<span class="s">" "</span>, <span class="v">n</span>=<span class="n">1</span>, <span class="v">expand</span>=<span class="k">True</span>)
+</code></pre>
+
+  <h3>Outliers — quick treatment</h3>
+<pre><code><span class="c"># IQR clipping</span>
+<span class="v">q1</span>, <span class="v">q3</span> = <span class="v">df</span>[<span class="s">"income"</span>].<span class="f">quantile</span>([<span class="n">0.25</span>, <span class="n">0.75</span>])
+<span class="v">iqr</span>    = <span class="v">q3</span> - <span class="v">q1</span>
+<span class="v">low</span>, <span class="v">high</span> = <span class="v">q1</span> - <span class="n">1.5</span>*<span class="v">iqr</span>, <span class="v">q3</span> + <span class="n">1.5</span>*<span class="v">iqr</span>
+<span class="v">df</span>[<span class="s">"income"</span>] = <span class="v">df</span>[<span class="s">"income"</span>].<span class="f">clip</span>(<span class="v">low</span>, <span class="v">high</span>)
+
+<span class="c"># winsorise with percentiles</span>
+<span class="v">low</span>, <span class="v">high</span> = <span class="v">df</span>[<span class="s">"income"</span>].<span class="f">quantile</span>([<span class="n">0.01</span>, <span class="n">0.99</span>])
+<span class="v">df</span>[<span class="s">"income"</span>] = <span class="v">df</span>[<span class="s">"income"</span>].<span class="f">clip</span>(<span class="v">low</span>, <span class="v">high</span>)
+</code></pre>
+
+  <h3>Renaming &amp; dropping</h3>
+<pre><code><span class="v">df</span> = <span class="v">df</span>.<span class="f">rename</span>(<span class="v">columns</span>={<span class="s">"Cust ID"</span>: <span class="s">"cust_id"</span>, <span class="s">"AGE"</span>: <span class="s">"age"</span>})
+<span class="v">df</span>.<span class="f">columns</span> = <span class="v">df</span>.<span class="f">columns</span>.<span class="f">str</span>.<span class="f">lower</span>().<span class="f">str</span>.<span class="f">replace</span>(<span class="s">" "</span>, <span class="s">"_"</span>)
+<span class="v">df</span> = <span class="v">df</span>.<span class="f">drop</span>(<span class="v">columns</span>=[<span class="s">"internal_note"</span>, <span class="s">"raw_dump"</span>])
+</code></pre>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="pandas-transform">
+  <h2><span class="num">8</span> Pandas — transforming &amp; grouping <span class="badge must">core</span></h2>
+
+  <h3>Create/modify columns</h3>
+<pre><code><span class="v">df</span>[<span class="s">"dti"</span>]      = <span class="v">df</span>[<span class="s">"emi"</span>] / <span class="v">df</span>[<span class="s">"income"</span>]         <span class="c"># vectorised — fast</span>
+<span class="v">df</span>[<span class="s">"log_inc"</span>]  = <span class="v">np</span>.<span class="f">log1p</span>(<span class="v">df</span>[<span class="s">"income"</span>])
+<span class="v">df</span>[<span class="s">"is_high"</span>]  = <span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">720</span>
+
+<span class="c"># conditional column — np.where or np.select</span>
+<span class="v">df</span>[<span class="s">"band"</span>] = <span class="v">np</span>.<span class="f">where</span>(<span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">720</span>, <span class="s">"prime"</span>, <span class="s">"subprime"</span>)
+
+<span class="v">conds</span> = [<span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">780</span>, <span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">720</span>, <span class="v">df</span>[<span class="s">"fico"</span>] &gt;= <span class="n">640</span>]
+<span class="v">df</span>[<span class="s">"band"</span>] = <span class="v">np</span>.<span class="f">select</span>(<span class="v">conds</span>, [<span class="s">"super"</span>, <span class="s">"prime"</span>, <span class="s">"near"</span>], <span class="v">default</span>=<span class="s">"subprime"</span>)
+
+<span class="c"># binning</span>
+<span class="v">df</span>[<span class="s">"age_bin"</span>]  = <span class="v">pd</span>.<span class="f">cut</span>(<span class="v">df</span>[<span class="s">"age"</span>], <span class="v">bins</span>=[<span class="n">0</span>,<span class="n">25</span>,<span class="n">45</span>,<span class="n">65</span>,<span class="n">100</span>], <span class="v">labels</span>=[<span class="s">"y"</span>,<span class="s">"m"</span>,<span class="s">"s"</span>,<span class="s">"e"</span>])
+<span class="v">df</span>[<span class="s">"inc_dec"</span>] = <span class="v">pd</span>.<span class="f">qcut</span>(<span class="v">df</span>[<span class="s">"income"</span>], <span class="n">10</span>, <span class="v">labels</span>=<span class="k">False</span>)      <span class="c"># deciles</span>
+
+<span class="c"># .assign — chainable</span>
+<span class="v">df</span> = (<span class="v">df</span>
+      .<span class="f">assign</span>(<span class="v">dti</span>=<span class="k">lambda</span> <span class="v">d</span>: <span class="v">d</span>.<span class="v">emi</span>/<span class="v">d</span>.<span class="v">income</span>,
+              <span class="v">log_inc</span>=<span class="k">lambda</span> <span class="v">d</span>: <span class="v">np</span>.<span class="f">log1p</span>(<span class="v">d</span>.<span class="v">income</span>))
+      .<span class="f">query</span>(<span class="s">"dti &lt; 1.0"</span>))
+</code></pre>
+
+  <h3>Sorting</h3>
+<pre><code><span class="v">df</span>.<span class="f">sort_values</span>(<span class="s">"income"</span>, <span class="v">ascending</span>=<span class="k">False</span>)
+<span class="v">df</span>.<span class="f">sort_values</span>([<span class="s">"purpose"</span>, <span class="s">"income"</span>], <span class="v">ascending</span>=[<span class="k">True</span>, <span class="k">False</span>])
+</code></pre>
+
+  <h3>Group by <span class="badge must">daily</span></h3>
+<pre><code><span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"purpose"</span>)[<span class="s">"amount"</span>].<span class="f">mean</span>()
+<span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"purpose"</span>).<span class="f">agg</span>(<span class="v">n</span>=(<span class="s">"loan_id"</span>, <span class="s">"count"</span>),
+                             <span class="v">avg_amt</span>=(<span class="s">"amount"</span>, <span class="s">"mean"</span>),
+                             <span class="v">default_rate</span>=(<span class="s">"default"</span>, <span class="s">"mean"</span>))
+
+<span class="c"># multi-group</span>
+<span class="v">df</span>.<span class="f">groupby</span>([<span class="s">"purpose"</span>, <span class="s">"band"</span>])[<span class="s">"amount"</span>].<span class="f">agg</span>([<span class="s">"count"</span>, <span class="s">"mean"</span>, <span class="s">"sum"</span>])
+
+<span class="c"># transform — result aligned back to original rows</span>
+<span class="v">df</span>[<span class="s">"avg_amt_purpose"</span>] = <span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"purpose"</span>)[<span class="s">"amount"</span>].<span class="f">transform</span>(<span class="s">"mean"</span>)
+<span class="v">df</span>[<span class="s">"amt_vs_avg"</span>]      = <span class="v">df</span>[<span class="s">"amount"</span>] / <span class="v">df</span>[<span class="s">"avg_amt_purpose"</span>]
+</code></pre>
+
+  <div class="callout tip">
+    <strong>Pattern:</strong> use <code>.agg</code> for summaries (fewer rows), use <code>.transform</code> when the output must have the same length as the original DataFrame (feature engineering).
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="pandas-merge">
+  <h2><span class="num">9</span> Pandas — merging &amp; reshaping</h2>
+
+  <h3>Merge (SQL joins)</h3>
+<pre><code><span class="v">df</span> = <span class="v">loans</span>.<span class="f">merge</span>(<span class="v">customers</span>, <span class="v">on</span>=<span class="s">"cust_id"</span>, <span class="v">how</span>=<span class="s">"left"</span>)
+<span class="v">df</span> = <span class="v">loans</span>.<span class="f">merge</span>(<span class="v">customers</span>, <span class="v">left_on</span>=<span class="s">"cid"</span>, <span class="v">right_on</span>=<span class="s">"cust_id"</span>, <span class="v">how</span>=<span class="s">"inner"</span>)
+</code></pre>
+  <table>
+    <thead><tr><th><code>how</code></th><th>Keeps</th></tr></thead>
+    <tbody>
+      <tr><td><code>inner</code></td><td>only matched keys</td></tr>
+      <tr><td><code>left</code></td><td>all left rows + matched right</td></tr>
+      <tr><td><code>right</code></td><td>all right + matched left</td></tr>
+      <tr><td><code>outer</code></td><td>all keys, NaN where unmatched</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Concat (stacking)</h3>
+<pre><code><span class="v">pd</span>.<span class="f">concat</span>([<span class="v">df_2024</span>, <span class="v">df_2025</span>], <span class="v">axis</span>=<span class="n">0</span>, <span class="v">ignore_index</span>=<span class="k">True</span>)   <span class="c"># stack rows</span>
+<span class="v">pd</span>.<span class="f">concat</span>([<span class="v">features</span>, <span class="v">target</span>], <span class="v">axis</span>=<span class="n">1</span>)                        <span class="c"># stack columns</span>
+</code></pre>
+
+  <h3>Pivot &amp; melt</h3>
+<pre><code><span class="c"># long → wide (pivot)</span>
+<span class="v">wide</span> = <span class="v">df</span>.<span class="f">pivot_table</span>(<span class="v">index</span>=<span class="s">"month"</span>, <span class="v">columns</span>=<span class="s">"purpose"</span>,
+                     <span class="v">values</span>=<span class="s">"amount"</span>, <span class="v">aggfunc</span>=<span class="s">"sum"</span>, <span class="v">fill_value</span>=<span class="n">0</span>)
+
+<span class="c"># wide → long (melt) — needed for seaborn / most ML APIs</span>
+<span class="v">long</span> = <span class="v">wide</span>.<span class="f">reset_index</span>().<span class="f">melt</span>(<span class="v">id_vars</span>=<span class="s">"month"</span>,
+                                    <span class="v">var_name</span>=<span class="s">"purpose"</span>,
+                                    <span class="v">value_name</span>=<span class="s">"amount"</span>)
+</code></pre>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="feature-eng">
+  <h2><span class="num">10</span> Feature engineering patterns</h2>
+
+  <h3>Categorical encoding</h3>
+<pre><code><span class="c"># one-hot (small cardinality)</span>
+<span class="v">df</span> = <span class="v">pd</span>.<span class="f">get_dummies</span>(<span class="v">df</span>, <span class="v">columns</span>=[<span class="s">"purpose"</span>, <span class="s">"grade"</span>], <span class="v">drop_first</span>=<span class="k">True</span>)
+
+<span class="c"># label encoding (tree models tolerate this)</span>
+<span class="k">from</span> <span class="v">sklearn.preprocessing</span> <span class="k">import</span> <span class="v">LabelEncoder</span>
+<span class="v">le</span> = <span class="v">LabelEncoder</span>()
+<span class="v">df</span>[<span class="s">"purpose_id"</span>] = <span class="v">le</span>.<span class="f">fit_transform</span>(<span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">astype</span>(<span class="f">str</span>))
+
+<span class="c"># target/mean encoding (careful with leakage — do inside CV folds)</span>
+<span class="v">means</span> = <span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"purpose"</span>)[<span class="s">"default"</span>].<span class="f">mean</span>()
+<span class="v">df</span>[<span class="s">"purpose_te"</span>] = <span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">map</span>(<span class="v">means</span>)
+</code></pre>
+
+  <h3>Scaling</h3>
+<pre><code><span class="k">from</span> <span class="v">sklearn.preprocessing</span> <span class="k">import</span> <span class="v">StandardScaler</span>, <span class="v">MinMaxScaler</span>, <span class="v">RobustScaler</span>
+
+<span class="v">scaler</span> = <span class="v">StandardScaler</span>()          <span class="c"># z-score — for linear/NN models</span>
+<span class="v">X_scaled</span> = <span class="v">scaler</span>.<span class="f">fit_transform</span>(<span class="v">X_train</span>)
+<span class="v">X_test_scaled</span> = <span class="v">scaler</span>.<span class="f">transform</span>(<span class="v">X_test</span>)   <span class="c"># NEVER fit on test</span>
+</code></pre>
+
+  <h3>Dates → features</h3>
+<pre><code><span class="v">df</span>[<span class="s">"dt"</span>] = <span class="v">pd</span>.<span class="f">to_datetime</span>(<span class="v">df</span>[<span class="s">"dt"</span>])
+<span class="v">df</span>[<span class="s">"year"</span>]     = <span class="v">df</span>[<span class="s">"dt"</span>].<span class="f">dt</span>.<span class="f">year</span>
+<span class="v">df</span>[<span class="s">"month"</span>]    = <span class="v">df</span>[<span class="s">"dt"</span>].<span class="f">dt</span>.<span class="f">month</span>
+<span class="v">df</span>[<span class="s">"dow"</span>]      = <span class="v">df</span>[<span class="s">"dt"</span>].<span class="f">dt</span>.<span class="f">dayofweek</span>
+<span class="v">df</span>[<span class="s">"is_weekend"</span>] = <span class="v">df</span>[<span class="s">"dow"</span>] &gt;= <span class="n">5</span>
+<span class="v">df</span>[<span class="s">"days_since"</span>] = (<span class="v">pd</span>.<span class="f">Timestamp</span>.<span class="f">today</span>() - <span class="v">df</span>[<span class="s">"dt"</span>]).<span class="f">dt</span>.<span class="f">days</span>
+</code></pre>
+
+  <h3>Ratios &amp; interactions (the highest-ROI features)</h3>
+<pre><code><span class="v">df</span>[<span class="s">"dti"</span>]         = <span class="v">df</span>[<span class="s">"emi"</span>] / <span class="v">df</span>[<span class="s">"income"</span>]
+<span class="v">df</span>[<span class="s">"ltv"</span>]         = <span class="v">df</span>[<span class="s">"loan_amt"</span>] / <span class="v">df</span>[<span class="s">"collateral"</span>]
+<span class="v">df</span>[<span class="s">"amt_per_yr"</span>]  = <span class="v">df</span>[<span class="s">"loan_amt"</span>] / <span class="v">df</span>[<span class="s">"tenure_years"</span>]
+<span class="v">df</span>[<span class="s">"fico_x_dti"</span>] = <span class="v">df</span>[<span class="s">"fico"</span>] * <span class="v">df</span>[<span class="s">"dti"</span>]     <span class="c"># interaction</span>
+</code></pre>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="viz">
+  <h2><span class="num">11</span> Visualisation — quick refs</h2>
+
+<pre><code><span class="k">import</span> <span class="v">matplotlib.pyplot</span> <span class="k">as</span> <span class="v">plt</span>
+<span class="k">import</span> <span class="v">seaborn</span> <span class="k">as</span> <span class="v">sns</span>
+
+<span class="c"># pandas quick plots</span>
+<span class="v">df</span>[<span class="s">"income"</span>].<span class="f">hist</span>(<span class="v">bins</span>=<span class="n">40</span>)
+<span class="v">df</span>[<span class="s">"purpose"</span>].<span class="f">value_counts</span>().<span class="f">plot</span>(<span class="v">kind</span>=<span class="s">"bar"</span>)
+<span class="v">df</span>.<span class="f">plot</span>(<span class="v">x</span>=<span class="s">"date"</span>, <span class="v">y</span>=<span class="s">"amount"</span>, <span class="v">kind</span>=<span class="s">"line"</span>)
+
+<span class="c"># seaborn (nicer defaults, understands DataFrames)</span>
+<span class="v">sns</span>.<span class="f">histplot</span>(<span class="v">df</span>, <span class="v">x</span>=<span class="s">"income"</span>, <span class="v">hue</span>=<span class="s">"default"</span>, <span class="v">kde</span>=<span class="k">True</span>)
+<span class="v">sns</span>.<span class="f">boxplot</span>(<span class="v">df</span>, <span class="v">x</span>=<span class="s">"purpose"</span>, <span class="v">y</span>=<span class="s">"amount"</span>)
+<span class="v">sns</span>.<span class="f">scatterplot</span>(<span class="v">df</span>, <span class="v">x</span>=<span class="s">"income"</span>, <span class="v">y</span>=<span class="s">"loan_amt"</span>, <span class="v">hue</span>=<span class="s">"default"</span>)
+<span class="v">sns</span>.<span class="f">heatmap</span>(<span class="v">df</span>.<span class="f">corr</span>(<span class="v">numeric_only</span>=<span class="k">True</span>), <span class="v">annot</span>=<span class="k">True</span>, <span class="v">cmap</span>=<span class="s">"coolwarm"</span>)
+<span class="v">sns</span>.<span class="f">pairplot</span>(<span class="v">df</span>[[<span class="s">"income"</span>,<span class="s">"fico"</span>,<span class="s">"dti"</span>,<span class="s">"default"</span>]], <span class="v">hue</span>=<span class="s">"default"</span>)
+
+<span class="v">plt</span>.<span class="f">title</span>(<span class="s">"Income distribution by default"</span>)
+<span class="v">plt</span>.<span class="f">xlabel</span>(<span class="s">"Income"</span>)
+<span class="v">plt</span>.<span class="f">tight_layout</span>()
+<span class="v">plt</span>.<span class="f">show</span>()
+</code></pre>
+
+  <div class="callout">
+    <strong>EDA checklist per column:</strong>
+    <ul>
+      <li>Numeric → <code>histplot</code> + <code>describe()</code></li>
+      <li>Categorical → <code>value_counts()</code> + <code>countplot</code></li>
+      <li>vs target → <code>boxplot</code> (num vs cat) or grouped bar (cat vs cat)</li>
+      <li>Between numerics → <code>heatmap(df.corr())</code></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="sklearn">
+  <h2><span class="num">12</span> scikit-learn — the modelling workflow</h2>
+
+  <h3>The seven-step ritual</h3>
+<pre><code><span class="k">from</span> <span class="v">sklearn.model_selection</span> <span class="k">import</span> <span class="v">train_test_split</span>, <span class="v">cross_val_score</span>, <span class="v">GridSearchCV</span>
+<span class="k">from</span> <span class="v">sklearn.preprocessing</span>   <span class="k">import</span> <span class="v">StandardScaler</span>
+<span class="k">from</span> <span class="v">sklearn.pipeline</span>        <span class="k">import</span> <span class="v">Pipeline</span>
+<span class="k">from</span> <span class="v">sklearn.ensemble</span>        <span class="k">import</span> <span class="v">RandomForestClassifier</span>
+<span class="k">from</span> <span class="v">sklearn.metrics</span>         <span class="k">import</span> (<span class="v">accuracy_score</span>, <span class="v">roc_auc_score</span>,
+                                     <span class="v">classification_report</span>, <span class="v">confusion_matrix</span>)
+
+<span class="c"># 1. split X / y</span>
+<span class="v">X</span> = <span class="v">df</span>.<span class="f">drop</span>(<span class="v">columns</span>=[<span class="s">"default"</span>])
+<span class="v">y</span> = <span class="v">df</span>[<span class="s">"default"</span>]
+
+<span class="c"># 2. train/test split (stratify for imbalance)</span>
+<span class="v">X_tr</span>, <span class="v">X_te</span>, <span class="v">y_tr</span>, <span class="v">y_te</span> = <span class="f">train_test_split</span>(
+    <span class="v">X</span>, <span class="v">y</span>, <span class="v">test_size</span>=<span class="n">0.2</span>, <span class="v">random_state</span>=<span class="n">42</span>, <span class="v">stratify</span>=<span class="v">y</span>)
+
+<span class="c"># 3. pipeline = preprocessing + model (prevents leakage)</span>
+<span class="v">pipe</span> = <span class="v">Pipeline</span>([
+    (<span class="s">"scale"</span>, <span class="v">StandardScaler</span>()),
+    (<span class="s">"clf"</span>,   <span class="v">RandomForestClassifier</span>(<span class="v">n_estimators</span>=<span class="n">300</span>, <span class="v">random_state</span>=<span class="n">42</span>))
+])
+
+<span class="c"># 4. fit</span>
+<span class="v">pipe</span>.<span class="f">fit</span>(<span class="v">X_tr</span>, <span class="v">y_tr</span>)
+
+<span class="c"># 5. predict</span>
+<span class="v">y_pred</span>  = <span class="v">pipe</span>.<span class="f">predict</span>(<span class="v">X_te</span>)
+<span class="v">y_proba</span> = <span class="v">pipe</span>.<span class="f">predict_proba</span>(<span class="v">X_te</span>)[:, <span class="n">1</span>]
+
+<span class="c"># 6. evaluate</span>
+<span class="f">print</span>(<span class="s">f"Accuracy: {accuracy_score(y_te, y_pred):.3f}"</span>)
+<span class="f">print</span>(<span class="s">f"AUC:      {roc_auc_score(y_te, y_proba):.3f}"</span>)
+<span class="f">print</span>(<span class="f">classification_report</span>(<span class="v">y_te</span>, <span class="v">y_pred</span>))
+<span class="f">print</span>(<span class="f">confusion_matrix</span>(<span class="v">y_te</span>, <span class="v">y_pred</span>))
+
+<span class="c"># 7. cross-validation (more honest than single split)</span>
+<span class="v">scores</span> = <span class="f">cross_val_score</span>(<span class="v">pipe</span>, <span class="v">X</span>, <span class="v">y</span>, <span class="v">cv</span>=<span class="n">5</span>, <span class="v">scoring</span>=<span class="s">"roc_auc"</span>)
+<span class="f">print</span>(<span class="s">f"AUC: {scores.mean():.3f} ± {scores.std():.3f}"</span>)
+</code></pre>
+
+  <h3>Hyperparameter search</h3>
+<pre><code><span class="v">grid</span> = {
+    <span class="s">"clf__n_estimators"</span>: [<span class="n">200</span>, <span class="n">400</span>],
+    <span class="s">"clf__max_depth"</span>:    [<span class="k">None</span>, <span class="n">10</span>, <span class="n">20</span>],
+    <span class="s">"clf__min_samples_split"</span>: [<span class="n">2</span>, <span class="n">10</span>],
+}
+<span class="v">gs</span> = <span class="v">GridSearchCV</span>(<span class="v">pipe</span>, <span class="v">grid</span>, <span class="v">cv</span>=<span class="n">5</span>, <span class="v">scoring</span>=<span class="s">"roc_auc"</span>, <span class="v">n_jobs</span>=-<span class="n">1</span>)
+<span class="v">gs</span>.<span class="f">fit</span>(<span class="v">X_tr</span>, <span class="v">y_tr</span>)
+<span class="f">print</span>(<span class="v">gs</span>.<span class="v">best_params_</span>, <span class="v">gs</span>.<span class="v">best_score_</span>)
+</code></pre>
+
+  <h3>Common models — quick pick</h3>
+  <table>
+    <thead><tr><th>Task</th><th>First try</th><th>Then</th></tr></thead>
+    <tbody>
+      <tr><td>Regression</td><td><code>LinearRegression</code> / <code>Ridge</code></td><td><code>RandomForestRegressor</code>, <code>XGBRegressor</code></td></tr>
+      <tr><td>Binary classification</td><td><code>LogisticRegression</code></td><td><code>RandomForestClassifier</code>, <code>XGBClassifier</code></td></tr>
+      <tr><td>Multi-class</td><td><code>LogisticRegression</code> (multinomial)</td><td><code>RandomForestClassifier</code></td></tr>
+      <tr><td>Clustering</td><td><code>KMeans</code></td><td><code>DBSCAN</code>, <code>AgglomerativeClustering</code></td></tr>
+      <tr><td>Dim. reduction</td><td><code>PCA</code></td><td><code>t-SNE</code>, <code>UMAP</code></td></tr>
+      <tr><td>Time series</td><td>Naive / ARIMA</td><td>Prophet, XGB with lag features</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Metrics — pick the right one</h3>
+  <table>
+    <thead><tr><th>Task</th><th>Metric</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td>Regression</td><td>RMSE, MAE, R²</td><td>RMSE penalises big errors; MAE robust to outliers</td></tr>
+      <tr><td>Balanced classification</td><td>Accuracy, F1</td><td>Only if classes are balanced</td></tr>
+      <tr><td>Imbalanced classification</td><td>ROC-AUC, PR-AUC, F1, recall</td><td>Fraud/default → PR-AUC &amp; recall matter more than accuracy</td></tr>
+      <tr><td>Ranking / scoring</td><td>ROC-AUC, KS</td><td>Credit scoring; threshold-independent</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <strong>Leakage checklist:</strong> fit scalers/encoders/imputers on <em>train only</em>, never on the full dataset. A <code>Pipeline</code> enforces this automatically — always use one.
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="cheatsheet">
+  <h2><span class="num">13</span> One-page cheat sheet</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h4>Load &amp; inspect</h4>
+<pre style="font-size:0.8rem"><code>pd.read_csv(...)
+df.shape / .info()
+df.head() / .sample()
+df.describe()
+df.isna().sum()
+df.nunique()</code></pre>
+    </div>
+    <div class="card">
+      <h4>Select</h4>
+<pre style="font-size:0.8rem"><code>df["col"]
+df[["a","b"]]
+df.loc[rows, cols]
+df.iloc[0:5, 0:3]
+df.query("a &gt; 1 and b == 'x'")</code></pre>
+    </div>
+    <div class="card">
+      <h4>Clean</h4>
+<pre style="font-size:0.8rem"><code>df.dropna(subset=[...])
+df["x"].fillna(median)
+df.drop_duplicates()
+pd.to_datetime(...)
+df["s"].str.strip().str.lower()</code></pre>
+    </div>
+    <div class="card">
+      <h4>Transform</h4>
+<pre style="font-size:0.8rem"><code>df["r"] = df.a / df.b
+np.where(cond, x, y)
+pd.cut / pd.qcut
+df.groupby("k").agg(...)
+df.groupby("k").transform("mean")</code></pre>
+    </div>
+    <div class="card">
+      <h4>Join / reshape</h4>
+<pre style="font-size:0.8rem"><code>a.merge(b, on="k", how="left")
+pd.concat([a,b], axis=0)
+df.pivot_table(...)
+df.melt(id_vars=...)</code></pre>
+    </div>
+    <div class="card">
+      <h4>Model</h4>
+<pre style="font-size:0.8rem"><code>train_test_split(X,y,
+   stratify=y, random_state=42)
+Pipeline([("s",...),("clf",...)])
+pipe.fit(X_tr,y_tr)
+pipe.predict_proba(X_te)[:,1]
+cross_val_score(pipe,X,y,cv=5)</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<section class="block" id="exercises">
+  <h2><span class="num">14</span> Practice drills — try before peeking</h2>
+  <p>Use any CSV you have (e.g. <code>wheel_snapshot.csv</code> in this workspace). Try each drill, then expand for the answer.</p>
+
+  <details><summary>Drill 1 — Load and profile a CSV in 5 lines.</summary>
+    <div class="answer">
+<pre><code><span class="v">df</span> = <span class="v">pd</span>.<span class="f">read_csv</span>(<span class="s">"wheel_snapshot.csv"</span>)
+<span class="f">print</span>(<span class="v">df</span>.<span class="v">shape</span>)
+<span class="f">print</span>(<span class="v">df</span>.<span class="f">info</span>())
+<span class="f">print</span>(<span class="v">df</span>.<span class="f">describe</span>(<span class="v">include</span>=<span class="s">"all"</span>))
+<span class="f">print</span>(<span class="v">df</span>.<span class="f">isna</span>().<span class="f">sum</span>())</code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 2 — Standardise all column names to snake_case.</summary>
+    <div class="answer">
+<pre><code><span class="v">df</span>.<span class="f">columns</span> = (<span class="v">df</span>.<span class="f">columns</span>
+              .<span class="f">str</span>.<span class="f">strip</span>()
+              .<span class="f">str</span>.<span class="f">lower</span>()
+              .<span class="f">str</span>.<span class="f">replace</span>(<span class="s">r"\s+"</span>, <span class="s">"_"</span>, <span class="v">regex</span>=<span class="k">True</span>))</code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 3 — Fill numeric NAs with the median, categorical NAs with "unknown".</summary>
+    <div class="answer">
+<pre><code><span class="v">num</span> = <span class="v">df</span>.<span class="f">select_dtypes</span>(<span class="s">"number"</span>).<span class="v">columns</span>
+<span class="v">cat</span> = <span class="v">df</span>.<span class="f">select_dtypes</span>(<span class="v">exclude</span>=<span class="s">"number"</span>).<span class="v">columns</span>
+<span class="v">df</span>[<span class="v">num</span>] = <span class="v">df</span>[<span class="v">num</span>].<span class="f">fillna</span>(<span class="v">df</span>[<span class="v">num</span>].<span class="f">median</span>(<span class="v">numeric_only</span>=<span class="k">True</span>))
+<span class="v">df</span>[<span class="v">cat</span>] = <span class="v">df</span>[<span class="v">cat</span>].<span class="f">fillna</span>(<span class="s">"unknown"</span>)</code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 4 — Top-3 categories by average of a numeric column.</summary>
+    <div class="answer">
+<pre><code>(<span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"purpose"</span>)[<span class="s">"amount"</span>]
+    .<span class="f">mean</span>()
+    .<span class="f">sort_values</span>(<span class="v">ascending</span>=<span class="k">False</span>)
+    .<span class="f">head</span>(<span class="n">3</span>))</code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 5 — Add a percentile-rank feature within each group.</summary>
+    <div class="answer">
+<pre><code><span class="v">df</span>[<span class="s">"amt_pct_in_purpose"</span>] = (
+    <span class="v">df</span>.<span class="f">groupby</span>(<span class="s">"purpose"</span>)[<span class="s">"amount"</span>]
+      .<span class="f">rank</span>(<span class="v">pct</span>=<span class="k">True</span>))</code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 6 — Merge two DataFrames and count unmatched rows.</summary>
+    <div class="answer">
+<pre><code><span class="v">m</span> = <span class="v">a</span>.<span class="f">merge</span>(<span class="v">b</span>, <span class="v">on</span>=<span class="s">"id"</span>, <span class="v">how</span>=<span class="s">"left"</span>, <span class="v">indicator</span>=<span class="k">True</span>)
+<span class="v">m</span>[<span class="s">"_merge"</span>].<span class="f">value_counts</span>()   <span class="c"># left_only, right_only, both</span></code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 7 — Train a baseline classifier and print AUC.</summary>
+    <div class="answer">
+<pre><code><span class="k">from</span> <span class="v">sklearn.linear_model</span> <span class="k">import</span> <span class="v">LogisticRegression</span>
+<span class="k">from</span> <span class="v">sklearn.model_selection</span> <span class="k">import</span> <span class="v">train_test_split</span>
+<span class="k">from</span> <span class="v">sklearn.metrics</span> <span class="k">import</span> <span class="v">roc_auc_score</span>
+
+<span class="v">X_tr</span>,<span class="v">X_te</span>,<span class="v">y_tr</span>,<span class="v">y_te</span> = <span class="f">train_test_split</span>(<span class="v">X</span>,<span class="v">y</span>,<span class="v">stratify</span>=<span class="v">y</span>,<span class="v">random_state</span>=<span class="n">42</span>)
+<span class="v">m</span> = <span class="v">LogisticRegression</span>(<span class="v">max_iter</span>=<span class="n">1000</span>).<span class="f">fit</span>(<span class="v">X_tr</span>,<span class="v">y_tr</span>)
+<span class="v">p</span> = <span class="v">m</span>.<span class="f">predict_proba</span>(<span class="v">X_te</span>)[:,<span class="n">1</span>]
+<span class="f">print</span>(<span class="s">f"AUC = {roc_auc_score(y_te, p):.3f}"</span>)</code></pre>
+    </div>
+  </details>
+
+  <details><summary>Drill 8 — Detect outliers in a column via IQR and clip them.</summary>
+    <div class="answer">
+<pre><code><span class="v">q1</span>,<span class="v">q3</span> = <span class="v">df</span>[<span class="s">"amount"</span>].<span class="f">quantile</span>([<span class="n">.25</span>,<span class="n">.75</span>])
+<span class="v">iqr</span> = <span class="v">q3</span>-<span class="v">q1</span>
+<span class="v">df</span>[<span class="s">"amount"</span>] = <span class="v">df</span>[<span class="s">"amount"</span>].<span class="f">clip</span>(<span class="v">q1</span>-<span class="n">1.5</span>*<span class="v">iqr</span>, <span class="v">q3</span>+<span class="n">1.5</span>*<span class="v">iqr</span>)</code></pre>
+    </div>
+  </details>
+
+  <div class="callout good">
+    <strong>Study plan (5 short sessions):</strong>
+    <ol>
+      <li>Sections 1–3 (basics)</li>
+      <li>Sections 4–5 (NumPy + loading)</li>
+      <li>Sections 6–7 (select + clean) — the most-used muscle</li>
+      <li>Sections 8–9 (transform + merge)</li>
+      <li>Sections 10–12 (features, viz, sklearn) — then run all 8 drills end-to-end.</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+
+<a href="#" class="back-to-top">↑ Top</a>
+
+</body>
+</html>

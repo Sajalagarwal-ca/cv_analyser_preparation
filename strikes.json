@@ -1,0 +1,277 @@
+{
+  "RIVN": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "TM": {
+    "count": 1,
+    "reason": "price 178.53 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "F": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "GM": {
+    "count": 1,
+    "reason": "price 75.80 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "TSLA": {
+    "count": 1,
+    "reason": "price 369.57 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "UNH": {
+    "count": 1,
+    "reason": "price 421.55 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "MFC": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "V": {
+    "count": 1,
+    "reason": "price 360.57 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "BN": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "SE": {
+    "count": 1,
+    "reason": "price 105.69 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "MELI": {
+    "count": 1,
+    "reason": "price 1832.42 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "TD": {
+    "count": 1,
+    "reason": "price 120.50 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "BMO": {
+    "count": 1,
+    "reason": "price 178.00 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "T": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "VZ": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "ON": {
+    "count": 1,
+    "reason": "price 86.70 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "OSCR": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "BULL": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "NKE": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "KO": {
+    "count": 1,
+    "reason": "price 82.12 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "MCD": {
+    "count": 1,
+    "reason": "price 267.64 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "COST": {
+    "count": 1,
+    "reason": "price 935.80 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "TRON": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "PATH": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "CVE": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "SU": {
+    "count": 1,
+    "reason": "price 62.25 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "ENB": {
+    "count": 1,
+    "reason": "price 55.73 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "USAR": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "CLS": {
+    "count": 1,
+    "reason": "price 307.34 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "LIN": {
+    "count": 1,
+    "reason": "price 512.05 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "APD": {
+    "count": 1,
+    "reason": "price 296.63 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "ALAB": {
+    "count": 1,
+    "reason": "price 309.09 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "AVGO": {
+    "count": 1,
+    "reason": "price 378.16 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "IRM": {
+    "count": 1,
+    "reason": "price 124.23 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "IPGP": {
+    "count": 1,
+    "reason": "price 97.90 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "SWKS": {
+    "count": 1,
+    "reason": "price 59.80 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "VIAV": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "COHR": {
+    "count": 1,
+    "reason": "price 285.40 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "QCOM": {
+    "count": 1,
+    "reason": "price 170.32 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "LRCX": {
+    "count": 1,
+    "reason": "price 306.76 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "AMAT": {
+    "count": 1,
+    "reason": "price 525.70 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "MRVL": {
+    "count": 1,
+    "reason": "price 194.94 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "MU": {
+    "count": 1,
+    "reason": "price 865.46 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "INTC": {
+    "count": 1,
+    "reason": "price 97.06 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "AMD": {
+    "count": 1,
+    "reason": "price 503.57 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "AXTI": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "MSFT": {
+    "count": 1,
+    "reason": "price 402.29 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "AMZN": {
+    "count": 1,
+    "reason": "price 249.99 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "MSTR": {
+    "count": 1,
+    "reason": "price 97.82 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "CDNS": {
+    "count": 1,
+    "reason": "price 329.93 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "SNPS": {
+    "count": 1,
+    "reason": "price 378.46 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "SMCI": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "SOFI": {
+    "count": 1,
+    "reason": "wheel 0.0 < min",
+    "last_seen": "2026-07-20"
+  },
+  "SHOP": {
+    "count": 1,
+    "reason": "price 124.48 > 50",
+    "last_seen": "2026-07-20"
+  },
+  "GIB": {
+    "count": 1,
+    "reason": "price 68.25 > 50",
+    "last_seen": "2026-07-20"
+  }
+}

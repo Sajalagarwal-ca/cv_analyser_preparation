@@ -1,0 +1,57 @@
+ticker,group,currency,price,market_cap,avg_volume,week_return_pct,dte,csp_strike,csp_premium,csp_oi,csp_iv,csp_ann_yield_pct,cc_strike,cc_premium,cc_oi,cc_ann_yield_pct,wheel_score,cc_score,risk,notes,strikes
+RIVN,Automobile,USD,17.239999771118164,24952633867.24362,52329870.0,-0.4,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+TM,Automobile,USD,178.52999877929688,211409632280.7616,469830.0,2.16,32.0,170.0,2.75,78.0,0.30249720947265624,18.45,185.0,3.75,49.0,23.96,4.15,5.33,Low-Med,,1
+F,Automobile,USD,13.989999771118164,55745848981.67624,46051300.0,1.01,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+GM,Automobile,USD,75.80000305175781,68346224532.6638,5683380.0,-1.2,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+TSLA,Automobile,USD,369.57000732421875,1388002898513.2131,34629790.0,-6.38,39.0,350.0,13.825,208.0,0.4718070397949219,36.97,390.0,15.7,166.0,39.76,6.82,7.82,Med-High,,1
+UNH,BFSI,USD,421.54998779296875,382828262420.4529,6516100.0,-1.76,39.0,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MFC,BFSI,USD,42.5,70791165400.0,1414910.0,2.93,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+V,BFSI,USD,360.57000732421875,685711775894.7876,8239970.0,0.79,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+BN,BFSI,USD,42.38999938964844,94682118664.1214,3015090.0,-2.24,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SE,BFSI,USD,105.69000244140625,64733490625.50354,5228020.0,-4.49,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MELI,BFSI,USD,1832.4200439453125,92898532468.3435,374540.0,-1.87,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+TD,BFSI,USD,120.5,199072145500.0,3857200.0,-0.11,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+BMO,BFSI,USD,178.0,124674158182.0,787310.0,-0.39,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+T,Communications,USD,21.950000762939453,152516042729.41183,70334350.0,1.86,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+VZ,Communications,USD,43.5,181636812585.0,29062690.0,1.92,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+ON,Communications,USD,86.69999694824219,33742390505.6998,10095720.0,-4.06,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+OSCR,Consumer,USD,29.600000381469727,8924192915.010452,4421480.0,-6.33,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+BULL,Consumer,USD,7.690000057220459,4089685564.280908,8676280.0,5.63,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+NKE,Consumer,USD,43.470001220703125,64487690430.3215,17673010.0,-0.66,39.0,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+KO,Consumer,USD,82.12000274658203,353319867983.2809,17248690.0,-2.53,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MCD,Consumer,USD,267.6400146484375,190159798510.56067,4439850.0,-1.82,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+COST,Consumer,USD,935.7999877929688,415007459369.6404,2500900.0,1.01,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+TRON,Crypto & AI,USD,1.4600000381469727,692597831.5362396,404320.0,5.04,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+PATH,Crypto & AI,USD,12.15999984741211,6300342355.5011215,87125060.0,2.62,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+CVE,Energy,USD,28.260000228881836,52699785366.8232,7024070.0,2.35,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SU,Energy,USD,62.25,73501388015.25,4144750.0,1.6,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+ENB,Energy,USD,55.72999954223633,121697400208.33311,3978170.0,1.2,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+USAR,"Helium, Semiconductors & Photonic",USD,15.229999542236328,3726341380.6584396,9467650.0,-11.5,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+CLS,"Helium, Semiconductors & Photonic",USD,307.3399963378906,35335834284.33591,1667300.0,-10.96,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+LIN,"Helium, Semiconductors & Photonic",USD,512.0499877929688,236744934441.61194,1988170.0,-2.29,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+APD,"Helium, Semiconductors & Photonic",USD,296.6300048828125,66053772975.48804,1076610.0,-1.77,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+ALAB,"Helium, Semiconductors & Photonic",USD,309.0899963378906,52980479237.79538,4560050.0,-14.63,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+AVGO,"Helium, Semiconductors & Photonic",USD,378.1600036621094,1799126545098.459,22733570.0,-1.53,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+IRM,"Helium, Semiconductors & Photonic",USD,124.2300033569336,36961492119.4006,2337140.0,1.52,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+IPGP,"Helium, Semiconductors & Photonic",USD,97.9000015258789,4155230071.1638184,353830.0,-6.52,32.0,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SWKS,"Helium, Semiconductors & Photonic",USD,59.79999923706055,8994276472.649357,4994050.0,2.68,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+VIAV,"Helium, Semiconductors & Photonic",USD,39.43000030517578,9726815136.492485,4658840.0,-3.64,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+COHR,"Helium, Semiconductors & Photonic",USD,285.3999938964844,55835461019.31235,4321200.0,-7.15,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+QCOM,"Helium, Semiconductors & Photonic",USD,170.32000732421875,179517287719.72656,12980350.0,-7.42,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+LRCX,"Helium, Semiconductors & Photonic",USD,306.760009765625,383615355852.2949,11031780.0,-7.02,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+AMAT,"Helium, Semiconductors & Photonic",USD,525.7000122070312,417384482042.8876,9035680.0,-8.64,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MRVL,"Helium, Semiconductors & Photonic",USD,194.94000244140625,174967312010.89056,26138070.0,-10.38,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MU,"Helium, Semiconductors & Photonic",USD,865.4600219726562,977444621280.2275,43618290.0,-7.64,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+INTC,"Helium, Semiconductors & Photonic",USD,97.05999755859375,487823547729.4922,104993130.0,-5.88,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+AMD,"Helium, Semiconductors & Photonic",USD,503.57000732421875,821121575724.1057,26237270.0,-5.77,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+AXTI,"Helium, Semiconductors & Photonic",USD,48.83000183105469,3194614194.5134277,9026990.0,-3.23,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MSFT,Technology,USD,402.2900085449219,2988385060547.554,30824830.0,2.89,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+AMZN,Technology,USD,249.99000549316406,2689169846996.207,37886230.0,1.08,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+MSTR,Technology,USD,97.81999969482422,35468290260.087135,16336490.0,6.21,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+CDNS,Technology,USD,329.92999267578125,90999970859.86328,1827400.0,-12.7,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SNPS,Technology,USD,378.4599914550781,72467263703.32413,1700380.0,-12.76,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SMCI,Technology,USD,23.829999923706055,15414984184.057505,30482680.0,-13.85,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SOFI,Technology,USD,17.010000228881836,21819428105.59616,83223700.0,-6.18,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+SHOP,Technology,USD,124.4800033569336,161532050084.46036,6987120.0,-0.21,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1
+CSU,Technology,USD,,,,,,,,,,,,,,,0.0,0.0,,error: KeyError,0
+GIB,Technology,USD,68.25,14292918003.0,442770.0,0.74,,,,,,,,,,,0.0,0.0,,error: JSONDecodeError,1

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PostgreSQL Interview Prep — FAANG & Top Analytics</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-2: #0ea5e9;
+    --good: #16a34a;
+    --warn: #d97706;
+    --border: #e2e8f0;
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%);
+    color: white;
+    padding: 48px 24px 64px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 2.4rem; letter-spacing: -0.5px; }
+  header.hero p.sub { margin: 0; opacity: 0.92; font-size: 1.1rem; }
+  header.hero .tags { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  header.hero .tags span {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .container { max-width: 1000px; margin: -32px auto 64px; padding: 0 20px; }
+  nav.toc {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 18px rgba(15,23,42,0.08);
+    margin-bottom: 32px;
+    border-top: 4px solid var(--accent);
+  }
+  nav.toc h2 { margin: 0 0 12px; font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  nav.toc ol { margin: 0; padding-left: 22px; columns: 2; }
+  nav.toc li { margin: 4px 0; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover { text-decoration: underline; }
+  section.block {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 18px rgba(15,23,42,0.06);
+    border-left: 4px solid var(--accent);
+  }
+  section.block h2 {
+    margin: 0 0 20px;
+    font-size: 1.4rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .question { margin-bottom: 28px; }
+  .question h3 {
+    font-size: 1.05rem;
+    margin: 0 0 8px;
+    color: #334155;
+  }
+  .question h3 .company {
+    background: #dbeafe;
+    color: var(--accent);
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+  .followup {
+    background: #fef3c7;
+    border-left: 3px solid var(--warn);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 8px 0;
+  }
+  code { font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace; }
+  .inline-code {
+    background: #f1f5f9;
+    color: #be185d;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+  th, td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
+  th { background: #f8fafc; font-weight: 600; color: var(--accent); }
+  tr:nth-child(even) { background: #f8fafc; }
+  .study-plan {
+    background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+    border-left-color: var(--good);
+  }
+  .study-plan h2 { color: var(--good); }
+  .study-plan ol li { margin: 6px 0; }
+  .study-plan .platforms {
+    margin-top: 12px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin: 8px 0;
+  }
+  /* Syntax highlighting keywords */
+  .kw { color: #c084fc; }
+  .fn { color: #67e8f9; }
+  .str { color: #86efac; }
+  .cm { color: #64748b; font-style: italic; }
+  .num { color: #fbbf24; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>PostgreSQL Interview Prep</h1>
+  <p class="sub">FAANG & Top Analytics — Data Scientist Role</p>
+  <div class="tags">
+    <span>Amazon</span>
+    <span>Meta</span>
+    <span>Tiger Analytics</span>
+    <span>30 Questions</span>
+    <span>8 Sections</span>
+  </div>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Window Functions (Most Heavily Tested)</a></li>
+    <li><a href="#s2">CTEs and Subqueries</a></li>
+    <li><a href="#s3">Joins & Set Operations</a></li>
+    <li><a href="#s4">Aggregation & Grouping</a></li>
+    <li><a href="#s5">Data Manipulation & Conditional Logic</a></li>
+    <li><a href="#s6">Performance & Optimization</a></li>
+    <li><a href="#s7">Advanced / Tricky Questions</a></li>
+    <li><a href="#s8">PostgreSQL-Specific Features</a></li>
+    <li><a href="#s9">Quick Revision Table</a></li>
+    <li><a href="#s10">Study Plan</a></li>
+  </ol>
+</nav>
+
+<!-- Section 1 -->
+<section class="block" id="s1">
+  <h2>Section 1: Window Functions (Most Heavily Tested)</h2>
+
+  <div class="question">
+    <h3>Q1 — Running Total of Revenue per Customer <span class="company">Amazon</span></h3>
+    <pre><code><span class="cm">-- Orders table: order_id, customer_id, order_date, amount</span>
+<span class="kw">SELECT</span> customer_id, order_date, amount,
+       <span class="fn">SUM</span>(amount) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> order_date) <span class="kw">AS</span> running_total
+<span class="kw">FROM</span> orders;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q2 — Rank Employees by Salary Within Department <span class="company">Meta</span></h3>
+    <pre><code><span class="kw">SELECT</span> department, employee_name, salary,
+       <span class="fn">RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk,
+       <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> dense_rnk
+<span class="kw">FROM</span> employees;</code></pre>
+    <div class="followup"><strong>Follow-up:</strong> Explain difference between <span class="inline-code">RANK()</span>, <span class="inline-code">DENSE_RANK()</span>, and <span class="inline-code">ROW_NUMBER()</span>.</div>
+  </div>
+
+  <div class="question">
+    <h3>Q3 — Month-over-Month Growth Rate <span class="company">Tiger Analytics</span></h3>
+    <pre><code><span class="kw">WITH</span> monthly <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, order_date) <span class="kw">AS</span> month,
+         <span class="fn">SUM</span>(amount) <span class="kw">AS</span> revenue
+  <span class="kw">FROM</span> orders
+  <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span> month, revenue,
+       <span class="fn">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> month) <span class="kw">AS</span> prev_month,
+       <span class="fn">ROUND</span>((revenue - <span class="fn">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> month)) * <span class="num">100.0</span>
+             / <span class="fn">NULLIF</span>(<span class="fn">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> month), <span class="num">0</span>), <span class="num">2</span>) <span class="kw">AS</span> mom_growth_pct
+<span class="kw">FROM</span> monthly;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q4 — Find the Median Salary <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">SELECT</span> <span class="fn">PERCENTILE_CONT</span>(<span class="num">0.5</span>) <span class="kw">WITHIN GROUP</span> (<span class="kw">ORDER BY</span> salary) <span class="kw">AS</span> median_salary
+<span class="kw">FROM</span> employees;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q5 — First and Last Purchase per Customer <span class="company">Meta</span></h3>
+    <pre><code><span class="kw">SELECT DISTINCT</span> customer_id,
+       <span class="fn">FIRST_VALUE</span>(product) <span class="kw">OVER</span> w <span class="kw">AS</span> first_product,
+       <span class="fn">LAST_VALUE</span>(product) <span class="kw">OVER</span> (w <span class="kw">ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</span>) <span class="kw">AS</span> last_product
+<span class="kw">FROM</span> purchases
+<span class="kw">WINDOW</span> w <span class="kw">AS</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> purchase_date);</code></pre>
+  </div>
+</section>
+
+<!-- Section 2 -->
+<section class="block" id="s2">
+  <h2>Section 2: CTEs and Subqueries</h2>
+
+  <div class="question">
+    <h3>Q6 — Customers Who Purchased on Consecutive Days <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">WITH</span> purchase_days <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> customer_id, order_date,
+         <span class="fn">LEAD</span>(order_date) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> customer_id <span class="kw">ORDER BY</span> order_date) <span class="kw">AS</span> next_date
+  <span class="kw">FROM</span> orders
+)
+<span class="kw">SELECT DISTINCT</span> customer_id
+<span class="kw">FROM</span> purchase_days
+<span class="kw">WHERE</span> next_date - order_date = <span class="num">1</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q7 — Second Highest Salary <span class="company">All Companies</span></h3>
+    <pre><code><span class="cm">-- Method 1: Subquery</span>
+<span class="kw">SELECT</span> <span class="fn">MAX</span>(salary) <span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> salary &lt; (<span class="kw">SELECT</span> <span class="fn">MAX</span>(salary) <span class="kw">FROM</span> employees);
+
+<span class="cm">-- Method 2: DENSE_RANK</span>
+<span class="kw">SELECT</span> salary <span class="kw">FROM</span> (
+  <span class="kw">SELECT</span> salary, <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk
+  <span class="kw">FROM</span> employees
+) t <span class="kw">WHERE</span> rnk = <span class="num">2</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q8 — Recursive CTE: Employee Hierarchy <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">WITH RECURSIVE</span> org <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> employee_id, name, manager_id, <span class="num">1</span> <span class="kw">AS</span> level
+  <span class="kw">FROM</span> employees <span class="kw">WHERE</span> manager_id <span class="kw">IS NULL</span>
+  <span class="kw">UNION ALL</span>
+  <span class="kw">SELECT</span> e.employee_id, e.name, e.manager_id, o.level + <span class="num">1</span>
+  <span class="kw">FROM</span> employees e <span class="kw">JOIN</span> org o <span class="kw">ON</span> e.manager_id = o.employee_id
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> org <span class="kw">ORDER BY</span> level;</code></pre>
+  </div>
+</section>
+
+<!-- Section 3 -->
+<section class="block" id="s3">
+  <h2>Section 3: Joins & Set Operations</h2>
+
+  <div class="question">
+    <h3>Q9 — Users Who Logged In but Never Purchased <span class="company">Meta</span></h3>
+    <pre><code><span class="kw">SELECT</span> l.user_id
+<span class="kw">FROM</span> logins l
+<span class="kw">LEFT JOIN</span> purchases p <span class="kw">ON</span> l.user_id = p.user_id
+<span class="kw">WHERE</span> p.user_id <span class="kw">IS NULL</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q10 — Employees Earning More Than Their Manager <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">SELECT</span> e.name <span class="kw">AS</span> employee, e.salary <span class="kw">AS</span> emp_salary,
+       m.name <span class="kw">AS</span> manager, m.salary <span class="kw">AS</span> mgr_salary
+<span class="kw">FROM</span> employees e
+<span class="kw">JOIN</span> employees m <span class="kw">ON</span> e.manager_id = m.employee_id
+<span class="kw">WHERE</span> e.salary &gt; m.salary;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q11 — Find Mutual Friends <span class="company">Meta / Facebook</span></h3>
+    <pre><code><span class="cm">-- friendships(user_id1, user_id2) — bidirectional</span>
+<span class="kw">SELECT</span> f1.user_id2 <span class="kw">AS</span> mutual_friend
+<span class="kw">FROM</span> friendships f1
+<span class="kw">JOIN</span> friendships f2 <span class="kw">ON</span> f1.user_id2 = f2.user_id2
+<span class="kw">WHERE</span> f1.user_id1 = <span class="str">'Alice'</span>
+  <span class="kw">AND</span> f2.user_id1 = <span class="str">'Bob'</span>
+  <span class="kw">AND</span> f1.user_id2 <span class="kw">NOT IN</span> (<span class="str">'Alice'</span>, <span class="str">'Bob'</span>);</code></pre>
+  </div>
+</section>
+
+<!-- Section 4 -->
+<section class="block" id="s4">
+  <h2>Section 4: Aggregation & Grouping</h2>
+
+  <div class="question">
+    <h3>Q12 — Products Ordered Every Month of 2024 <span class="company">Tiger Analytics</span></h3>
+    <pre><code><span class="kw">SELECT</span> product_id
+<span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> order_date &gt;= <span class="str">'2024-01-01'</span> <span class="kw">AND</span> order_date &lt; <span class="str">'2025-01-01'</span>
+<span class="kw">GROUP BY</span> product_id
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, order_date)) = <span class="num">12</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q13 — Top 3 Products by Revenue per Category <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">WITH</span> ranked <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> category, product_name, <span class="fn">SUM</span>(revenue) <span class="kw">AS</span> total_rev,
+         <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> category <span class="kw">ORDER BY</span> <span class="fn">SUM</span>(revenue) <span class="kw">DESC</span>) <span class="kw">AS</span> rn
+  <span class="kw">FROM</span> sales
+  <span class="kw">GROUP BY</span> category, product_name
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> ranked <span class="kw">WHERE</span> rn &lt;= <span class="num">3</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q14 — Day-1 Retention Rate <span class="company">Meta / Gaming</span></h3>
+    <pre><code><span class="kw">WITH</span> first_login <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> user_id, <span class="fn">MIN</span>(login_date) <span class="kw">AS</span> first_date
+  <span class="kw">FROM</span> logins <span class="kw">GROUP BY</span> user_id
+)
+<span class="kw">SELECT</span> f.first_date,
+       <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> l.user_id)::<span class="kw">FLOAT</span> / <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> f.user_id) <span class="kw">AS</span> day1_retention
+<span class="kw">FROM</span> first_login f
+<span class="kw">LEFT JOIN</span> logins l <span class="kw">ON</span> f.user_id = l.user_id
+                   <span class="kw">AND</span> l.login_date = f.first_date + <span class="kw">INTERVAL</span> <span class="str">'1 day'</span>
+<span class="kw">GROUP BY</span> f.first_date;</code></pre>
+  </div>
+</section>
+
+<!-- Section 5 -->
+<section class="block" id="s5">
+  <h2>Section 5: Data Manipulation & Conditional Logic</h2>
+
+  <div class="question">
+    <h3>Q15 — Pivot Table Using CASE <span class="company">All Companies</span></h3>
+    <pre><code><span class="kw">SELECT</span> employee_id,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q1'</span> <span class="kw">THEN</span> revenue <span class="kw">END</span>) <span class="kw">AS</span> q1,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q2'</span> <span class="kw">THEN</span> revenue <span class="kw">END</span>) <span class="kw">AS</span> q2,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q3'</span> <span class="kw">THEN</span> revenue <span class="kw">END</span>) <span class="kw">AS</span> q3,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q4'</span> <span class="kw">THEN</span> revenue <span class="kw">END</span>) <span class="kw">AS</span> q4
+<span class="kw">FROM</span> quarterly_sales
+<span class="kw">GROUP BY</span> employee_id;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q16 — De-duplicate Rows Keeping Latest <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">DELETE FROM</span> events
+<span class="kw">WHERE</span> ctid <span class="kw">NOT IN</span> (
+  <span class="kw">SELECT DISTINCT ON</span> (user_id, event_type)
+         ctid
+  <span class="kw">FROM</span> events
+  <span class="kw">ORDER BY</span> user_id, event_type, event_time <span class="kw">DESC</span>
+);</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q17 — Gap Analysis: Find Missing Dates <span class="company">Tiger Analytics</span></h3>
+    <pre><code><span class="kw">WITH</span> date_range <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> <span class="fn">generate_series</span>(<span class="fn">MIN</span>(log_date), <span class="fn">MAX</span>(log_date), <span class="str">'1 day'</span>::interval)::<span class="kw">date</span> <span class="kw">AS</span> d
+  <span class="kw">FROM</span> daily_logs
+)
+<span class="kw">SELECT</span> d <span class="kw">AS</span> missing_date
+<span class="kw">FROM</span> date_range
+<span class="kw">LEFT JOIN</span> daily_logs <span class="kw">ON</span> log_date = d
+<span class="kw">WHERE</span> log_date <span class="kw">IS NULL</span>;</code></pre>
+  </div>
+</section>
+
+<!-- Section 6 -->
+<section class="block" id="s6">
+  <h2>Section 6: Performance & Optimization (Conceptual)</h2>
+
+  <div class="question">
+    <h3>Q18 — Explain EXPLAIN ANALYZE Output <span class="company">All Companies</span></h3>
+    <div class="note">
+      Key things interviewers look for:
+      <ul>
+        <li><strong>Seq Scan vs Index Scan</strong> — when does Postgres choose each?</li>
+        <li><strong>Cost estimates</strong> (startup cost..total cost)</li>
+        <li><strong>Actual time vs planned time</strong></li>
+        <li><strong>Rows removed by filter</strong> → suggests missing index</li>
+        <li><strong>Hash Join vs Nested Loop vs Merge Join</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q19 — When Would You Use a Partial Index? <span class="company">Amazon</span></h3>
+    <pre><code><span class="cm">-- Index only active users (common filter in queries)</span>
+<span class="kw">CREATE INDEX</span> idx_active_users <span class="kw">ON</span> users(email) <span class="kw">WHERE</span> is_active = <span class="num">true</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q20 — Partitioning Strategies <span class="company">All Companies</span></h3>
+    <div class="note">
+      <ul>
+        <li><strong>Range partitioning</strong> — dates, numeric ranges (most common for time-series)</li>
+        <li><strong>List partitioning</strong> — region, status</li>
+        <li><strong>Hash partitioning</strong> — even distribution</li>
+        <li>In Postgres: <span class="inline-code">PARTITION BY RANGE / LIST / HASH</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Section 7 -->
+<section class="block" id="s7">
+  <h2>Section 7: Advanced / Tricky Questions</h2>
+
+  <div class="question">
+    <h3>Q21 — Sessionization: Assign Session IDs <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">WITH</span> gaps <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> user_id, event_time,
+         <span class="kw">CASE WHEN</span> event_time - <span class="fn">LAG</span>(event_time) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> user_id <span class="kw">ORDER BY</span> event_time)
+                   &gt; <span class="kw">INTERVAL</span> <span class="str">'30 minutes'</span>
+              <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END AS</span> new_session
+  <span class="kw">FROM</span> events
+)
+<span class="kw">SELECT</span> user_id, event_time,
+       <span class="fn">SUM</span>(new_session) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> user_id <span class="kw">ORDER BY</span> event_time) <span class="kw">AS</span> session_id
+<span class="kw">FROM</span> gaps;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q22 — Funnel Analysis <span class="company">Meta</span></h3>
+    <pre><code><span class="kw">WITH</span> funnel <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> user_id,
+         <span class="fn">MAX</span>(<span class="kw">CASE WHEN</span> event = <span class="str">'page_view'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> step1,
+         <span class="fn">MAX</span>(<span class="kw">CASE WHEN</span> event = <span class="str">'add_to_cart'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> step2,
+         <span class="fn">MAX</span>(<span class="kw">CASE WHEN</span> event = <span class="str">'purchase'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> step3
+  <span class="kw">FROM</span> user_events
+  <span class="kw">GROUP BY</span> user_id
+)
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total_users,
+       <span class="fn">SUM</span>(step1) <span class="kw">AS</span> viewed,
+       <span class="fn">SUM</span>(step2) <span class="kw">AS</span> added_to_cart,
+       <span class="fn">SUM</span>(step3) <span class="kw">AS</span> purchased
+<span class="kw">FROM</span> funnel;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q23 — Fraud Detection: Transactions Within 10 Min <span class="company">Amazon</span></h3>
+    <pre><code><span class="kw">SELECT</span> a.txn_id, b.txn_id, a.user_id, a.txn_time, b.txn_time
+<span class="kw">FROM</span> transactions a
+<span class="kw">JOIN</span> transactions b
+  <span class="kw">ON</span> a.user_id = b.user_id
+  <span class="kw">AND</span> a.txn_id &lt; b.txn_id
+  <span class="kw">AND</span> b.txn_time - a.txn_time &lt;= <span class="kw">INTERVAL</span> <span class="str">'10 minutes'</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q24 — Cumulative Distribution / Percentile Buckets <span class="company">Tiger Analytics</span></h3>
+    <pre><code><span class="kw">SELECT</span> user_id, total_spend,
+       <span class="fn">NTILE</span>(<span class="num">10</span>) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> total_spend) <span class="kw">AS</span> decile,
+       <span class="fn">CUME_DIST</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> total_spend) <span class="kw">AS</span> cumulative_pct
+<span class="kw">FROM</span> (
+  <span class="kw">SELECT</span> user_id, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total_spend
+  <span class="kw">FROM</span> orders <span class="kw">GROUP BY</span> user_id
+) t;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q25 — A/B Test Analysis <span class="company">Meta</span></h3>
+    <pre><code><span class="kw">WITH</span> experiment <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> variant,
+         <span class="fn">COUNT</span>(*) <span class="kw">AS</span> n,
+         <span class="fn">AVG</span>(converted::<span class="kw">int</span>) <span class="kw">AS</span> conversion_rate,
+         <span class="fn">STDDEV</span>(converted::<span class="kw">int</span>) <span class="kw">AS</span> std_dev
+  <span class="kw">FROM</span> ab_test_results
+  <span class="kw">GROUP BY</span> variant
+)
+<span class="kw">SELECT</span> *,
+       (<span class="kw">SELECT</span> conversion_rate <span class="kw">FROM</span> experiment <span class="kw">WHERE</span> variant = <span class="str">'treatment'</span>)
+       - (<span class="kw">SELECT</span> conversion_rate <span class="kw">FROM</span> experiment <span class="kw">WHERE</span> variant = <span class="str">'control'</span>) <span class="kw">AS</span> lift
+<span class="kw">FROM</span> experiment;</code></pre>
+  </div>
+</section>
+
+<!-- Section 8 -->
+<section class="block" id="s8">
+  <h2>Section 8: PostgreSQL-Specific Features (Differentiators)</h2>
+
+  <div class="question">
+    <h3>Q26 — JSONB Queries <span class="company">Amazon / Meta</span></h3>
+    <pre><code><span class="cm">-- Extract nested field</span>
+<span class="kw">SELECT</span> data-&gt;&gt;<span class="str">'name'</span> <span class="kw">AS</span> name,
+       data-&gt;<span class="str">'address'</span>-&gt;&gt;<span class="str">'city'</span> <span class="kw">AS</span> city
+<span class="kw">FROM</span> users
+<span class="kw">WHERE</span> data @&gt; <span class="str">'{"active": true}'</span>;
+
+<span class="cm">-- Index for JSONB</span>
+<span class="kw">CREATE INDEX</span> idx_users_data <span class="kw">ON</span> users <span class="kw">USING</span> GIN (data);</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q27 — Array Operations <span class="company">All Companies</span></h3>
+    <pre><code><span class="kw">SELECT</span> * <span class="kw">FROM</span> products <span class="kw">WHERE</span> tags @&gt; ARRAY[<span class="str">'electronics'</span>, <span class="str">'sale'</span>];
+<span class="kw">SELECT</span> <span class="fn">UNNEST</span>(tags) <span class="kw">AS</span> tag, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> products <span class="kw">GROUP BY</span> <span class="num">1</span> <span class="kw">ORDER BY</span> <span class="num">2</span> <span class="kw">DESC</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q28 — LATERAL JOIN <span class="company">Amazon / Meta</span></h3>
+    <pre><code><span class="cm">-- Top 3 orders per customer</span>
+<span class="kw">SELECT</span> c.customer_id, c.name, o.*
+<span class="kw">FROM</span> customers c
+<span class="kw">CROSS JOIN LATERAL</span> (
+  <span class="kw">SELECT</span> order_id, amount, order_date
+  <span class="kw">FROM</span> orders
+  <span class="kw">WHERE</span> customer_id = c.customer_id
+  <span class="kw">ORDER BY</span> amount <span class="kw">DESC</span>
+  <span class="kw">LIMIT</span> <span class="num">3</span>
+) o;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q29 — DISTINCT ON (PostgreSQL-specific) <span class="company">All Companies</span></h3>
+    <pre><code><span class="cm">-- Latest order per customer</span>
+<span class="kw">SELECT DISTINCT ON</span> (customer_id)
+       customer_id, order_id, order_date, amount
+<span class="kw">FROM</span> orders
+<span class="kw">ORDER BY</span> customer_id, order_date <span class="kw">DESC</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q30 — FILTER Clause <span class="company">All Companies</span></h3>
+    <pre><code><span class="kw">SELECT</span>
+  <span class="fn">COUNT</span>(*) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> status = <span class="str">'completed'</span>) <span class="kw">AS</span> completed,
+  <span class="fn">COUNT</span>(*) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> status = <span class="str">'pending'</span>) <span class="kw">AS</span> pending,
+  <span class="fn">AVG</span>(amount) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> status = <span class="str">'completed'</span>) <span class="kw">AS</span> avg_completed_amount
+<span class="kw">FROM</span> orders;</code></pre>
+  </div>
+</section>
+
+<!-- Section 9: Quick Revision -->
+<section class="block" id="s9">
+  <h2>Quick Revision: Key Concepts Interviewers Probe</h2>
+  <table>
+    <tr><th>Topic</th><th>What They Ask</th></tr>
+    <tr><td><span class="inline-code">NULL</span> handling</td><td><code>NULL = NULL</code> is false; use <code>IS NULL</code>, <code>COALESCE</code>, <code>NULLIF</code></td></tr>
+    <tr><td><span class="inline-code">WHERE</span> vs <span class="inline-code">HAVING</span></td><td>WHERE filters rows before GROUP BY; HAVING filters groups after</td></tr>
+    <tr><td><span class="inline-code">UNION</span> vs <span class="inline-code">UNION ALL</span></td><td>UNION deduplicates (slower); UNION ALL keeps all rows</td></tr>
+    <tr><td>Index types</td><td>B-tree (default), GIN (JSONB/arrays), GiST (geometry), BRIN (sorted large tables)</td></tr>
+    <tr><td><span class="inline-code">EXPLAIN</span> keywords</td><td>Seq Scan, Index Scan, Bitmap Heap Scan, Hash Join, Sort</td></tr>
+    <tr><td>Transaction isolation</td><td>Read Committed (default), Repeatable Read, Serializable</td></tr>
+    <tr><td><span class="inline-code">DELETE</span> vs <span class="inline-code">TRUNCATE</span></td><td>DELETE is logged row-by-row; TRUNCATE is DDL, faster, non-rollbackable in some DBs</td></tr>
+    <tr><td>Temp tables vs CTEs</td><td>CTEs are query-scoped; temp tables persist for session; CTEs may be inlined by planner</td></tr>
+  </table>
+</section>
+
+<!-- Section 10: Study Plan -->
+<section class="block study-plan" id="s10">
+  <h2>Study Plan (10 Days)</h2>
+  <ol>
+    <li><strong>Days 1–2:</strong> Window functions (Q1–Q5, Q21) — practice on LeetCode/StrataScratch</li>
+    <li><strong>Days 3–4:</strong> CTEs, subqueries, recursive (Q6–Q8)</li>
+    <li><strong>Days 5–6:</strong> Aggregation patterns, retention, funnel (Q12–Q14, Q22)</li>
+    <li><strong>Day 7:</strong> PostgreSQL-specific (JSONB, LATERAL, DISTINCT ON, FILTER)</li>
+    <li><strong>Day 8:</strong> Performance (EXPLAIN, indexing, partitioning)</li>
+    <li><strong>Days 9–10:</strong> Mock interviews — combine concepts (sessionization + window + CTE)</li>
+  </ol>
+  <p class="platforms">Practice Platforms: StrataScratch &bull; LeetCode SQL &bull; DataLemur &bull; HackerRank SQL</p>
+</section>
+
+</div>
+</body>
+</html>

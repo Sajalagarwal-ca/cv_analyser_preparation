@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tiger Analytics Interview Prep — Data Scientist (Toronto)</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    --accent: #7c3aed;
+    --accent-2: #a855f7;
+    --good: #16a34a;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --border: #e2e8f0;
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg, #f8fafc 0%, #f5f3ff 100%);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 50%, #a855f7 100%);
+    color: white;
+    padding: 48px 24px 64px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 2.2rem; letter-spacing: -0.5px; }
+  header.hero p.sub { margin: 0; opacity: 0.92; font-size: 1.05rem; }
+  header.hero .meta { margin-top: 16px; font-size: 0.9rem; opacity: 0.8; }
+  header.hero .tags { margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  header.hero .tags span {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  .container { max-width: 1000px; margin: -32px auto 64px; padding: 0 20px; }
+  nav.toc {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 18px rgba(15,23,42,0.08);
+    margin-bottom: 32px;
+    border-top: 4px solid var(--accent);
+  }
+  nav.toc h2 { margin: 0 0 12px; font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  nav.toc ol { margin: 0; padding-left: 22px; }
+  nav.toc li { margin: 5px 0; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover { text-decoration: underline; }
+  section.block {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 18px rgba(15,23,42,0.06);
+    border-left: 4px solid var(--accent);
+  }
+  section.block h2 {
+    margin: 0 0 20px;
+    font-size: 1.35rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .question { margin-bottom: 28px; }
+  .question h3 { font-size: 1.05rem; margin: 0 0 8px; color: #334155; }
+  .question h3 .tag {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+  .tag-sql { background: #dbeafe; color: #1d4ed8; }
+  .tag-python { background: #d1fae5; color: #065f46; }
+  .tag-stats { background: #fef3c7; color: #92400e; }
+  .tag-case { background: #fce7f3; color: #9d174d; }
+  .tag-puzzle { background: #ede9fe; color: #5b21b6; }
+  .tag-ml { background: #ccfbf1; color: #115e59; }
+  .difficulty { font-size: 0.75rem; margin-left: 6px; font-weight: 700; }
+  .diff-easy { color: var(--good); }
+  .diff-med { color: var(--warn); }
+  .diff-hard { color: var(--danger); }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 8px 0;
+  }
+  code { font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace; }
+  .inline-code { background: #f1f5f9; color: #be185d; padding: 2px 6px; border-radius: 4px; font-size: 0.88rem; }
+  .note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin: 10px 0;
+  }
+  .warning {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-left: 4px solid var(--warn);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin: 10px 0;
+  }
+  .insight {
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    border-left: 4px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin: 10px 0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
+  th, td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
+  th { background: #f8fafc; font-weight: 600; color: var(--accent); }
+  tr:nth-child(even) { background: #faf5ff; }
+  ul, ol { padding-left: 20px; }
+  li { margin: 6px 0; }
+  .answer { background: #f0fdf4; border-left: 3px solid var(--good); padding: 10px 14px; border-radius: 6px; margin-top: 8px; }
+  .kw { color: #c084fc; }
+  .fn { color: #67e8f9; }
+  .str { color: #86efac; }
+  .cm { color: #64748b; font-style: italic; }
+  .num { color: #fbbf24; }
+  .process-box {
+    background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+    border-left-color: var(--accent-2);
+  }
+  .round-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Tiger Analytics — Interview Prep</h1>
+  <p class="sub">Data Scientist Role | Toronto Office</p>
+  <p class="meta">Compiled from Glassdoor, GeeksforGeeks, AmbitionBox & public candidate reports</p>
+  <div class="tags">
+    <span>SQL (Medium-Hard)</span>
+    <span>Python Coding</span>
+    <span>Probability & Stats (Heavy)</span>
+    <span>Case Studies</span>
+    <span>Puzzles</span>
+    <span>ML Concepts</span>
+  </div>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#process">Interview Process & Structure</a></li>
+    <li><a href="#sql">SQL Questions (Reported)</a></li>
+    <li><a href="#python">Python / Coding Questions</a></li>
+    <li><a href="#stats">Probability & Statistics (Heaviest Section)</a></li>
+    <li><a href="#ml">Machine Learning Concepts</a></li>
+    <li><a href="#case">Case Studies & Business</a></li>
+    <li><a href="#puzzles">Puzzles & Brain Teasers</a></li>
+    <li><a href="#tips">Interview Tips & What to Expect</a></li>
+  </ol>
+</nav>
+
+<!-- Process -->
+<section class="block process-box" id="process">
+  <h2>Interview Process & Structure</h2>
+  <div class="insight">
+    <strong>Tiger Analytics DS Interview Flow (reported by multiple candidates):</strong>
+  </div>
+  <table>
+    <tr><th>Round</th><th>Format</th><th>Duration</th><th>Focus</th></tr>
+    <tr>
+      <td><span class="round-badge">R0</span>Online Assessment</td>
+      <td>Proctored (Imocha / HackerEarth / Codepad)</td>
+      <td>60–90 min</td>
+      <td>Aptitude + CS fundamentals + 1-2 coding questions</td>
+    </tr>
+    <tr>
+      <td><span class="round-badge">R1</span>Technical Interview 1</td>
+      <td>Video / In-person</td>
+      <td>45–60 min</td>
+      <td>SQL + Python coding + Bayes/Probability + Project deep-dive</td>
+    </tr>
+    <tr>
+      <td><span class="round-badge">R2</span>Technical Interview 2</td>
+      <td>Video / In-person</td>
+      <td>45–60 min</td>
+      <td><strong>Heavy Probability/Stats</strong> + ML concepts + Case study</td>
+    </tr>
+    <tr>
+      <td><span class="round-badge">R3</span>Hiring Manager / HR</td>
+      <td>Video / In-person</td>
+      <td>30–45 min</td>
+      <td>Behavioral, "Why Tiger?", location, culture fit</td>
+    </tr>
+  </table>
+  <div class="warning">
+    <strong>Key pattern:</strong> Tiger Analytics tests probability/statistics FAR more heavily than most analytics companies. Expect 30–40% of technical time on probability.
+  </div>
+</section>
+
+<!-- SQL -->
+<section class="block" id="sql">
+  <h2>SQL Questions (Reported by Candidates)</h2>
+
+  <div class="question">
+    <h3>Q1 — Average Salary by Department <span class="tag tag-sql">SQL</span><span class="difficulty diff-easy">Easy</span></h3>
+    <p>Given an employees table, find the average salary for each department.</p>
+    <pre><code><span class="kw">SELECT</span> department, <span class="fn">AVG</span>(salary) <span class="kw">AS</span> avg_salary
+<span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department
+<span class="kw">ORDER BY</span> avg_salary <span class="kw">DESC</span>;</code></pre>
+    <div class="note"><strong>Follow-up they ask:</strong> Find departments where avg salary > company avg.</div>
+    <pre><code><span class="kw">SELECT</span> department, <span class="fn">AVG</span>(salary) <span class="kw">AS</span> avg_salary
+<span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department
+<span class="kw">HAVING</span> <span class="fn">AVG</span>(salary) > (<span class="kw">SELECT</span> <span class="fn">AVG</span>(salary) <span class="kw">FROM</span> employees);</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q2 — Top N Earners per Department <span class="tag tag-sql">SQL</span><span class="difficulty diff-med">Medium</span></h3>
+    <pre><code><span class="kw">WITH</span> ranked <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> *, <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (
+    <span class="kw">PARTITION BY</span> department <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>
+  ) <span class="kw">AS</span> rnk
+  <span class="kw">FROM</span> employees
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> ranked <span class="kw">WHERE</span> rnk &lt;= <span class="num">3</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q3 — Duplicate Detection & Removal <span class="tag tag-sql">SQL</span><span class="difficulty diff-med">Medium</span></h3>
+    <p>Find duplicate rows and keep only one.</p>
+    <pre><code><span class="cm">-- Find duplicates</span>
+<span class="kw">SELECT</span> email, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> users
+<span class="kw">GROUP BY</span> email <span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">1</span>;
+
+<span class="cm">-- Delete duplicates keeping lowest id</span>
+<span class="kw">DELETE FROM</span> users
+<span class="kw">WHERE</span> id <span class="kw">NOT IN</span> (
+  <span class="kw">SELECT</span> <span class="fn">MIN</span>(id) <span class="kw">FROM</span> users <span class="kw">GROUP BY</span> email
+);</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q4 — Year-over-Year Growth <span class="tag tag-sql">SQL</span><span class="difficulty diff-med">Medium</span></h3>
+    <pre><code><span class="kw">WITH</span> yearly <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> <span class="fn">EXTRACT</span>(<span class="str">YEAR</span> <span class="kw">FROM</span> order_date) <span class="kw">AS</span> yr,
+         <span class="fn">SUM</span>(revenue) <span class="kw">AS</span> total
+  <span class="kw">FROM</span> orders <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span> yr, total,
+       <span class="fn">LAG</span>(total) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> yr) <span class="kw">AS</span> prev_year,
+       <span class="fn">ROUND</span>((total - <span class="fn">LAG</span>(total) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> yr)) * <span class="num">100.0</span>
+             / <span class="fn">NULLIF</span>(<span class="fn">LAG</span>(total) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> yr), <span class="num">0</span>), <span class="num">2</span>) <span class="kw">AS</span> yoy_pct
+<span class="kw">FROM</span> yearly;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q5 — Consecutive Login Days <span class="tag tag-sql">SQL</span><span class="difficulty diff-hard">Hard</span></h3>
+    <pre><code><span class="kw">WITH</span> grouped <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> user_id, login_date,
+         login_date - (<span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (
+           <span class="kw">PARTITION BY</span> user_id <span class="kw">ORDER BY</span> login_date
+         ))::<span class="kw">int</span> <span class="kw">AS</span> grp
+  <span class="kw">FROM</span> logins
+)
+<span class="kw">SELECT</span> user_id, <span class="fn">MIN</span>(login_date) <span class="kw">AS</span> streak_start,
+       <span class="fn">MAX</span>(login_date) <span class="kw">AS</span> streak_end,
+       <span class="fn">COUNT</span>(*) <span class="kw">AS</span> streak_length
+<span class="kw">FROM</span> grouped
+<span class="kw">GROUP BY</span> user_id, grp
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) >= <span class="num">3</span>;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q6 — Running Average & Cumulative Sum <span class="tag tag-sql">SQL</span><span class="difficulty diff-med">Medium</span></h3>
+    <pre><code><span class="kw">SELECT</span> order_date, amount,
+       <span class="fn">SUM</span>(amount) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> order_date) <span class="kw">AS</span> cumulative_sum,
+       <span class="fn">AVG</span>(amount) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> order_date <span class="kw">ROWS BETWEEN</span> <span class="num">6</span> <span class="kw">PRECEDING AND CURRENT ROW</span>) <span class="kw">AS</span> rolling_7day_avg
+<span class="kw">FROM</span> orders;</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q7 — Pivot / Cross-tab <span class="tag tag-sql">SQL</span><span class="difficulty diff-med">Medium</span></h3>
+    <p>Convert rows into columns (product sales by quarter).</p>
+    <pre><code><span class="kw">SELECT</span> product,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q1'</span> <span class="kw">THEN</span> sales <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> Q1,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q2'</span> <span class="kw">THEN</span> sales <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> Q2,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q3'</span> <span class="kw">THEN</span> sales <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> Q3,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> quarter = <span class="str">'Q4'</span> <span class="kw">THEN</span> sales <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> Q4
+<span class="kw">FROM</span> sales_data <span class="kw">GROUP BY</span> product;</code></pre>
+  </div>
+</section>
+
+<!-- Python -->
+<section class="block" id="python">
+  <h2>Python / Coding Questions (Reported)</h2>
+
+  <div class="question">
+    <h3>Q8 — K Closest Points to Origin <span class="tag tag-python">Python</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><em>Confirmed asked at Tiger Analytics (GeeksforGeeks report).</em></p>
+    <pre><code>import heapq
+
+def k_closest(points, k):
+    """Return k points closest to origin (0,0)"""
+    return heapq.nsmallest(k, points, key=lambda p: p[0]**2 + p[1]**2)
+
+# Follow-up: What if center is (cx, cy) instead of origin?
+def k_closest_custom(points, k, cx, cy):
+    return heapq.nsmallest(k, points, key=lambda p: (p[0]-cx)**2 + (p[1]-cy)**2)
+
+# Time: O(n log k), Space: O(k)</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q9 — Matrix Multiplication <span class="tag tag-python">Python</span><span class="difficulty diff-easy">Easy</span></h3>
+    <p><em>Confirmed asked at Tiger Analytics.</em></p>
+    <pre><code>def multiply_matrices(A, B):
+    rows_A, cols_A = len(A), len(A[0])
+    rows_B, cols_B = len(B), len(B[0])
+    
+    if cols_A != rows_B:
+        raise ValueError("Incompatible dimensions")
+    
+    result = [[0] * cols_B for _ in range(rows_A)]
+    for i in range(rows_A):
+        for j in range(cols_B):
+            for k in range(cols_A):
+                result[i][j] += A[i][k] * B[k][j]
+    return result
+
+# Time: O(n^3), Space: O(n^2)</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q10 — Two Sum / HashMap Pattern <span class="tag tag-python">Python</span><span class="difficulty diff-easy">Easy</span></h3>
+    <pre><code>def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q11 — Pandas: GroupBy + Transform <span class="tag tag-python">Python</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><em>Often asked for DS roles at Tiger.</em></p>
+    <pre><code>import pandas as pd
+
+# Q: For each employee, show their salary and dept average
+df['dept_avg'] = df.groupby('department')['salary'].transform('mean')
+df['above_avg'] = df['salary'] > df['dept_avg']
+
+# Q: Rank within group
+df['rank'] = df.groupby('department')['salary'].rank(method='dense', ascending=False)
+
+# Q: Cumulative sum by date
+df['cum_revenue'] = df.sort_values('date').groupby('customer')['amount'].cumsum()
+
+# Q: Rolling 7-day average
+df['rolling_avg'] = df.set_index('date').groupby('customer')['amount'].rolling('7D').mean().reset_index(drop=True)</code></pre>
+  </div>
+
+  <div class="question">
+    <h3>Q12 — String Manipulation / Regex <span class="tag tag-python">Python</span><span class="difficulty diff-med">Medium</span></h3>
+    <pre><code>import re
+
+# Extract all emails from text
+def extract_emails(text):
+    return re.findall(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', text)
+
+# Reverse words in a string
+def reverse_words(s):
+    return ' '.join(s.split()[::-1])
+
+# Check if string is palindrome (ignoring non-alphanumeric)
+def is_palindrome(s):
+    cleaned = re.sub(r'[^a-zA-Z0-9]', '', s).lower()
+    return cleaned == cleaned[::-1]</code></pre>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="block" id="stats">
+  <h2>Probability & Statistics (HEAVIEST Section at Tiger)</h2>
+  
+  <div class="warning">
+    <strong>This is where Tiger Analytics differentiates from other companies.</strong> They spend 30–40% of technical interview time on probability. Prepare Bayes' theorem, conditional probability, and combinatorics thoroughly.
+  </div>
+
+  <div class="question">
+    <h3>Q13 — Fair vs Unfair Coin (Bayes' Theorem) <span class="tag tag-stats">Probability</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><em>Confirmed asked at Tiger Analytics.</em></p>
+    <p><strong>Problem:</strong> You have 2 coins. One is fair (50/50), one always shows heads. You pick one randomly and flip it 3 times, getting all heads. What's the probability you picked the fair coin?</p>
+    <div class="answer">
+      <strong>Solution using Bayes:</strong><br>
+      P(Fair | 3H) = P(3H | Fair) × P(Fair) / P(3H)<br><br>
+      P(3H | Fair) = (1/2)³ = 1/8<br>
+      P(3H | Unfair) = 1<br>
+      P(Fair) = P(Unfair) = 1/2<br><br>
+      P(3H) = P(3H|Fair)×P(Fair) + P(3H|Unfair)×P(Unfair) = (1/8)(1/2) + (1)(1/2) = 1/16 + 1/2 = 9/16<br><br>
+      <strong>P(Fair | 3H) = (1/8 × 1/2) / (9/16) = (1/16) / (9/16) = 1/9 ≈ 0.111</strong>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q14 — Three Points on a Semicircle <span class="tag tag-stats">Probability</span><span class="difficulty diff-hard">Hard</span></h3>
+    <p><em>Confirmed asked at Tiger Analytics (Round 2).</em></p>
+    <p><strong>Problem:</strong> Three points are chosen uniformly at random on a circle. What is the probability they all lie on the same semicircle?</p>
+    <div class="answer">
+      <strong>Answer: 3/4</strong><br><br>
+      Fix one point. The other two must both fall within the semicircle starting from that point (going either clockwise or counter-clockwise).<br>
+      For n points: P = n / 2^(n-1)<br>
+      For n=3: P = 3/4
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q15 — Expected Value: Dice Games <span class="tag tag-stats">Probability</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><strong>Problem:</strong> You roll a fair die. You get paid the face value in dollars. What would you pay to play?</p>
+    <div class="answer">
+      E[X] = (1+2+3+4+5+6)/6 = <strong>$3.50</strong><br><br>
+      <strong>Follow-up:</strong> You can re-roll once. What's the expected value now?<br>
+      Strategy: Re-roll if value ≤ 3 (since E[die] = 3.5 > value).<br>
+      E = P(≤3) × 3.5 + P(>3) × E[X|X>3] = (1/2)(3.5) + (1/2)(5) = <strong>$4.25</strong>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q16 — Conditional Probability: Disease Testing <span class="tag tag-stats">Probability</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><strong>Problem:</strong> A disease affects 1% of the population. A test has 99% sensitivity (true positive) and 95% specificity (true negative). If someone tests positive, what's the probability they have the disease?</p>
+    <div class="answer">
+      P(D|+) = P(+|D)×P(D) / [P(+|D)×P(D) + P(+|¬D)×P(¬D)]<br>
+      = (0.99)(0.01) / [(0.99)(0.01) + (0.05)(0.99)]<br>
+      = 0.0099 / (0.0099 + 0.0495)<br>
+      = 0.0099 / 0.0594 ≈ <strong>16.7%</strong><br><br>
+      <em>Key insight: Low base rate means most positives are false positives!</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q17 — A/B Testing Fundamentals <span class="tag tag-stats">Statistics</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><em>Frequently asked for DS roles.</em></p>
+    <div class="note">
+      <strong>Be ready to explain:</strong>
+      <ul>
+        <li>Null hypothesis (H₀) vs Alternative (H₁)</li>
+        <li>Type I error (α = false positive) vs Type II error (β = false negative)</li>
+        <li>p-value interpretation: probability of seeing result as extreme under H₀</li>
+        <li>Power = 1 - β (ability to detect true effect)</li>
+        <li>Sample size formula: n = (Z_α/2 + Z_β)² × (p₁(1-p₁) + p₂(1-p₂)) / (p₁ - p₂)²</li>
+        <li>When to stop a test (don't peek!): pre-specify duration or use sequential testing</li>
+        <li>Multiple comparison correction (Bonferroni)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q18 — Central Limit Theorem <span class="tag tag-stats">Statistics</span><span class="difficulty diff-easy">Easy</span></h3>
+    <p><strong>Explain CLT and when it fails.</strong></p>
+    <div class="answer">
+      <strong>CLT:</strong> For sufficiently large n, the sampling distribution of the mean approaches Normal, regardless of population distribution.<br><br>
+      <strong>Fails when:</strong>
+      <ul>
+        <li>Small sample size (n < 30 rule of thumb)</li>
+        <li>Infinite variance distributions (Cauchy)</li>
+        <li>Strong dependence between observations</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q19 — Monty Hall Problem <span class="tag tag-stats">Probability</span><span class="difficulty diff-med">Medium</span></h3>
+    <p><strong>Problem:</strong> 3 doors: 1 car, 2 goats. You pick a door. Host opens another door (always a goat). Should you switch?</p>
+    <div class="answer">
+      <strong>Yes, always switch. P(win|switch) = 2/3, P(win|stay) = 1/3.</strong><br><br>
+      Your initial pick has 1/3 chance of being correct. The remaining 2/3 probability is concentrated on the other unopened door after the host reveals a goat.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q20 — Birthday Problem <span class="tag tag-stats">Probability</span><span class="difficulty diff-med">Medium</span></h3>
+    <p>How many people needed for >50% chance two share a birthday?</p>
+    <div class="answer">
+      <strong>23 people.</strong><br>
+      P(no match) = 365/365 × 364/365 × 363/365 × ... × (365-n+1)/365<br>
+      For n=23: P(no match) ≈ 0.493, so P(match) ≈ 0.507
+    </div>
+  </div>
+</section>
+
+<!-- ML -->
+<section class="block" id="ml">
+  <h2>Machine Learning Concepts</h2>
+
+  <div class="question">
+    <h3>Q21 — Bias-Variance Tradeoff <span class="tag tag-ml">ML</span></h3>
+    <div class="note">
+      <ul>
+        <li><strong>High Bias:</strong> Underfitting — model too simple (linear model for non-linear data)</li>
+        <li><strong>High Variance:</strong> Overfitting — model memorizes training data</li>
+        <li><strong>Fix high bias:</strong> More features, complex model, less regularization</li>
+        <li><strong>Fix high variance:</strong> More data, regularization, simpler model, ensemble methods</li>
+        <li>Total Error = Bias² + Variance + Irreducible Noise</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q22 — Explain Regularization (L1 vs L2) <span class="tag tag-ml">ML</span></h3>
+    <div class="note">
+      <table>
+        <tr><th>Property</th><th>L1 (Lasso)</th><th>L2 (Ridge)</th></tr>
+        <tr><td>Penalty</td><td>|β|</td><td>β²</td></tr>
+        <tr><td>Effect</td><td>Drives coefficients to exactly 0 (feature selection)</td><td>Shrinks all coefficients toward 0</td></tr>
+        <tr><td>Use when</td><td>Many irrelevant features</td><td>All features contribute</td></tr>
+        <tr><td>Solution</td><td>Sparse</td><td>Dense</td></tr>
+      </table>
+      <p><strong>Elastic Net</strong> = combination of both (α×L1 + (1-α)×L2)</p>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q23 — How Would You Handle Imbalanced Classes? <span class="tag tag-ml">ML</span></h3>
+    <div class="note">
+      <ol>
+        <li><strong>Resampling:</strong> SMOTE (oversample minority), undersample majority</li>
+        <li><strong>Cost-sensitive learning:</strong> class_weight='balanced'</li>
+        <li><strong>Ensemble:</strong> BalancedRandomForest, EasyEnsemble</li>
+        <li><strong>Metrics:</strong> Use F1, Precision-Recall AUC, NOT accuracy</li>
+        <li><strong>Threshold tuning:</strong> Adjust decision threshold based on business cost</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q24 — Explain Random Forest vs Gradient Boosting <span class="tag tag-ml">ML</span></h3>
+    <div class="note">
+      <table>
+        <tr><th></th><th>Random Forest</th><th>Gradient Boosting (XGBoost)</th></tr>
+        <tr><td>Training</td><td>Parallel (bagging)</td><td>Sequential (boosting)</td></tr>
+        <tr><td>Overfitting</td><td>Harder to overfit</td><td>Can overfit if not tuned</td></tr>
+        <tr><td>Speed</td><td>Faster to train</td><td>Slower, but often better accuracy</td></tr>
+        <tr><td>Bias/Variance</td><td>Reduces variance</td><td>Reduces bias</td></tr>
+        <tr><td>When to use</td><td>Good default, noisy data</td><td>When accuracy is priority</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q25 — Feature Selection Methods <span class="tag tag-ml">ML</span></h3>
+    <div class="note">
+      <ul>
+        <li><strong>Filter:</strong> Correlation, Chi-square, mutual information (fast but univariate)</li>
+        <li><strong>Wrapper:</strong> Forward selection, backward elimination, RFE (expensive)</li>
+        <li><strong>Embedded:</strong> L1, tree feature importance (built into model)</li>
+        <li><strong>Multicollinearity:</strong> Check VIF > 5, drop or combine correlated features</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Case Study -->
+<section class="block" id="case">
+  <h2>Case Studies & Business Questions</h2>
+
+  <div class="question">
+    <h3>Q26 — Approach a Data Science Problem (Framework) <span class="tag tag-case">Case</span></h3>
+    <div class="note">
+      <strong>CRISP-DM Framework (Tiger loves structured thinking):</strong>
+      <ol>
+        <li><strong>Business Understanding:</strong> What's the KPI? What decision will this inform?</li>
+        <li><strong>Data Understanding:</strong> What data is available? Quality? Granularity?</li>
+        <li><strong>Data Preparation:</strong> Cleaning, feature engineering, handling missing values</li>
+        <li><strong>Modeling:</strong> Baseline → simple models → complex. Cross-validation.</li>
+        <li><strong>Evaluation:</strong> Metrics aligned with business goal (not just accuracy)</li>
+        <li><strong>Deployment:</strong> How will model be used? Monitoring? Retraining cadence?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q27 — "How would you reduce customer churn?" <span class="tag tag-case">Case</span></h3>
+    <div class="answer">
+      <ol>
+        <li>Define churn (no activity in 30 days? cancelled subscription?)</li>
+        <li>Exploratory analysis: segment by tenure, usage, demographics</li>
+        <li>Survival analysis for time-to-churn</li>
+        <li>Build predictive model: features = engagement metrics, support tickets, payment history</li>
+        <li>Model output → propensity score → target high-risk with interventions</li>
+        <li>A/B test interventions (discount, outreach, feature changes)</li>
+        <li>Track retention rate lift, CLV impact</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q28 — "Design a recommendation system" <span class="tag tag-case">Case</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>Collaborative Filtering:</strong> User-user or item-item similarity (cold start problem)</li>
+        <li><strong>Content-Based:</strong> Item features → user profile matching</li>
+        <li><strong>Hybrid:</strong> Combine both + context (time, location, device)</li>
+        <li><strong>Metrics:</strong> CTR, NDCG, MAP, diversity, coverage</li>
+        <li><strong>Pitfalls:</strong> Popularity bias, filter bubble, cold start</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Puzzles -->
+<section class="block" id="puzzles">
+  <h2>Puzzles & Brain Teasers (Tiger Loves These)</h2>
+
+  <div class="question">
+    <h3>Q29 — Water Jug Problem <span class="tag tag-puzzle">Puzzle</span></h3>
+    <p><em>Confirmed asked at Tiger Analytics (Round 2).</em></p>
+    <p><strong>Problem:</strong> Measure exactly 4 litres using a 3L and 5L jug.</p>
+    <div class="answer">
+      <ol>
+        <li>Fill 5L jug completely</li>
+        <li>Pour into 3L jug (5L jug now has 2L)</li>
+        <li>Empty 3L jug</li>
+        <li>Pour 2L from 5L into 3L jug</li>
+        <li>Fill 5L jug completely again</li>
+        <li>Pour from 5L into 3L until 3L is full (only 1L fits)</li>
+        <li><strong>5L jug now has exactly 4L</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q30 — Coin Weighing Problem <span class="tag tag-puzzle">Puzzle</span></h3>
+    <p><strong>Problem:</strong> You have 8 identical-looking coins, one is heavier. Find it in minimum weighings using a balance scale.</p>
+    <div class="answer">
+      <strong>2 weighings:</strong>
+      <ol>
+        <li>Split into groups of 3, 3, 2. Weigh the two groups of 3.</li>
+        <li>If balanced → heavy coin is in group of 2 (one more weighing).</li>
+        <li>If unbalanced → heavy coin is in heavier group of 3. Take 2 from that group and weigh them.</li>
+      </ol>
+      <em>General: n coins need ⌈log₃(n)⌉ weighings.</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q31 — Coefficient of x⁹ <span class="tag tag-puzzle">Combinatorics</span><span class="difficulty diff-hard">Hard</span></h3>
+    <p><em>Confirmed asked at Tiger Analytics.</em></p>
+    <p><strong>Problem:</strong> Find coefficient of x⁹ in (1+x)(1+x²)(1+x³)...(1+x¹⁰⁰)</p>
+    <div class="answer">
+      Find all subsets of {1, 2, 3, ..., 100} that sum to 9.<br>
+      This is equivalent to the number of partitions of 9 into distinct parts ≤ 100.<br><br>
+      Partitions of 9 into distinct parts:<br>
+      9 | 8+1 | 7+2 | 6+3 | 5+4 | 6+2+1 | 5+3+1 | 4+3+2<br><br>
+      <strong>Answer: 8</strong>
+    </div>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="block" id="tips">
+  <h2>Interview Tips & What to Expect</h2>
+
+  <div class="insight">
+    <strong>Key Patterns from Candidate Reports:</strong>
+    <ul>
+      <li>Tiger uses <strong>Codepad / HackerEarth / Imocha</strong> for coding rounds</li>
+      <li>SQL questions are medium difficulty — window functions, CTEs, aggregations</li>
+      <li>Python coding is algorithmic but not LeetCode-hard (medium at most)</li>
+      <li><strong>Probability is their signature differentiator</strong> — Bayes, conditional probability, counting problems</li>
+      <li>They value <strong>structured thinking</strong> over brute-force speed</li>
+      <li>Project deep-dives: Be ready to explain methodology, not just results</li>
+      <li>They appreciate candidates who <strong>think out loud</strong></li>
+      <li>Toronto office focuses on CPG, Retail, and Pharma analytics clients</li>
+    </ul>
+  </div>
+
+  <div class="warning">
+    <strong>Common Mistakes to Avoid:</strong>
+    <ul>
+      <li>Jumping to code without clarifying the problem</li>
+      <li>Not knowing time/space complexity of your solution</li>
+      <li>Confusing correlation with causation in case studies</li>
+      <li>Not asking what metric to optimize in ML problems</li>
+      <li>Forgetting edge cases (NULL values in SQL, empty inputs)</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <strong>Questions to Ask Them:</strong>
+    <ul>
+      <li>"What does a typical client engagement look like end-to-end?"</li>
+      <li>"How is the Toronto team structured — embedded in client teams or project-based?"</li>
+      <li>"What's the tech stack for production deployments?"</li>
+      <li>"How do you balance between quick insights and rigorous modeling?"</li>
+    </ul>
+  </div>
+
+  <table>
+    <tr><th>Prep Area</th><th>Weight at Tiger</th><th>Study Priority</th></tr>
+    <tr><td>Probability & Stats</td><td>35%</td><td style="color: #dc2626; font-weight:700;">HIGH</td></tr>
+    <tr><td>SQL</td><td>25%</td><td style="color: #d97706; font-weight:700;">HIGH</td></tr>
+    <tr><td>Python / Coding</td><td>20%</td><td style="color: #d97706; font-weight:700;">MEDIUM-HIGH</td></tr>
+    <tr><td>ML Concepts</td><td>10%</td><td style="color: var(--good); font-weight:700;">MEDIUM</td></tr>
+    <tr><td>Case / Business</td><td>10%</td><td style="color: var(--good); font-weight:700;">MEDIUM</td></tr>
+  </table>
+</section>
+
+</div>
+</body>
+</html>
