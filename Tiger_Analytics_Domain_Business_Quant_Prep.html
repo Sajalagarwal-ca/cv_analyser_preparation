@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tiger Analytics — Domain Knowledge, Business Problem Solving & Quantitative Aptitude Prep</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    --accent: #ea580c;
+    --accent-2: #f97316;
+    --accent-3: #fb923c;
+    --good: #16a34a;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --border: #e2e8f0;
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg, #fffbeb 0%, #fff7ed 50%, #fef2f2 100%);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #7c2d12 0%, #ea580c 40%, #f97316 70%, #fb923c 100%);
+    color: white;
+    padding: 48px 24px 68px;
+    text-align: center;
+    box-shadow: 0 6px 30px rgba(234,88,12,0.25);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 2.3rem; letter-spacing: -0.5px; }
+  header.hero p.sub { margin: 0; opacity: 0.95; font-size: 1.1rem; }
+  header.hero .meta { margin-top: 12px; font-size: 0.9rem; opacity: 0.8; }
+  header.hero .tags { margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  header.hero .tags span {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 5px 15px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  .container { max-width: 1020px; margin: -36px auto 64px; padding: 0 20px; }
+  nav.toc {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 22px 26px;
+    box-shadow: 0 4px 20px rgba(15,23,42,0.08);
+    margin-bottom: 32px;
+    border-top: 5px solid var(--accent);
+  }
+  nav.toc h2 { margin: 0 0 14px; font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; }
+  nav.toc ol { margin: 0; padding-left: 22px; }
+  nav.toc ol ol { margin-top: 4px; }
+  nav.toc li { margin: 5px 0; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover { text-decoration: underline; }
+  section.block {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 20px rgba(15,23,42,0.06);
+    border-left: 5px solid var(--accent);
+  }
+  section.block.strategy { border-left-color: #7c2d12; }
+  section.block.domain { border-left-color: #0284c7; }
+  section.block.business { border-left-color: #7c3aed; }
+  section.block.quant { border-left-color: #059669; }
+  section.block.resume { border-left-color: #be185d; }
+  section.block.behavioral { border-left-color: #d97706; }
+  section.block h2 {
+    margin: 0 0 18px;
+    font-size: 1.4rem;
+    color: #0f172a;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+  }
+  section.block h3 {
+    margin-top: 28px;
+    margin-bottom: 10px;
+    color: #1e293b;
+    font-size: 1.12rem;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 6px;
+  }
+  section.block h4 {
+    margin-top: 18px;
+    margin-bottom: 6px;
+    color: #334155;
+    font-size: 1rem;
+  }
+  .question { margin-bottom: 30px; }
+  .question h3 { font-size: 1.05rem; margin: 0 0 8px; color: #334155; border: none; }
+  .question h3 .tag {
+    font-size: 0.72rem;
+    padding: 2px 9px;
+    border-radius: 6px;
+    margin-left: 8px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+  .tag-domain { background: #dbeafe; color: #1d4ed8; }
+  .tag-business { background: #ede9fe; color: #5b21b6; }
+  .tag-quant { background: #d1fae5; color: #065f46; }
+  .tag-case { background: #fce7f3; color: #9d174d; }
+  .tag-guesstimate { background: #fef3c7; color: #92400e; }
+  .tag-framework { background: #ccfbf1; color: #115e59; }
+  .tag-resume { background: #fce7f3; color: #9d174d; }
+  .tag-behavioral { background: #ffedd5; color: #9a3412; }
+  .difficulty { font-size: 0.75rem; margin-left: 6px; font-weight: 700; }
+  .diff-easy { color: var(--good); }
+  .diff-med { color: var(--warn); }
+  .diff-hard { color: var(--danger); }
+  .answer {
+    background: #f0fdf4;
+    border-left: 3px solid var(--good);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  .framework-box {
+    background: #f5f3ff;
+    border-left: 3px solid #7c3aed;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  .note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    margin: 12px 0;
+  }
+  .warning {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-left: 4px solid var(--warn);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    margin: 12px 0;
+  }
+  .insight {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    margin: 12px 0;
+  }
+  .danger-box {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid var(--danger);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    margin: 12px 0;
+  }
+  .success-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid var(--good);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    margin: 12px 0;
+  }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  code { font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace; }
+  .inline-code { background: #f1f5f9; color: #be185d; padding: 2px 6px; border-radius: 4px; font-size: 0.88rem; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92rem; }
+  th, td { padding: 11px 14px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  th { background: #f8fafc; font-weight: 600; color: var(--accent); }
+  tr:nth-child(even) { background: #fff7ed; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 6px 0; }
+  blockquote {
+    margin: 14px 0;
+    padding: 16px 20px;
+    background: #f1f5f9;
+    border-left: 3px solid var(--accent-2);
+    border-radius: 8px;
+    color: #334155;
+    font-style: italic;
+  }
+  blockquote strong { color: #0f172a; font-style: normal; }
+  .round-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 3px 11px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .pill {
+    display: inline-block;
+    background: #fff7ed;
+    color: var(--accent);
+    border: 1px solid #fed7aa;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .study-plan {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    margin: 16px 0;
+  }
+  .study-plan .day {
+    background: var(--accent);
+    color: white;
+    padding: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .study-plan .content {
+    background: #fff7ed;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+  }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding: 6px 0; }
+  .checklist li::before { content: "☐ "; font-size: 1.1rem; }
+  details {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 10px 0;
+  }
+  details[open] { background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  details summary { cursor: pointer; font-weight: 600; color: #0f172a; }
+  details summary:hover { color: var(--accent); }
+  footer { text-align: center; color: var(--muted); padding: 32px; font-size: 0.88rem; }
+  @media print {
+    header.hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    section.block { break-inside: avoid; box-shadow: none; border: 1px solid var(--border); }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Tiger Analytics — Round 2 Interview Prep</h1>
+  <p class="sub">Domain Knowledge · Business Problem Solving · Quantitative Aptitude</p>
+  <p class="meta">Sajal Agarwal | Data Scientist | Toronto | August 2026</p>
+  <div class="tags">
+    <span>BFSI & Insurance Domain</span>
+    <span>CPG / Retail / Pharma</span>
+    <span>Case Studies & Guesstimates</span>
+    <span>Quantitative Aptitude</span>
+    <span>Business Frameworks</span>
+    <span>Resume Deep-Dive</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════ TABLE OF CONTENTS ═══════════════════ -->
+<nav class="toc">
+  <h2>Table of Contents — Full Interview Plan</h2>
+  <ol>
+    <li><a href="#round-context">Round Context & What to Expect</a></li>
+    <li><a href="#study-plan">5-Day Study Plan</a></li>
+    <li><a href="#domain-bfsi">Domain Knowledge — BFSI & Insurance</a></li>
+    <li><a href="#domain-cpg">Domain Knowledge — CPG, Retail & Pharma</a></li>
+    <li><a href="#domain-cloud">Domain Knowledge — Cloud & FinOps</a></li>
+    <li><a href="#business-frameworks">Business Problem Solving — Frameworks</a></li>
+    <li><a href="#case-studies">Case Studies & Guesstimates (20 Q&A)</a></li>
+    <li><a href="#quant-numbers">Quantitative Aptitude — Number Systems & Arithmetic</a></li>
+    <li><a href="#quant-algebra">Quantitative Aptitude — Algebra & Equations</a></li>
+    <li><a href="#quant-geometry">Quantitative Aptitude — Geometry & Mensuration</a></li>
+    <li><a href="#quant-probability">Quantitative Aptitude — Probability & Combinatorics</a></li>
+    <li><a href="#quant-di">Quantitative Aptitude — Data Interpretation</a></li>
+    <li><a href="#quant-logic">Quantitative Aptitude — Logical Reasoning & Puzzles</a></li>
+    <li><a href="#resume-defense">Resume Deep-Dive — Domain Q&A for Your Projects</a></li>
+    <li><a href="#behavioral">Behavioral & Culture Fit</a></li>
+    <li><a href="#questions-to-ask">Questions to Ask Them</a></li>
+    <li><a href="#pre-interview-checklist">Pre-Interview Checklist</a></li>
+  </ol>
+</nav>
+
+<!-- ═══════════════════ SECTION 1: ROUND CONTEXT ═══════════════════ -->
+<section class="block strategy" id="round-context">
+  <h2>1. Round Context — What This Interview Tests</h2>
+
+  <div class="insight">
+    <strong>You cleared the technical round.</strong> This next round shifts from "Can you code / build models?" to "Can you think like a consultant and solve business problems?"
+  </div>
+
+  <table>
+    <tr><th>Dimension</th><th>What They're Testing</th><th>Weight</th></tr>
+    <tr>
+      <td><strong>Domain Knowledge</strong></td>
+      <td>Do you understand the industries Tiger serves? Can you speak the language of BFSI, CPG, Retail, Pharma clients?</td>
+      <td style="color: var(--danger); font-weight:700;">30–35%</td>
+    </tr>
+    <tr>
+      <td><strong>Business Problem Solving</strong></td>
+      <td>Can you structure a messy problem, ask clarifying questions, build a framework, and arrive at an actionable recommendation?</td>
+      <td style="color: var(--warn); font-weight:700;">30–35%</td>
+    </tr>
+    <tr>
+      <td><strong>Quantitative Aptitude</strong></td>
+      <td>Can you do mental math, estimate quickly, work with percentages/ratios, and reason numerically under pressure?</td>
+      <td style="color: var(--good); font-weight:700;">25–30%</td>
+    </tr>
+    <tr>
+      <td><strong>Communication & Fit</strong></td>
+      <td>Structured thinking, clarity, consulting mindset</td>
+      <td style="font-weight:600;">10%</td>
+    </tr>
+  </table>
+
+  <div class="warning">
+    <strong>Key Difference from Technical Round:</strong> This round has NO coding. It's about <strong>structured thinking</strong>, <strong>business acumen</strong>, and <strong>numerical fluency</strong>. Think consulting interview, not coding interview.
+  </div>
+
+  <h3>Tiger Analytics Client Focus (Toronto Office)</h3>
+  <table>
+    <tr><th>Industry</th><th>Typical Problems</th><th>Your Relevant Experience</th></tr>
+    <tr><td>CPG / FMCG</td><td>Demand forecasting, trade promotion, price elasticity, shelf optimization</td><td>WNS — FMCG analytics, Nielsen/IRI data</td></tr>
+    <tr><td>Retail</td><td>Customer segmentation, churn, recommendation, inventory optimization</td><td>GMR Airport retail analytics, INR 2M revenue campaigns</td></tr>
+    <tr><td>Pharma / Healthcare</td><td>Patient journey, clinical trial optimization, drug demand forecasting</td><td>WNS Healthcare analytics, Insurance premium prediction</td></tr>
+    <tr><td>BFSI / Insurance</td><td>Credit risk, fraud detection, claims optimization, pricing</td><td><strong>Core strength:</strong> Manulife — credit risk, fraud, insurance pricing</td></tr>
+    <tr><td>Supply Chain</td><td>Network optimization, logistics, demand sensing</td><td>Tata Steel — production optimization</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════ SECTION 2: 5-DAY STUDY PLAN ═══════════════════ -->
+<section class="block strategy" id="study-plan">
+  <h2>2. The 5-Day Study Plan</h2>
+
+  <div class="study-plan">
+    <div class="day">Day 1</div>
+    <div class="content">
+      <strong>Domain Knowledge Deep-Dive</strong><br>
+      • Read Sections 3–5 (BFSI, CPG, Cloud domains)<br>
+      • Memorize 5 key KPIs per industry<br>
+      • Practice explaining your projects in domain language, not technical jargon<br>
+      • <em>Evening:</em> Read 2–3 Tiger Analytics case studies from their website
+    </div>
+    <div class="day">Day 2</div>
+    <div class="content">
+      <strong>Business Frameworks & Case Studies</strong><br>
+      • Master MECE, Issue Tree, Profitability, and Market Sizing frameworks (Section 6)<br>
+      • Solve 5 case studies aloud from Section 7<br>
+      • Practice guesstimates (market sizing) with timer — 3 min per problem<br>
+      • <em>Evening:</em> Do 3 guesstimates from memory
+    </div>
+    <div class="day">Day 3</div>
+    <div class="content">
+      <strong>Quantitative Aptitude — Core Math</strong><br>
+      • Work through Sections 8–10 (Numbers, Algebra, Geometry)<br>
+      • Practice 20 rapid-fire percentage/ratio problems<br>
+      • Focus on mental math speed — no calculator<br>
+      • <em>Evening:</em> Time yourself on 10 problems (2 min each)
+    </div>
+    <div class="day">Day 4</div>
+    <div class="content">
+      <strong>Probability, DI & Logic</strong><br>
+      • Review Sections 11–13 (Probability, Data Interpretation, Logic)<br>
+      • Solve all puzzle problems in Section 13<br>
+      • Practice reading charts and extracting insights quickly<br>
+      • <em>Evening:</em> Mock — solve 15 mixed quant problems in 30 min
+    </div>
+    <div class="day">Day 5</div>
+    <div class="content">
+      <strong>Resume Defense & Mock Interview</strong><br>
+      • Rehearse Section 14 (Resume Domain Q&A) aloud<br>
+      • Do a full mock interview: 10 min domain + 15 min case study + 15 min quant<br>
+      • Review Section 15 (Behavioral) and prepare 3 STAR stories for domain context<br>
+      • <em>Evening:</em> Read the pre-interview checklist. Sleep early.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 3: DOMAIN — BFSI ═══════════════════ -->
+<section class="block domain" id="domain-bfsi">
+  <h2>3. Domain Knowledge — BFSI & Insurance</h2>
+
+  <div class="note">
+    <strong>This is YOUR strongest domain.</strong> Tiger clients include banks, insurers, and financial services firms. Your Manulife experience gives you an edge — leverage it.
+  </div>
+
+  <h3>3.1 Key Concepts You Must Know Cold</h3>
+
+  <div class="question">
+    <h3>Q1 — What is Credit Risk and how is it measured? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>Credit risk</strong> is the risk that a borrower fails to repay a loan or meet contractual obligations.<br><br>
+      <strong>Key metrics:</strong>
+      <ul>
+        <li><strong>PD (Probability of Default):</strong> Likelihood a borrower defaults within a time horizon (typically 12 months or lifetime)</li>
+        <li><strong>LGD (Loss Given Default):</strong> Percentage of exposure lost if default occurs (1 − recovery rate)</li>
+        <li><strong>EAD (Exposure at Default):</strong> Total amount exposed at time of default</li>
+        <li><strong>ECL (Expected Credit Loss):</strong> ECL = PD × LGD × EAD — the provisioning amount under IFRS 9</li>
+      </ul>
+      <strong>Your anchor:</strong> <em>"At Manulife, I built a dual-output XGBoost model estimating PD and LGD simultaneously, computing ECL at the borrower level for IFRS 9-aligned risk reporting."</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q2 — Explain IFRS 9 staging for impairment <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>IFRS 9</strong> requires classifying financial assets into three stages:
+      <table>
+        <tr><th>Stage</th><th>Condition</th><th>ECL Calculation</th></tr>
+        <tr><td>Stage 1</td><td>No significant increase in credit risk since origination</td><td>12-month ECL</td></tr>
+        <tr><td>Stage 2</td><td>Significant increase in credit risk (e.g., 30+ DPD)</td><td>Lifetime ECL</td></tr>
+        <tr><td>Stage 3</td><td>Credit-impaired / defaulted (90+ DPD)</td><td>Lifetime ECL (interest on net)</td></tr>
+      </table>
+      <strong>Why it matters:</strong> Models must distinguish between stages to calculate correct provisions. Migration between stages directly impacts P&L.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q3 — What is Basel III and its relevance to data science? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>Basel III</strong> is a global regulatory framework for bank capital adequacy, stress testing, and market liquidity risk.<br><br>
+      <strong>Data Science connections:</strong>
+      <ul>
+        <li><strong>Internal Ratings-Based (IRB) approach:</strong> Banks build internal PD/LGD/EAD models — exactly what you built</li>
+        <li><strong>Stress testing:</strong> Scenario-based models predicting portfolio losses under adverse economic conditions</li>
+        <li><strong>Capital adequacy:</strong> Risk-weighted assets determine minimum capital requirements — driven by credit risk models</li>
+        <li><strong>Model validation:</strong> Requires rigorous backtesting (discrimination: AUC/KS, calibration: Hosmer-Lemeshow)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q4 — What are key fraud detection patterns in insurance? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>Common fraud patterns:</strong>
+      <ul>
+        <li><strong>Staged accidents:</strong> Unusually high claim frequency from same claimant or provider network</li>
+        <li><strong>Inflated claims:</strong> Claim amount significantly above median for similar claim types</li>
+        <li><strong>Identity fraud:</strong> Mismatched personal details, short policy tenure before claim</li>
+        <li><strong>Provider collusion:</strong> Network analysis reveals clusters of providers with abnormally high claim rates</li>
+      </ul>
+      <strong>Your anchor:</strong> <em>"My fraud detection model identified FICO score, DTI ratio, and loan purpose as top indicators — similar network/behavioral signals apply in insurance claims."</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q5 — Explain insurance pricing / actuarial concepts <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>Key terms:</strong>
+      <ul>
+        <li><strong>Pure Premium:</strong> Expected claim cost per policy (frequency × severity)</li>
+        <li><strong>Gross Premium:</strong> Pure premium + expense loading + profit margin</li>
+        <li><strong>Loss Ratio:</strong> Claims paid / premiums earned (target: 60–70%)</li>
+        <li><strong>Combined Ratio:</strong> Loss ratio + expense ratio (< 100% = underwriting profit)</li>
+        <li><strong>Adverse Selection:</strong> High-risk individuals more likely to buy insurance</li>
+        <li><strong>Moral Hazard:</strong> Insured parties take more risk because they're covered</li>
+      </ul>
+      <strong>Your anchor:</strong> <em>"My XGBoost premium prediction model used age, medical history, lifestyle, and demographics — with SHAP-based explainability so underwriters could understand pricing drivers."</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q6 — What is AML / KYC and how does data science help? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>AML (Anti-Money Laundering):</strong> ML models detect suspicious transaction patterns (structuring, layering, round-tripping)</li>
+        <li><strong>KYC (Know Your Customer):</strong> Identity verification, risk scoring of customers at onboarding</li>
+        <li><strong>Transaction monitoring:</strong> Rule-based + ML-based systems flag anomalies in real-time</li>
+        <li><strong>SAR (Suspicious Activity Report):</strong> Automated flagging reduces manual review burden</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3.2 BFSI KPIs You Must Memorize</h3>
+  <table>
+    <tr><th>KPI</th><th>Formula / Definition</th><th>Good Range</th></tr>
+    <tr><td>NPA Ratio</td><td>Non-Performing Assets / Total Loans</td><td>< 3% (excellent)</td></tr>
+    <tr><td>NIM (Net Interest Margin)</td><td>(Interest Income − Interest Expense) / Avg Earning Assets</td><td>2.5–3.5%</td></tr>
+    <tr><td>ROE (Return on Equity)</td><td>Net Income / Shareholder Equity</td><td>10–15%</td></tr>
+    <tr><td>Cost-to-Income Ratio</td><td>Operating Expenses / Operating Income</td><td>40–55%</td></tr>
+    <tr><td>Loss Ratio (Insurance)</td><td>Claims Paid / Premiums Earned</td><td>60–70%</td></tr>
+    <tr><td>Combined Ratio</td><td>Loss Ratio + Expense Ratio</td><td>< 100%</td></tr>
+    <tr><td>Solvency Ratio</td><td>Available Capital / Required Capital</td><td>> 150%</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════ SECTION 4: DOMAIN — CPG/RETAIL/PHARMA ═══════════════════ -->
+<section class="block domain" id="domain-cpg">
+  <h2>4. Domain Knowledge — CPG, Retail & Pharma</h2>
+
+  <div class="warning">
+    <strong>Tiger Analytics Toronto focuses heavily on CPG & Retail clients.</strong> Even though your core is BFSI, you must speak this language fluently.
+  </div>
+
+  <h3>4.1 CPG / FMCG Domain</h3>
+
+  <div class="question">
+    <h3>Q7 — What is Trade Promotion Optimization (TPO)? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      Trade promotions (discounts, BOGO, displays) consume <strong>15–20% of CPG revenue</strong> but ~60% fail to break even.<br><br>
+      <strong>TPO uses analytics to:</strong>
+      <ul>
+        <li>Predict <strong>incremental lift</strong> from each promotion type</li>
+        <li>Optimize promotion <strong>timing, depth, and vehicle</strong> (price cut vs. display vs. feature ad)</li>
+        <li>Separate <strong>baseline sales</strong> from <strong>incremental sales</strong> (decomposition)</li>
+        <li>Measure <strong>cannibalization</strong> (promotion steals from non-promoted SKUs) and <strong>halo effect</strong> (boosts related products)</li>
+      </ul>
+      <strong>Your anchor:</strong> <em>"At WNS, I analyzed IMS/Nielsen data to identify high-growth product segments — similar decomposition logic applies to trade promotion lift measurement."</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q8 — What is Price Elasticity and how is it used? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>Price Elasticity of Demand (PED) = % Change in Quantity / % Change in Price</strong><br><br>
+      <ul>
+        <li><strong>Elastic (|PED| > 1):</strong> Small price change → big demand change (luxury goods, competitive products)</li>
+        <li><strong>Inelastic (|PED| < 1):</strong> Demand barely changes with price (necessities, brand-loyal products)</li>
+        <li><strong>Cross-price elasticity:</strong> How competitor pricing affects your demand</li>
+      </ul>
+      <strong>Application:</strong> CPG companies use price elasticity models to set optimal price points that maximize revenue or margin, not just volume.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q9 — Explain Demand Forecasting in CPG <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>Baseline forecast:</strong> Historical demand adjusted for trend and seasonality</li>
+        <li><strong>Promotional uplift:</strong> Incremental demand from planned promotions</li>
+        <li><strong>Causal factors:</strong> Weather, holidays, competitor actions, economic indicators</li>
+        <li><strong>Granularity:</strong> SKU × Store × Week level for execution</li>
+        <li><strong>Methods:</strong> ARIMA, Prophet, Gradient Boosting, or hybrid approaches</li>
+        <li><strong>Key metric:</strong> WMAPE (Weighted Mean Absolute Percentage Error) — standard in CPG</li>
+      </ul>
+      <strong>Your anchor:</strong> <em>"My Prophet-based forecasting at Manulife operated at cost-center × daily granularity — the same decomposition approach (trend + seasonality + holidays) directly transfers to CPG demand forecasting at SKU × week level."</em>
+    </div>
+  </div>
+
+  <h3>4.2 Retail Domain</h3>
+
+  <div class="question">
+    <h3>Q10 — What is RFM Analysis? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>RFM = Recency, Frequency, Monetary</strong> — a customer segmentation technique:
+      <ul>
+        <li><strong>Recency:</strong> How recently did the customer purchase? (lower = better)</li>
+        <li><strong>Frequency:</strong> How often do they purchase? (higher = better)</li>
+        <li><strong>Monetary:</strong> How much do they spend? (higher = better)</li>
+      </ul>
+      Segment customers into tiers (Champions, Loyal, At Risk, Lost) to tailor marketing strategies. Each customer gets scored 1–5 on each dimension.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q11 — What is Customer Lifetime Value (CLV)? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>CLV = Average Order Value × Purchase Frequency × Customer Lifespan</strong><br><br>
+      More sophisticated: <strong>CLV = Σ (Margin_t / (1+d)^t)</strong> — discounted future margins over predicted lifetime.<br><br>
+      <strong>Why it matters:</strong> CAC (Customer Acquisition Cost) must be < CLV for a sustainable business. CLV/CAC ratio of 3:1 is a common benchmark.
+    </div>
+  </div>
+
+  <h3>4.3 Pharma Domain</h3>
+
+  <div class="question">
+    <h3>Q12 — What is Patient Journey Analytics? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      Maps the entire patient experience from symptom onset → diagnosis → treatment → adherence → outcome:
+      <ul>
+        <li><strong>Time-to-diagnosis:</strong> Identifying bottlenecks in referral pathways</li>
+        <li><strong>Treatment switching:</strong> Why patients move between therapies</li>
+        <li><strong>Adherence prediction:</strong> ML models predicting which patients will drop off medication</li>
+        <li><strong>Real-world evidence (RWE):</strong> Using claims data and EHR data for post-market drug effectiveness</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>4.4 Key CPG/Retail KPIs</h3>
+  <table>
+    <tr><th>KPI</th><th>Formula / Definition</th><th>Context</th></tr>
+    <tr><td>Same-Store Sales Growth</td><td>Revenue growth excluding new stores</td><td>True organic growth metric</td></tr>
+    <tr><td>Basket Size</td><td>Avg items per transaction</td><td>Cross-sell effectiveness</td></tr>
+    <tr><td>Sell-Through Rate</td><td>Units Sold / Units Received</td><td>Inventory efficiency</td></tr>
+    <tr><td>GMROI</td><td>Gross Margin / Avg Inventory Cost</td><td>Return on inventory investment</td></tr>
+    <tr><td>Stockout Rate</td><td>SKUs unavailable / Total SKUs</td><td>Supply chain health</td></tr>
+    <tr><td>Share of Shelf</td><td>Your facings / Total category facings</td><td>Retail execution metric</td></tr>
+    <tr><td>Distribution (ACV)</td><td>% of stores carrying your product weighted by store volume</td><td>Market penetration</td></tr>
+    <tr><td>Market Share</td><td>Your sales / Total category sales</td><td>Competitive position</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════ SECTION 5: DOMAIN — CLOUD ═══════════════════ -->
+<section class="block domain" id="domain-cloud">
+  <h2>5. Domain Knowledge — Cloud & FinOps</h2>
+
+  <div class="question">
+    <h3>Q13 — What is FinOps and why does it matter? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>FinOps (Cloud Financial Operations)</strong> is a cultural practice that brings financial accountability to cloud spending.
+      <ul>
+        <li><strong>Inform:</strong> Visibility into who's spending what (showback/chargeback)</li>
+        <li><strong>Optimize:</strong> Right-sizing, reserved instances, spot instances, anomaly detection</li>
+        <li><strong>Operate:</strong> Continuous governance, budgets, alerts, automation</li>
+      </ul>
+      <strong>Your anchor:</strong> <em>"My entire Manulife flagship project IS FinOps — I built the Inform layer (Grafana dashboards), the Optimize layer (Prophet anomaly detection), and the Operate layer (automated alerts via Azure Functions)."</em>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q14 — What is anomaly detection and how did you approach it? <span class="tag tag-domain">Domain</span></h3>
+    <div class="answer">
+      <strong>Anomaly detection</strong> identifies data points that deviate significantly from expected patterns.<br><br>
+      <strong>Approaches:</strong>
+      <ul>
+        <li><strong>Statistical:</strong> Z-score, IQR, Grubbs test — for univariate, static thresholds</li>
+        <li><strong>Time-series:</strong> Prophet forecast bands, ARIMA residuals, exponential smoothing — for temporal patterns</li>
+        <li><strong>ML-based:</strong> Isolation Forest, Autoencoders, DBSCAN — for multivariate, complex patterns</li>
+      </ul>
+      <strong>Your approach:</strong> Prophet with 95% confidence interval (yhat_upper), 2-consecutive-day rule to reduce false positives, per-cost-center granularity.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 6: BUSINESS FRAMEWORKS ═══════════════════ -->
+<section class="block business" id="business-frameworks">
+  <h2>6. Business Problem Solving — Frameworks</h2>
+
+  <div class="insight">
+    <strong>Tiger Analytics is a consulting firm.</strong> They expect you to approach problems like a consultant: clarify → structure → hypothesize → analyze → recommend. NEVER jump to a solution.
+  </div>
+
+  <h3>6.1 The MECE Framework</h3>
+  <div class="framework-box">
+    <strong>MECE = Mutually Exclusive, Collectively Exhaustive</strong><br><br>
+    Every breakdown of a problem must be:
+    <ul>
+      <li><strong>Mutually Exclusive:</strong> No overlap between categories</li>
+      <li><strong>Collectively Exhaustive:</strong> All possibilities covered</li>
+    </ul>
+    <strong>Example:</strong> Revenue decline analysis → MECE split:
+    <ul>
+      <li>Revenue = Price × Volume</li>
+      <li>Volume = New Customers × Orders/Customer × Items/Order</li>
+      <li>Or: Revenue = Online + Offline → (by channel, by region, by product)</li>
+    </ul>
+  </div>
+
+  <h3>6.2 Issue Tree Framework</h3>
+  <div class="framework-box">
+    Break any problem into sub-problems recursively:
+    <pre style="background: #f5f3ff; color: #1e293b; font-size: 0.85rem;">
+Profit Declining?
+├── Revenue declining?
+│   ├── Price decreased?
+│   │   ├── Competitive pressure?
+│   │   └── Promotional overspend?
+│   └── Volume decreased?
+│       ├── Fewer customers?
+│       ├── Lower frequency?
+│       └── Smaller basket size?
+└── Costs increasing?
+    ├── COGS rising? (input costs, supplier issues)
+    ├── Opex rising? (headcount, rent, marketing)
+    └── One-time charges?
+    </pre>
+  </div>
+
+  <h3>6.3 Market Sizing / Guesstimate Framework</h3>
+  <div class="framework-box">
+    <strong>Top-Down approach:</strong>
+    <ol>
+      <li>Start with a large known number (population, total market)</li>
+      <li>Apply progressive filters to narrow down</li>
+      <li>Multiply by a per-unit value</li>
+    </ol>
+    <strong>Bottom-Up approach:</strong>
+    <ol>
+      <li>Start from a single unit (one store, one customer)</li>
+      <li>Estimate unit economics</li>
+      <li>Scale up to total market</li>
+    </ol>
+    <strong>Always:</strong> State assumptions, round numbers, sanity-check the final answer.
+  </div>
+
+  <h3>6.4 The Analytics Problem Solving Framework (CRISP-DM)</h3>
+  <div class="framework-box">
+    <ol>
+      <li><strong>Business Understanding:</strong> What decision will this inform? What's the KPI?</li>
+      <li><strong>Data Understanding:</strong> What data exists? Quality? Granularity? Freshness?</li>
+      <li><strong>Data Preparation:</strong> Cleaning, feature engineering, handling missing values</li>
+      <li><strong>Modeling:</strong> Start simple (logistic regression) → graduate to complex (XGBoost). Cross-validate.</li>
+      <li><strong>Evaluation:</strong> Business-aligned metrics, not just accuracy. ROI quantification.</li>
+      <li><strong>Deployment:</strong> How will stakeholders use it? Monitoring? Retraining cadence?</li>
+    </ol>
+  </div>
+
+  <h3>6.5 Hypothesis-Driven Approach</h3>
+  <div class="framework-box">
+    Instead of "let me explore the data," lead with:
+    <ol>
+      <li><strong>State a hypothesis:</strong> "I believe churn is driven by poor onboarding experience in the first 30 days."</li>
+      <li><strong>Define what data would confirm/refute it:</strong> "I'd look at feature usage in weeks 1–4 vs. churn at day 90."</li>
+      <li><strong>Analyze and revise:</strong> Present findings and update hypothesis.</li>
+    </ol>
+    <strong>Why Tiger loves this:</strong> Consulting clients pay for speed and direction. Exploratory analysis without hypotheses wastes budget.
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 7: CASE STUDIES & GUESSTIMATES ═══════════════════ -->
+<section class="block business" id="case-studies">
+  <h2>7. Case Studies & Guesstimates (20 Q&A)</h2>
+
+  <h3>7.1 Case Studies</h3>
+
+  <div class="question">
+    <h3>Q15 — A CPG company's market share dropped 3% in 6 months. Diagnose. <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Step 1 — Clarify:</strong> Which product/category? Which market/region? What data is available?<br><br>
+      <strong>Step 2 — Structure (MECE):</strong>
+      <ul>
+        <li><strong>Internal factors:</strong>
+          <ul>
+            <li>Product issues: quality, formulation change, packaging</li>
+            <li>Pricing: recent price increase vs. competitor holds</li>
+            <li>Distribution: lost shelf space, fewer stores carrying product</li>
+            <li>Promotion: reduced trade spend or ineffective campaigns</li>
+          </ul>
+        </li>
+        <li><strong>External factors:</strong>
+          <ul>
+            <li>Competitive entry: new competitor or aggressive pricing from existing</li>
+            <li>Category dynamics: is the entire category shrinking?</li>
+            <li>Consumer trends: shift to premium/value/organic/private label</li>
+          </ul>
+        </li>
+      </ul>
+      <strong>Step 3 — Prioritize:</strong> Check distribution (ACV) and competitive pricing first — these explain most CPG share shifts.<br>
+      <strong>Step 4 — Recommend:</strong> If distribution loss → retailer negotiation + trade incentives. If pricing → elasticity analysis to find optimal price point.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q16 — An e-commerce company sees conversion rate drop from 3.2% to 2.1%. What do you investigate? <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Decompose the funnel:</strong>
+      <ol>
+        <li>Traffic source mix change? (Organic vs. paid — paid often has lower intent)</li>
+        <li>Device mix? (Mobile conversion is typically 50% lower than desktop)</li>
+        <li>Landing page performance? (Bounce rate change?)</li>
+        <li>Product page → Cart (add-to-cart rate dropped?)</li>
+        <li>Cart → Checkout (cart abandonment increased?)</li>
+        <li>Checkout → Purchase (payment failures? UX change? new friction?)</li>
+      </ol>
+      <strong>Data I'd request:</strong> Conversion by device, by traffic source, by product category, over time (was it sudden or gradual?)<br>
+      <strong>Sudden drop =</strong> technical issue (checkout bug, page load time)<br>
+      <strong>Gradual decline =</strong> market/competitive/pricing issue
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q17 — A bank wants to reduce loan default rates. Design an analytics solution. <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <ol>
+        <li><strong>Business goal:</strong> Reduce defaults by X% while maintaining loan approval volume</li>
+        <li><strong>Data:</strong> Borrower demographics, credit bureau data, income, employment, loan characteristics, payment history</li>
+        <li><strong>Feature engineering:</strong> DTI ratio, payment-to-income ratio, bureau utilization, months-since-last-delinquency</li>
+        <li><strong>Model:</strong> XGBoost for PD prediction (your proven approach), calibrated probabilities</li>
+        <li><strong>Deployment:</strong> Risk scorecard integrated into loan origination system, decision threshold based on bank's risk appetite</li>
+        <li><strong>Monitoring:</strong> PSI (Population Stability Index) for input drift, KS/AUC tracking monthly</li>
+        <li><strong>Business impact:</strong> Every 1% reduction in default rate ≈ $X million in avoided losses (quantify!)</li>
+      </ol>
+      <strong>Your anchor:</strong> Reference your credit risk project directly.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q18 — A pharma company wants to predict which patients will stop taking their medication. How would you approach this? <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <ol>
+        <li><strong>Define non-adherence:</strong> No refill within X days of expected refill date (e.g., MPR < 80%)</li>
+        <li><strong>Data sources:</strong> Claims/pharmacy data, demographics, comorbidities, drug complexity, prior adherence history</li>
+        <li><strong>Key features:</strong> Number of concurrent medications, out-of-pocket cost, days since last refill, prescriber specialty, first-time vs. chronic patient</li>
+        <li><strong>Model:</strong> Survival analysis (time-to-discontinuation) or classification (adherent vs. non-adherent at 6 months)</li>
+        <li><strong>Intervention:</strong> Score patients at fill time → high-risk patients get proactive outreach (reminder calls, nurse support, simplified dosing)</li>
+        <li><strong>Metric:</strong> Proportion of days covered (PDC), impact on health outcomes</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q19 — How would you measure the ROI of a loyalty program for a retail chain? <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>ROI = (Incremental Revenue − Program Cost) / Program Cost</strong><br><br>
+      <strong>Measuring incrementality:</strong>
+      <ul>
+        <li>Compare loyalty members vs. matched control group (propensity score matching)</li>
+        <li>Measure: purchase frequency lift, basket size lift, retention rate improvement</li>
+        <li>Account for <strong>self-selection bias</strong> — loyal customers would have spent anyway</li>
+        <li>Use <strong>difference-in-differences</strong> or <strong>instrumental variables</strong> for causal estimates</li>
+      </ul>
+      <strong>Costs:</strong> Reward payouts + technology + marketing + staff training<br>
+      <strong>Hidden benefits:</strong> First-party data collection, personalization capability, competitive switching cost
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q20 — A company's customer churn rate spiked from 8% to 14% this quarter. Walk me through your analysis. <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <ol>
+        <li><strong>Clarify churn definition:</strong> Voluntary or involuntary? Subscription cancel or inactivity?</li>
+        <li><strong>Segment the spike:</strong> By tenure (new vs. existing), by product, by acquisition channel, by geography</li>
+        <li><strong>Timeline:</strong> Was the spike sudden (event-driven) or gradual (trend)?</li>
+        <li><strong>Hypotheses:</strong>
+          <ul>
+            <li>Pricing change? (check if churn correlates with price increase date)</li>
+            <li>Product/service degradation? (check support tickets, NPS scores)</li>
+            <li>Competitive move? (new entrant, competitor promotion)</li>
+            <li>Seasonal? (compare to same quarter prior year)</li>
+            <li>Cohort-specific? (batch of poorly qualified customers from a campaign)</li>
+          </ul>
+        </li>
+        <li><strong>Analysis:</strong> Survival curves by cohort, feature importance from churn prediction model</li>
+        <li><strong>Recommendation:</strong> Targeted retention for high-value at-risk customers, root-cause fix for the driver</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>7.2 Guesstimates / Market Sizing</h3>
+
+  <div class="question">
+    <h3>Q21 — How many gas stations are there in Canada? <span class="tag tag-guesstimate">Guesstimate</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Approach (top-down):</strong>
+      <ul>
+        <li>Canada population: ~40 million</li>
+        <li>~30 million adults, ~75% drive → ~22 million drivers</li>
+        <li>Average driver fills up every 10 days → 2.2M fill-ups/day</li>
+        <li>Each gas station serves ~200 cars/day (8 pumps × 25 cars each)</li>
+        <li>Stations needed: 2.2M / 200 = <strong>~11,000 gas stations</strong></li>
+      </ul>
+      <strong>Sanity check:</strong> Actual number is ~12,000. Our estimate is in the right ballpark.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q22 — Estimate the annual revenue of Tim Hortons in Canada <span class="tag tag-guesstimate">Guesstimate</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Bottom-up approach:</strong>
+      <ul>
+        <li>Tim Hortons locations in Canada: ~4,000</li>
+        <li>Operating hours: ~18 hours/day</li>
+        <li>Customers per hour: ~40 (average, including slow hours)</li>
+        <li>Customers/day/store: 40 × 18 = 720</li>
+        <li>Average ticket: ~$5.50 (coffee + donut/sandwich)</li>
+        <li>Daily revenue per store: 720 × $5.50 = ~$3,960</li>
+        <li>Annual per store: $3,960 × 365 = ~$1.45M</li>
+        <li>Total: 4,000 × $1.45M = <strong>~$5.8 billion</strong></li>
+      </ul>
+      <strong>Sanity check:</strong> Actual ~$6B. Good estimate.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q23 — How many data scientists work in Toronto? <span class="tag tag-guesstimate">Guesstimate</span><span class="difficulty diff-easy">Easy</span></h3>
+    <div class="answer">
+      <ul>
+        <li>GTA population: ~7 million</li>
+        <li>Working age (employed): ~3.5 million</li>
+        <li>Tech/analytics-adjacent workforce: ~15% → 525,000</li>
+        <li>Of those, data science roles: ~2% → ~10,500</li>
+        <li>Adjust for Toronto being a tech hub (banks, consulting, startups): bump up ~20%</li>
+        <li>Estimate: <strong>~12,000–13,000 data scientists in the GTA</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q24 — A retailer is considering adding self-checkout kiosks. Should they? Frame the analysis. <span class="tag tag-case">Case</span><span class="difficulty diff-hard">Hard</span></h3>
+    <div class="answer">
+      <strong>Framework — Cost-Benefit Analysis:</strong><br><br>
+      <strong>Benefits:</strong>
+      <ul>
+        <li>Labor savings: Each kiosk replaces 0.5–0.7 FTE cashier</li>
+        <li>Throughput: Faster checkout → shorter lines → higher customer satisfaction</li>
+        <li>Peak handling: Can flex capacity without hiring seasonal staff</li>
+      </ul>
+      <strong>Costs:</strong>
+      <ul>
+        <li>Capital: $25K–$50K per kiosk + installation</li>
+        <li>Maintenance: ~$3K–5K/year per kiosk</li>
+        <li>Shrinkage increase: Self-checkout has 2–4× higher theft rate</li>
+        <li>Customer experience risk: Some demographics prefer human interaction</li>
+      </ul>
+      <strong>Analysis approach:</strong>
+      <ul>
+        <li>Pilot in 5–10 stores, measure: checkout time, shrinkage delta, customer satisfaction (NPS), labor hours saved</li>
+        <li>Calculate payback period per kiosk</li>
+        <li>A/B test: stores with vs. without self-checkout</li>
+      </ul>
+      <strong>Recommendation framework:</strong> Proceed if payback < 18 months AND shrinkage increase < labor savings.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q25 — How would you use data science to improve hospital bed utilization? <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <ol>
+        <li><strong>Predict patient length of stay (LOS):</strong> Features: diagnosis, age, comorbidities, admission source. Model: Gradient Boosting regression.</li>
+        <li><strong>Demand forecasting:</strong> Predict daily admissions by department (ER, surgical, maternity) using time-series</li>
+        <li><strong>Discharge prediction:</strong> Flag patients likely ready for discharge within 24 hours → proactive discharge planning</li>
+        <li><strong>Capacity simulation:</strong> Discrete event simulation to test "what if" staffing and bed allocation scenarios</li>
+        <li><strong>KPIs:</strong> Bed occupancy rate (target: 85%), average LOS, ER boarding time, readmission rate within 30 days</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q26 — A food delivery company wants to reduce delivery time. How would you approach this? <span class="tag tag-case">Case</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Decompose delivery time:</strong> Order Time = Order Placement → Kitchen Confirmation + Food Prep + Driver Assignment + Pickup Wait + Travel Time<br><br>
+      <strong>Analytics solutions per component:</strong>
+      <ul>
+        <li><strong>Food prep:</strong> Predict prep time by restaurant/cuisine → set realistic ETAs and batch orders</li>
+        <li><strong>Driver assignment:</strong> Optimize matching (nearest available driver considering direction, load)</li>
+        <li><strong>Route optimization:</strong> Real-time routing with traffic, multi-drop optimization for batched orders</li>
+        <li><strong>Demand prediction:</strong> Pre-position drivers in high-demand zones before peak hours</li>
+        <li><strong>Ghost kitchens:</strong> Use delivery data to identify underserved zones → recommend kitchen locations</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>7.3 Quick Framework Reference for Common Cases</h3>
+  <table>
+    <tr><th>Case Type</th><th>Framework</th><th>First Question to Ask</th></tr>
+    <tr><td>Revenue decline</td><td>Revenue = Price × Volume → MECE decomposition</td><td>"Is this across all products/regions or specific segments?"</td></tr>
+    <tr><td>Profitability</td><td>Profit = Revenue − Costs → Issue tree</td><td>"Is revenue declining or costs increasing, or both?"</td></tr>
+    <tr><td>Market entry</td><td>Market size → Competition → Capabilities → Economics</td><td>"What's the target market size and our right to win?"</td></tr>
+    <tr><td>Customer churn</td><td>Segment → Hypothesize → Predict → Intervene → Measure</td><td>"How is churn defined and what's the baseline rate?"</td></tr>
+    <tr><td>Pricing</td><td>Value-based vs. Cost-plus → Elasticity → Competitive</td><td>"What's the pricing objective — margin or volume?"</td></tr>
+    <tr><td>Guesstimate</td><td>Top-down OR Bottom-up → Assumptions → Math → Sanity check</td><td>"Let me break this into components..."</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════ SECTION 8: QUANT — NUMBERS ═══════════════════ -->
+<section class="block quant" id="quant-numbers">
+  <h2>8. Quantitative Aptitude — Number Systems & Arithmetic</h2>
+
+  <div class="note">
+    <strong>Speed is key.</strong> Tiger's aptitude section is timed. Practice mental math — no calculator allowed.
+  </div>
+
+  <div class="question">
+    <h3>Q27 — Percentage shortcuts <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>x% of y = y% of x</strong> (e.g., 8% of 50 = 50% of 8 = 4)</li>
+        <li><strong>Successive % change:</strong> a% then b% → Net = a + b + (ab/100). E.g., 20% increase then 20% decrease = 20 + (−20) + (20×(−20)/100) = −4% (NOT zero!)</li>
+        <li><strong>Quick 15%:</strong> 10% + 5% (half of 10%)</li>
+        <li><strong>Percentage change:</strong> (New − Old) / Old × 100</li>
+        <li><strong>If A is 25% more than B, then B is 20% less than A</strong> (not 25% less!)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q28 — Profit & Loss <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>Profit% = (SP − CP) / CP × 100</strong></li>
+        <li><strong>If CP = 80, SP = 100:</strong> Profit% = 25%, NOT 20%</li>
+        <li><strong>Discount:</strong> SP = MP × (1 − Discount%)</li>
+        <li><strong>Two successive discounts of 20% and 10%:</strong> Effective = 1 − (0.8 × 0.9) = 1 − 0.72 = 28% (NOT 30%)</li>
+      </ul>
+      <strong>Practice Problem:</strong> An article marked at $500 is sold at two successive discounts of 20% and 10%. Find the selling price.<br>
+      <strong>Answer:</strong> 500 × 0.8 × 0.9 = $360
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q29 — Ratio & Proportion <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>If A:B = 3:4 and B:C = 5:6</strong> → A:B:C = 15:20:24 (make B common)</li>
+        <li><strong>Mixture problems:</strong> Use alligation rule: (Cheaper − Mean) / (Mean − Dearer) = Quantity of Dearer / Quantity of Cheaper</li>
+      </ul>
+      <strong>Practice:</strong> Mix milk at $40/L and water at $0/L to get mixture at $32/L. What's the ratio?<br>
+      <strong>Answer:</strong> (0 − 32)/(32 − 40) = 32/8 = 4:1 → Milk:Water = 4:1
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q30 — Time, Speed & Distance <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>Average speed for equal distances:</strong> 2ab/(a+b), NOT (a+b)/2</li>
+        <li>Example: 60 km at 30 km/h and 60 km at 60 km/h → Avg speed = 2×30×60/(30+60) = 3600/90 = <strong>40 km/h</strong></li>
+        <li><strong>Relative speed:</strong> Same direction = |a−b|, Opposite direction = a+b</li>
+        <li><strong>Trains crossing:</strong> Total distance = sum of lengths, speed = relative speed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q31 — Work & Time <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>If A does work in 10 days, B in 15 days:</strong> Combined rate = 1/10 + 1/15 = 5/30 = 1/6 → Together: 6 days</li>
+        <li><strong>If A and B together take 6 days, A alone takes 10 days:</strong> B's rate = 1/6 − 1/10 = 4/60 = 1/15 → B alone: 15 days</li>
+      </ul>
+      <strong>Practice:</strong> A does a job in 12 days, B in 18 days. They work together for 4 days, then A leaves. How many more days for B to finish?<br>
+      <strong>Answer:</strong> Combined rate = 1/12 + 1/18 = 5/36. In 4 days: 20/36 = 5/9 done. Remaining: 4/9. B alone: (4/9) / (1/18) = 8 days.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q32 — Simple & Compound Interest <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>SI = PRT/100</strong></li>
+        <li><strong>CI = P(1 + R/100)^T − P</strong></li>
+        <li><strong>Difference between CI and SI for 2 years = P(R/100)²</strong></li>
+      </ul>
+      <strong>Practice:</strong> $10,000 at 10% for 2 years. Find SI and CI.<br>
+      SI = 10000 × 10 × 2 / 100 = $2,000<br>
+      CI = 10000(1.1)² − 10000 = 12100 − 10000 = $2,100<br>
+      Difference = $100 = 10000 × (0.1)² ✓
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 9: QUANT — ALGEBRA ═══════════════════ -->
+<section class="block quant" id="quant-algebra">
+  <h2>9. Quantitative Aptitude — Algebra & Equations</h2>
+
+  <div class="question">
+    <h3>Q33 — Number Series Patterns <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      Common patterns to look for:
+      <ul>
+        <li><strong>Arithmetic:</strong> Constant difference (2, 5, 8, 11... → +3)</li>
+        <li><strong>Geometric:</strong> Constant ratio (3, 6, 12, 24... → ×2)</li>
+        <li><strong>Fibonacci:</strong> Sum of two preceding (1, 1, 2, 3, 5, 8...)</li>
+        <li><strong>Differences of differences:</strong> 2, 5, 10, 17, 26... → differences: 3, 5, 7, 9 → second difference: 2, 2, 2</li>
+        <li><strong>Alternating operations:</strong> +2, ×3, +2, ×3...</li>
+        <li><strong>Prime numbers:</strong> 2, 3, 5, 7, 11, 13...</li>
+        <li><strong>Squares ± constant:</strong> 1, 4, 9, 16... (n²) or 2, 5, 10, 17 (n²+1)</li>
+      </ul>
+      <strong>Practice:</strong> Find next: 2, 6, 12, 20, 30, ?<br>
+      Differences: 4, 6, 8, 10, 12 → <strong>Answer: 42</strong>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q34 — Age Problems <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Template:</strong> Set variables, write equations from conditions.<br><br>
+      <strong>Practice:</strong> Father is 3 times as old as son. 12 years later, father will be twice as old. Find ages.<br>
+      Let son = x. Father = 3x.<br>
+      3x + 12 = 2(x + 12)<br>
+      3x + 12 = 2x + 24<br>
+      x = 12. Son = 12, Father = <strong>36</strong>.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q35 — Averages & Weighted Averages <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>Weighted Average = Σ(weight × value) / Σ(weights)</strong></li>
+        <li><strong>If one item is removed:</strong> New avg = (Old sum − removed item) / (n−1)</li>
+      </ul>
+      <strong>Practice:</strong> Average of 5 numbers is 20. If 30 is added, new average?<br>
+      Sum = 100. New sum = 130. New avg = 130/6 = <strong>21.67</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 10: QUANT — GEOMETRY ═══════════════════ -->
+<section class="block quant" id="quant-geometry">
+  <h2>10. Quantitative Aptitude — Geometry & Mensuration</h2>
+
+  <div class="question">
+    <h3>Q36 — Key Formulas Cheat Sheet <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <table>
+        <tr><th>Shape</th><th>Area</th><th>Perimeter / Other</th></tr>
+        <tr><td>Circle</td><td>πr²</td><td>Circumference = 2πr</td></tr>
+        <tr><td>Triangle</td><td>½ × base × height</td><td>Heron's: √[s(s−a)(s−b)(s−c)]</td></tr>
+        <tr><td>Rectangle</td><td>l × b</td><td>Diagonal = √(l² + b²)</td></tr>
+        <tr><td>Cylinder</td><td>2πrh (lateral)</td><td>Volume = πr²h</td></tr>
+        <tr><td>Sphere</td><td>4πr²</td><td>Volume = (4/3)πr³</td></tr>
+        <tr><td>Cone</td><td>πrl (lateral)</td><td>Volume = (1/3)πr²h</td></tr>
+      </table>
+      <strong>Trap:</strong> When a dimension is scaled by k, area scales by k² and volume by k³.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q37 — Practice Problem <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Problem:</strong> A cylindrical tank with radius 7m and height 10m is filled with water. How many litres does it hold? (1 m³ = 1000L)<br>
+      Volume = π × 7² × 10 = (22/7) × 49 × 10 = 22 × 70 = 1540 m³<br>
+      = 1540 × 1000 = <strong>1,540,000 litres</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 11: QUANT — PROBABILITY ═══════════════════ -->
+<section class="block quant" id="quant-probability">
+  <h2>11. Quantitative Aptitude — Probability & Combinatorics</h2>
+
+  <div class="warning">
+    <strong>Tiger tests probability HEAVILY.</strong> You already covered Bayes' theorem in the technical round. This section covers additional patterns they ask in the aptitude round.
+  </div>
+
+  <div class="question">
+    <h3>Q38 — Permutations & Combinations Quick Reference <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <ul>
+        <li><strong>nPr = n! / (n−r)!</strong> — order matters (arrangements)</li>
+        <li><strong>nCr = n! / [r!(n−r)!]</strong> — order doesn't matter (selections)</li>
+        <li><strong>Key identity:</strong> nCr = nC(n−r)</li>
+        <li><strong>With repetition:</strong> nⁿ arrangements (e.g., 4-digit PIN from 0–9 = 10⁴ = 10,000)</li>
+      </ul>
+      <strong>Practice:</strong> How many ways to select a committee of 3 from 8 people?<br>
+      8C3 = 8! / (3! × 5!) = (8×7×6)/(3×2×1) = <strong>56</strong>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q39 — Probability with Cards <span class="tag tag-quant">Quant</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Standard deck:</strong> 52 cards, 4 suits (13 each), 12 face cards, 4 aces.<br><br>
+      <strong>Practice:</strong> Probability of drawing 2 aces from a deck without replacement?<br>
+      P = (4/52) × (3/51) = 12/2652 = <strong>1/221 ≈ 0.0045</strong><br><br>
+      <strong>Practice:</strong> P(at least one ace in 2 draws)?<br>
+      P = 1 − P(no ace) = 1 − (48/52 × 47/51) = 1 − 2256/2652 = 396/2652 = <strong>33/221 ≈ 0.149</strong>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q40 — Probability with Dice <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Two dice — total outcomes: 36</strong><br>
+      <ul>
+        <li>P(sum = 7) = 6/36 = <strong>1/6</strong> (most likely sum)</li>
+        <li>P(sum = 2 or 12) = 1/36 each</li>
+        <li>P(at least one 6) = 1 − P(no 6) = 1 − (5/6)² = 1 − 25/36 = <strong>11/36</strong></li>
+        <li>P(doubles) = 6/36 = <strong>1/6</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q41 — Balls in Bags <span class="tag tag-quant">Quant</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Problem:</strong> A bag has 5 red, 4 blue, 3 green balls. Two balls are drawn without replacement. What's P(both red)?<br>
+      Total = 12. P = (5/12) × (4/11) = 20/132 = <strong>5/33 ≈ 0.152</strong><br><br>
+      <strong>Problem:</strong> P(one red and one blue)?<br>
+      P = (5/12)(4/11) + (4/12)(5/11) = 40/132 = <strong>10/33 ≈ 0.303</strong> (order can be either way)
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q42 — Expected Value Problems <span class="tag tag-quant">Quant</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>E[X] = Σ x × P(x)</strong><br><br>
+      <strong>Problem:</strong> A game costs $10 to play. You flip a coin: heads → win $25, tails → win nothing. Should you play?<br>
+      E[profit] = 0.5 × ($25 − $10) + 0.5 × ($0 − $10) = 0.5 × 15 + 0.5 × (−10) = 7.5 − 5 = <strong>$2.50 expected profit. Yes, play.</strong><br><br>
+      <strong>Problem:</strong> Insurance company: 0.01 probability of $100,000 claim, annual premium $1,500. Expected profit per policy?<br>
+      E[profit] = $1,500 − 0.01 × $100,000 = $1,500 − $1,000 = <strong>$500</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 12: QUANT — DI ═══════════════════ -->
+<section class="block quant" id="quant-di">
+  <h2>12. Quantitative Aptitude — Data Interpretation</h2>
+
+  <div class="question">
+    <h3>Q43 — DI Speed Tips <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Types you'll encounter:</strong> Bar charts, line graphs, pie charts, tables, combination charts.<br><br>
+      <strong>Speed strategies:</strong>
+      <ul>
+        <li><strong>Read the question first,</strong> then the chart — don't study the entire chart upfront</li>
+        <li><strong>Approximate aggressively:</strong> 398 → 400, 7.3% → 7%. Exact answers rarely needed.</li>
+        <li><strong>Percentage of total from pie chart:</strong> Don't calculate the angle — estimate the proportion visually</li>
+        <li><strong>Year-over-year growth:</strong> Mental formula: (New − Old)/Old. If Old ≈ 200 and New = 230, growth ≈ 30/200 = 15%</li>
+        <li><strong>CAGR shorthand:</strong> For 2 years, if value doubles → ~41% CAGR. If it grows 50% in 2 years → ~22% CAGR.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q44 — Practice: Table-Based DI <span class="tag tag-quant">Quant</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Given this data:</strong>
+      <table>
+        <tr><th>Region</th><th>2024 Revenue ($M)</th><th>2025 Revenue ($M)</th><th>Employees</th></tr>
+        <tr><td>North</td><td>120</td><td>138</td><td>450</td></tr>
+        <tr><td>South</td><td>95</td><td>100</td><td>380</td></tr>
+        <tr><td>East</td><td>80</td><td>92</td><td>320</td></tr>
+        <tr><td>West</td><td>105</td><td>115</td><td>400</td></tr>
+      </table>
+      <strong>Q1:</strong> Which region had highest YoY growth?<br>
+      North: 18/120 = 15%, South: 5/95 ≈ 5.3%, East: 12/80 = 15%, West: 10/105 ≈ 9.5%<br>
+      <strong>North and East are tied at 15%</strong><br><br>
+      <strong>Q2:</strong> Revenue per employee — highest?<br>
+      North: 138/450 = $307K, South: 100/380 = $263K, East: 92/320 = $288K, West: 115/400 = $288K<br>
+      <strong>North at $307K</strong><br><br>
+      <strong>Q3:</strong> If East grows at same rate next year, 2026 revenue?<br>
+      15% growth: 92 × 1.15 = <strong>$105.8M</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 13: QUANT — LOGIC ═══════════════════ -->
+<section class="block quant" id="quant-logic">
+  <h2>13. Quantitative Aptitude — Logical Reasoning & Puzzles</h2>
+
+  <div class="question">
+    <h3>Q45 — Syllogisms <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Rules:</strong>
+      <ul>
+        <li>All A are B + All B are C → All A are C ✓</li>
+        <li>All A are B + Some B are C → Some A are C ✗ (not necessarily)</li>
+        <li>No A are B + All B are C → No A are C ✓</li>
+      </ul>
+      <strong>Practice:</strong> "All managers are leaders. Some leaders are innovators."<br>
+      <strong>Conclusion:</strong> "Some managers are innovators" — <strong>NOT necessarily true.</strong> The overlap could be between non-manager leaders and innovators.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q46 — Seating Arrangement <span class="tag tag-quant">Quant</span><span class="difficulty diff-med">Medium</span></h3>
+    <div class="answer">
+      <strong>Problem:</strong> 6 people (A–F) sit in a circle. A is opposite D. B is to the left of A. C is not adjacent to A. Where does everyone sit?<br><br>
+      <strong>Approach:</strong> Fix A's position. Place D opposite. Place B to A's left. Try positions for C, E, F satisfying constraints.<br>
+      <strong>Key tip:</strong> In circular arrangements, fix one person to avoid counting rotations. Possible arrangements of n people in a circle = (n−1)!
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q47 — Blood Relations <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Problem:</strong> "A is B's sister. C is B's mother. D is C's father. E is D's mother." What is A's relation to D?<br><br>
+      Draw the tree: E → D → C → B, and A is B's sister (so A is also C's child)<br>
+      A is D's <strong>granddaughter</strong>.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q48 — Coding-Decoding <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Common patterns:</strong>
+      <ul>
+        <li><strong>Letter shift:</strong> Each letter shifted by +2 → CAT → ECV</li>
+        <li><strong>Reverse:</strong> TIGER → REGIT</li>
+        <li><strong>Position values:</strong> A=1, B=2... Z=26</li>
+      </ul>
+      <strong>Practice:</strong> If MOUSE = PRXVH (each letter +3), then TIGER = ?<br>
+      T→W, I→L, G→J, E→H, R→U → <strong>WLJHU</strong>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q49 — Classic Puzzles Tiger Asks <span class="tag tag-quant">Quant</span><span class="difficulty diff-hard">Hard</span></h3>
+    <div class="answer">
+      <strong>Puzzle 1 — Light Switches:</strong> 3 switches outside a room, 3 bulbs inside. You can enter the room only once. How do you identify which switch controls which bulb?<br>
+      <strong>Solution:</strong> Turn switch 1 ON for 10 minutes. Turn it OFF, turn switch 2 ON. Enter room. Hot bulb = switch 1. Lit bulb = switch 2. Cold & off = switch 3.<br><br>
+
+      <strong>Puzzle 2 — River Crossing:</strong> A farmer has a fox, chicken, and grain. Boat fits farmer + 1 item. Fox eats chicken, chicken eats grain if left alone.<br>
+      <strong>Solution:</strong> Take chicken across → return → take fox across → bring chicken back → take grain across → return → take chicken across.<br><br>
+
+      <strong>Puzzle 3 — 25 Horses:</strong> 25 horses, 5 lanes. Find top 3 in minimum races (no timer).<br>
+      <strong>Solution:</strong> 5 group races + 1 race of winners + 1 more = <strong>7 races</strong>.<br>
+      Race 5 groups of 5. Race the 5 winners (eliminates 3 groups). From remaining, race: 2nd & 3rd of winner's group + 2nd of runner-up's group = 6th race identifies top 3.
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q50 — Direction Sense <span class="tag tag-quant">Quant</span></h3>
+    <div class="answer">
+      <strong>Problem:</strong> A starts facing North. Turns right, walks 5 km. Turns right again, walks 3 km. Turns left, walks 2 km. Which direction is A facing?<br><br>
+      North → Right = East → Right = South → Left = <strong>East</strong><br>
+      <strong>Tip:</strong> Draw it on paper. Track direction at each turn.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 14: RESUME DEFENSE ═══════════════════ -->
+<section class="block resume" id="resume-defense">
+  <h2>14. Resume Deep-Dive — Domain Q&A for Your Projects</h2>
+
+  <div class="insight">
+    <strong>In this round, they'll probe your projects for domain understanding, not just technical methodology.</strong> Be ready to explain the <em>business context</em> and <em>industry implications</em> of every project.
+  </div>
+
+  <div class="question">
+    <h3>Q51 — "Your anomaly detection saved $12.8M. Walk me through how the business actually saved that money." <span class="tag tag-resume">Resume</span></h3>
+    <div class="answer">
+      <blockquote>
+        <strong>The savings came from three mechanisms:</strong><br><br>
+        <strong>1. Right-sizing:</strong> When the model flagged a cost center spending $15K/day against a $9K forecast, the alert email included a resource-level breakdown. The cost center owner could see exactly which VMs or storage accounts were overprovisioned and scale them down. This was the largest savings driver.<br><br>
+        <strong>2. Zombie resource cleanup:</strong> Alerts surfaced resources that were provisioned for projects that had ended — dev/test environments left running, unattached disks, orphaned IP addresses. Without the alerts, these would run indefinitely.<br><br>
+        <strong>3. Reserved Instance optimization:</strong> The anomaly patterns revealed consistent baseline spend for certain services, which justified switching from pay-as-you-go to 1-year reserved instances at 30–40% discount.<br><br>
+        The $12.8M figure is the annualized sum across all cost centers — validated by the FinOps team comparing actual spend trajectories before and after model deployment.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q52 — "Why did you choose XGBoost for credit risk instead of logistic regression, which is the industry standard?" <span class="tag tag-resume">Resume</span></h3>
+    <div class="answer">
+      <blockquote>
+        <strong>Good question — and in production at a bank, I would likely use logistic regression for regulatory reasons.</strong> Basel/IFRS 9 models require interpretability, audit trails, and monotonic constraints. Logistic regression gives you coefficients that regulators can inspect.<br><br>
+        For this project, which was a portfolio risk assessment tool (not a regulatory submission model), XGBoost gave us:<br>
+        • Better discrimination (higher AUC/KS) on non-linear interactions like income × DTI × tenure<br>
+        • Built-in feature importance ranking<br>
+        • We added SHAP for post-hoc explainability, which satisfied the risk officers<br><br>
+        <strong>If deploying this at a regulated institution,</strong> I'd build both: XGBoost as a challenger model to identify patterns, then translate key findings into a scorecard-style logistic regression for production.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q53 — "Your fraud detection model had F1 > 0.75. Is that good enough for production?" <span class="tag tag-resume">Resume</span></h3>
+    <div class="answer">
+      <blockquote>
+        <strong>It depends on the business context — specifically, the cost ratio of false positives vs. false negatives.</strong><br><br>
+        In fraud detection:<br>
+        • <strong>False negative</strong> (missed fraud): Direct financial loss + regulatory penalty → very expensive<br>
+        • <strong>False positive</strong> (flagging legitimate application): Manual review cost + customer friction → moderate cost<br><br>
+        F1 > 0.75 is a strong starting point for a severely imbalanced dataset (<2% fraud). In production, I'd:<br>
+        1. Tune the decision threshold based on the cost matrix (lower threshold to catch more fraud at the expense of more reviews)<br>
+        2. Move from a binary decision to a tiered risk score: auto-approve (low risk), manual review (medium), auto-reject (high)<br>
+        3. Track precision@recall curves over time to detect model degradation<br><br>
+        The real KPI isn't F1 — it's <strong>fraud loss reduction in dollars</strong> vs. <strong>review cost increase</strong>.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q54 — "You worked on FMCG analytics at WNS. How is analyzing IMS/Nielsen data different from internal sales data?" <span class="tag tag-resume">Resume</span></h3>
+    <div class="answer">
+      <blockquote>
+        <strong>Syndicated data (Nielsen/IMS) vs. Internal data serve fundamentally different purposes:</strong><br><br>
+        <strong>Syndicated (Nielsen/IMS/IRI):</strong>
+        <ul>
+          <li>Provides <strong>market-level view</strong> — you see your competitors' performance, not just your own</li>
+          <li>Standardized metrics: market share, distribution (ACV%), price per unit, volume</li>
+          <li>Covers all outlets (sampled) — gives you the full category picture</li>
+          <li>Drawback: Expensive, lagged (typically 4–6 week delay), aggregated (not customer-level)</li>
+        </ul>
+        <strong>Internal sales data:</strong>
+        <ul>
+          <li>Granular: transaction-level, customer-level, real-time</li>
+          <li>No competitive view — you only see your own performance</li>
+          <li>Better for operational decisions (inventory, pricing, promotions)</li>
+        </ul>
+        <strong>Best practice:</strong> Combine both — internal data for execution, syndicated for strategic positioning and competitive benchmarking.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q55 — "How would you explain your Prophet model to a non-technical CFO?" <span class="tag tag-resume">Resume</span></h3>
+    <div class="answer">
+      <blockquote>
+        <em>"Think of it like a weather forecast for your Azure bill. The model learns your normal spending patterns — weekday vs. weekend rhythms, month-end spikes, holiday dips — and predicts what tomorrow's spend should look like. When actual spend is significantly above the forecast range for two consecutive days, we flag it as unusual and send your team an alert with exactly which resources are causing the spike. You don't need to understand the math — you just need to know that if you get an alert, something unexpected is happening and it's worth a 5-minute check."</em>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q56 — "Tell me about a time you had to translate a business problem into a data science solution." <span class="tag tag-resume">Resume</span></h3>
+    <div class="answer">
+      <blockquote>
+        <strong>(S)</strong> At GMR Delhi Airport, the CCO wanted to increase non-aeronautical revenue from retail and F&B concessions but didn't have visibility into which promotions worked.<br><br>
+        <strong>(T)</strong> My job was to design data-driven campaigns that would demonstrably lift revenue.<br><br>
+        <strong>(A)</strong> I consolidated footfall data, POS transaction data, and promotion calendars across all terminals onto Qlik Sense and Power BI. I segmented passengers by terminal, flight type (domestic/international), and time-of-day. Then I identified high-footfall but low-conversion zones and tested targeted promotions (flash sales timed to departure waves, bundle offers at underperforming outlets).<br><br>
+        <strong>(R)</strong> Generated <strong>INR 2 Million in incremental revenue</strong>. The key wasn't sophisticated modeling — it was connecting the right data to the right decision at the right time.
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 15: BEHAVIORAL ═══════════════════ -->
+<section class="block behavioral" id="behavioral">
+  <h2>15. Behavioral & Culture Fit</h2>
+
+  <div class="note">
+    <strong>Tiger Analytics is a consulting firm.</strong> They value client-facing ability, adaptability, and structured communication above pure technical depth.
+  </div>
+
+  <div class="question">
+    <h3>Q57 — "Why Tiger Analytics?" <span class="tag tag-behavioral">Behavioral</span></h3>
+    <div class="answer">
+      <blockquote>
+        Three reasons:<br><br>
+        <strong>1. Industry breadth:</strong> Tiger works across CPG, Retail, Pharma, and BFSI — the same industries I've spent 15 years in. I'm excited to apply my BFSI expertise while expanding into CPG and Pharma analytics at a deeper level.<br><br>
+        <strong>2. Analytics consulting model:</strong> I've always been most energized when translating model outputs into business decisions for senior stakeholders — that's exactly what Tiger's engagement model demands.<br><br>
+        <strong>3. Toronto growth:</strong> Tiger is expanding its North American presence, and I want to be part of building something, not just maintaining something.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q58 — "Tell me about a time you worked with a difficult stakeholder." <span class="tag tag-behavioral">Behavioral</span></h3>
+    <div class="answer">
+      <blockquote>
+        <strong>(S)</strong> At Manulife, cost-center owners initially ignored the Prophet anomaly alerts — assumed they were false positives and didn't want to change their workflows.<br><br>
+        <strong>(T)</strong> Without stakeholder adoption, the $12.8M savings wouldn't materialize — the model was useless if nobody acted on alerts.<br><br>
+        <strong>(A)</strong> Three things I did: (1) Tuned alert thresholds per cost center to reduce noise, (2) Added resource-level drill-downs so alerts weren't just "you're over budget" but "these 3 VMs are 4× their normal cost," (3) Ran a 2-week pilot with one finance partner who became my internal champion and evangelized to her peers.<br><br>
+        <strong>(R)</strong> Alert action-rate went from ~15% to ~70%. The champion approach was key — I learned that adoption is a people problem, not a technical one.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q59 — "How do you prioritize when you have multiple competing deadlines?" <span class="tag tag-behavioral">Behavioral</span></h3>
+    <div class="answer">
+      <blockquote>
+        I use a <strong>2×2 matrix: urgency vs. impact</strong>. High-impact, high-urgency items get immediate focus. High-impact but low-urgency items get scheduled proactively before they become urgent. I communicate transparently with stakeholders about timelines and trade-offs — I've found that most conflicts come from misaligned expectations, not actual time constraints.<br><br>
+        <strong>Concrete example:</strong> At Manulife, I was simultaneously building the anomaly detection model and maintaining daily Azure billing dashboards. When the dashboards broke due to an API schema change, I triaged by fixing the dashboard first (high urgency — leadership was blind to costs) while communicating a 3-day delay on the model milestone.
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="question">
+    <h3>Q60 — "Where do you see yourself in 3–5 years?" <span class="tag tag-behavioral">Behavioral</span></h3>
+    <div class="answer">
+      <blockquote>
+        In 3 years, I want to be <strong>leading client engagements end-to-end</strong> — from problem scoping through delivery — across multiple industries. In 5 years, I see myself either in a <strong>Principal Data Scientist role</strong> driving technical strategy for key accounts, or a <strong>practice lead</strong> building out a capability area like Applied AI or FinOps analytics within the firm.
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SECTION 16: QUESTIONS TO ASK ═══════════════════ -->
+<section class="block" id="questions-to-ask">
+  <h2>16. Questions to Ask Them</h2>
+
+  <div class="success-box">
+    <strong>Always have 3–4 ready. Asking nothing = red flag.</strong>
+  </div>
+
+  <ol>
+    <li><strong>"What does a typical client engagement look like from scoping to delivery? How much autonomy does the team have in defining the analytical approach?"</strong></li>
+    <li><strong>"What domains is the Toronto office most focused on right now, and where are you looking to expand?"</strong></li>
+    <li><strong>"How does Tiger balance speed-to-insight (what consulting clients want) with methodological rigor (what data scientists want)?"</strong></li>
+    <li><strong>"What does growth look like for someone in this role — is it more toward managing client relationships, building technical practices, or both?"</strong></li>
+    <li><strong>"Can you share an example of a project that didn't go as planned and what the team learned from it?"</strong> (Shows maturity)</li>
+  </ol>
+</section>
+
+<!-- ═══════════════════ SECTION 17: CHECKLIST ═══════════════════ -->
+<section class="block strategy" id="pre-interview-checklist">
+  <h2>17. Pre-Interview Checklist</h2>
+
+  <h3>Night Before</h3>
+  <ul class="checklist">
+    <li>Reviewed 5 key KPIs per industry (BFSI, CPG, Retail)</li>
+    <li>Practiced 3 guesstimates out loud (with timer)</li>
+    <li>Solved 10 quant problems without calculator</li>
+    <li>Rehearsed the $12.8M story with domain framing (not just technical)</li>
+    <li>Prepared 4 questions to ask them</li>
+    <li>Set out professional attire</li>
+    <li>Checked video/audio setup</li>
+  </ul>
+
+  <h3>Morning Of</h3>
+  <ul class="checklist">
+    <li>Quick mental math warm-up: 5 percentage problems</li>
+    <li>Re-read the "Frameworks" section (Section 6)</li>
+    <li>Review Tiger Analytics recent news/case studies from their website</li>
+    <li>Read the "Mental Frame" quote below</li>
+  </ul>
+
+  <div class="success-box">
+    <blockquote style="background: transparent; border: none; padding: 0; margin: 0;">
+      <strong>The Mental Frame:</strong> You have <strong>15 years of evidence</strong> behind you. You saved Manulife <strong>$12.8M</strong>. You've worked across BFSI, Insurance, Healthcare, Retail, Manufacturing, and Aviation. You've shipped production ML systems, built GenAI applications, and led analytics teams. You're not here to prove you're worth hiring — you're here to <strong>decide if Tiger is the right place to deploy your next decade of impact</strong>. That mindset makes every answer calmer and more confident.
+    </blockquote>
+  </div>
+
+  <h3>Key Phrases to Use</h3>
+  <table>
+    <tr><th>Instead of...</th><th>Say...</th></tr>
+    <tr><td>"I built a model"</td><td>"I designed a solution that delivered $X in business impact"</td></tr>
+    <tr><td>"I used XGBoost"</td><td>"I chose XGBoost because the problem had non-linear feature interactions, and validated with AUC and calibration metrics"</td></tr>
+    <tr><td>"The accuracy was 95%"</td><td>"We optimized for F1/PR-AUC because the business cost of false negatives was 10× higher than false positives"</td></tr>
+    <tr><td>"I cleaned the data"</td><td>"I designed the feature engineering pipeline with 15 derived features including DTI ratio, payment-to-income, and months-since-delinquency"</td></tr>
+    <tr><td>"I made a dashboard"</td><td>"I built a Grafana reporting layer on PostgreSQL that gave leadership daily cost transparency for the first time — replacing a monthly Excel process that routinely crashed"</td></tr>
+  </table>
+
+  <h3>Domain Language Quick Reference</h3>
+  <table>
+    <tr><th>Industry</th><th>5 Terms to Drop Naturally</th></tr>
+    <tr><td>BFSI</td><td>PD/LGD/ECL, IFRS 9, NPA ratio, stress testing, risk appetite</td></tr>
+    <tr><td>Insurance</td><td>Loss ratio, combined ratio, adverse selection, pure premium, claims severity</td></tr>
+    <tr><td>CPG</td><td>Trade promotion lift, price elasticity, ACV distribution, category management, cannibalization</td></tr>
+    <tr><td>Retail</td><td>Same-store growth, basket size, RFM segmentation, CLV, sell-through rate</td></tr>
+    <tr><td>Pharma</td><td>Patient adherence (PDC), real-world evidence, patient journey, formulary, HCP targeting</td></tr>
+    <tr><td>Cloud/FinOps</td><td>Right-sizing, reserved instances, showback/chargeback, anomaly detection, cost governance</td></tr>
+  </table>
+</section>
+
+</div>
+
+<footer>
+  Tiger Analytics — Domain, Business & Quant Interview Prep | Sajal Agarwal | August 2026<br>
+  Compiled from Glassdoor, GeeksforGeeks, AmbitionBox candidate reports, and industry best practices
+</footer>
+
+</body>
+</html>
