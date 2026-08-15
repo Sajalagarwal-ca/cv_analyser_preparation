@@ -1,0 +1,385 @@
+<div style="font-family:Georgia,'Times New Roman',serif;color:#1f2937;line-height:1.7;max-width:860px;margin:0 auto;">
+
+<h1 style="font-size:30px;color:#0f172a;border-bottom:3px solid #1d4ed8;padding-bottom:10px;margin-bottom:6px;">The Complete Azure Cost Management &amp; FinOps Lifecycle</h1>
+<p style="color:#64748b;font-style:italic;margin-bottom:22px;">How we built an end-to-end FinOps engine on top of the Azure Cost Management APIs &mdash; from raw usage extraction to cost-center chargeback, Reserved Instance orchestration, and BYOL savings. A field guide for engineering, finance, and cloud platform teams.</p>
+
+<p>
+<span style="display:inline-block;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Azure</span>
+<span style="display:inline-block;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">FinOps</span>
+<span style="display:inline-block;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Cost Management</span>
+<span style="display:inline-block;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Reserved Instances</span>
+<span style="display:inline-block;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">BYOL</span>
+<span style="display:inline-block;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Grafana</span>
+</p>
+
+<div style="background:#eff6ff;border-left:4px solid #1d4ed8;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Who this is for:</b> Cloud platform engineers, FinOps practitioners, finance controllers, and architects who own or influence Azure spend at enterprise scale. If your monthly Azure bill is denominated in six or seven digits and split across many cost centers, this post is your blueprint.
+</div>
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">Why FinOps &mdash; and Why Now</h2>
+<p>Public-cloud bills grow the way weeds do &mdash; quietly, then all at once. At the enterprise scale we operate in, an untended Azure subscription can drift 15&ndash;25% higher month over month before anyone notices. The classical answer &mdash; a monthly finance PDF from Microsoft &mdash; is far too coarse for the decisions engineering teams have to make daily: which SKU, which region, which reservation to buy, which workload to right-size.</p>
+<p>FinOps closes that gap by treating cost as a first-class engineering signal. And the single most important piece of plumbing that makes FinOps real is the <b>Azure Cost Management API</b> stack. This post walks through how we assembled it end to end.</p>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">1 &middot; Where the Data Actually Comes From</h2>
+
+<p>A common misconception is that Azure cost data comes from <em>Microsoft Graph</em>. It does not. Microsoft Graph is for Microsoft 365 identity, groups, and directory objects. For cost, we lean on a different family of REST APIs. Here is the actual mix:</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">API</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">What we pull</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Cadence</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Cost Management &mdash; Query</b><br /><i>Microsoft.CostManagement/query</i></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Actual + amortized cost, grouped by any dimension (resource, RG, subscription, meter, tag).</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Every 6 hours (incremental)</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Cost Management &mdash; Exports</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Full usage details dumped as CSV/Parquet to a landing storage account. Source of truth for the lake.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Daily (MTD + prior month close)</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Consumption &mdash; UsageDetails</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Line-item level meter usage &mdash; the finest grain we can reach.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Nightly backfill</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Consumption &mdash; Reservations &amp; Marketplace</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">RI purchase records, utilization, recommendations, and Marketplace charges.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Daily</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Cost Management &mdash; Forecast</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">MSFT-model month-end projection.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Daily</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Azure Resource Graph (Kusto)</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Resource metadata &mdash; SKU, region, tags, owner &mdash; the join key for chargeback.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Hourly</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Azure Advisor</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Right-sizing and RI purchase recommendations.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Daily</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Microsoft Graph</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Only for identity enrichment &mdash; resolving resource owners to Entra ID users, managers, and cost centers stored in AD extension attributes.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Daily</td>
+</tr>
+</table>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">The ingestion pattern</h3>
+<p>We run a lightweight Python + Azure Functions ingestor with the following contract:</p>
+<ol>
+  <li><b>Auth</b> &mdash; a workload identity (managed identity) with <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">Cost Management Reader</code> at the EA billing account or MCA billing profile scope.</li>
+  <li><b>Extract</b> &mdash; POST to <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">/providers/Microsoft.CostManagement/query</code> with a 30-day window, grouped by subscription, resource group, meter category, and our custom tag <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">cost-center</code>.</li>
+  <li><b>Land</b> &mdash; parquet files partitioned by <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">billing_month / subscription_id</code> in ADLS Gen2.</li>
+  <li><b>Model</b> &mdash; dbt transforms into a Kimball-style star: <i>fact_daily_cost</i> at the grain <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">(date, subscription, resource_id, meter, cost_center)</code> plus conformed dimensions.</li>
+  <li><b>Serve</b> &mdash; the fact table is exposed to Grafana via a Postgres-flavored gateway; every dashboard panel is a SQL query against it.</li>
+</ol>
+
+<div style="background:#fefce8;border-left:4px solid #ca8a04;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Gotcha we learned the hard way:</b> The Query API is <em>rate-limited</em>. At >500 subscriptions, you must batch by management group and honor the <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">x-ms-ratelimit-remaining-microsoft.costmanagement-tenant-requests</code> header. Retry with jittered back-off, and cache the last successful ETag to avoid re-pulling.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">2 &middot; Cost-Center Mapping (a.k.a. Chargeback Reality)</h2>
+
+<p>Raw Azure cost is meaningless to a finance controller. What she wants is one number per cost center per month, matching her general-ledger structure. That mapping is where 80% of FinOps engineering effort actually goes.</p>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Our four-tier hierarchy</h3>
+<p>Every dollar of Azure spend is attributed to a four-level chain that mirrors the org: <b>Segment &rarr; Sub-Segment &rarr; Tower &rarr; Function &rarr; Cost Center</b>. We store this as a slowly-changing dimension keyed on cost-center ID.</p>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">How we resolve a resource to a cost center</h3>
+<p>We run a four-step waterfall until a match is found, then stop:</p>
+<ol>
+  <li><b>Resource tag</b> &mdash; if the resource carries a <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">cost-center</code> tag, use it.</li>
+  <li><b>Resource-group tag</b> &mdash; inherit from the RG.</li>
+  <li><b>Subscription mapping table</b> &mdash; a curated CSV maintained by platform engineering that maps every subscription to a default cost center for untagged resources.</li>
+  <li><b>Owner &rarr; manager lookup</b> &mdash; last resort: pull the resource owner from Resource Graph, resolve their manager and cost center via Microsoft Graph, and charge there.</li>
+</ol>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Tag hygiene as a KPI</h3>
+<p>We publish an <b>untagged-cost %</b> metric on the exec dashboard. Illustrative numbers from our Sep&nbsp;2025 view:</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Segment</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Sep 2025 Cost (USD)</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Tagged %</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Untagged $ Bucket</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Retail Wealth</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$412,880</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">96.4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$14,863</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Institutional Asset Mgmt</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$298,140</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">99.1%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$2,683</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Group Benefits</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$187,220</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">88.7%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$21,155</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Corporate &amp; Shared Svcs</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$156,410</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">100.0%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$0</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Data &amp; AI Platform</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$132,905</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">93.2%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$9,038</td></tr>
+<tr style="font-weight:700;">
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">Total</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">$1,187,555</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">96.0%</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">$47,739</td>
+</tr>
+</table>
+
+<div style="background:#fefce8;border-left:4px solid #ca8a04;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Rule we enforce:</b> Any resource untagged for >7 days is auto-tagged with the subscription's default cost center <em>and</em> the resource owner is notified via a Teams webhook. If you cannot tag it, we bill it to you by default.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">3 &middot; The Monthly Cost-by-Category Dashboard</h2>
+
+<p>The heart of the reporting layer is a Grafana dashboard sourced entirely from our fact table. Illustrative Sep&nbsp;2025 slice across the top meter categories:</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Meter Category</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Aug 2025</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Sep 2025</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">&Delta; MoM</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Driver</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Virtual Machines</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$318,420</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$342,110</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">+7.4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">2 new AKS node pools in Retail Wealth</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Azure SQL / MI</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$187,900</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$179,240</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#15803d;">-4.6%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2 MI instances right-sized</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Storage</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$142,610</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$148,932</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">+4.4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Data lake growth in D&amp;AI</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Bandwidth (Egress)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$96,180</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$118,432</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">+23.1%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Cross-region replication misconfig</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Azure OpenAI / AI</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$68,410</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$92,180</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">+34.7%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">GenAI PoC promoted to prod</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Databricks / Fabric</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$74,220</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$77,845</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">+4.9%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Interactive-cluster idle time</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">App Service &amp; Functions</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$41,220</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$39,110</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">-5.1%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Plan consolidation</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Networking (PE/FW)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$52,100</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$54,720</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">+5.0%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">New PE endpoints for landing zones</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Other (Log Analytics, Key Vault, etc.)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$32,730</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$34,986</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">+6.9%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Log ingestion in prod</td></tr>
+<tr style="font-weight:700;">
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">Total</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">$1,013,790</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">$1,187,555</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#b91c1c;">+17.1%</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">See MoM waterfall &darr;</td>
+</tr>
+</table>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">4 &middot; The MoM Waterfall &mdash; The Single Most Useful FinOps View</h2>
+
+<p>A total is a headline. A <b>waterfall</b> is a story. Every month we decompose the delta between prior-month and current-month cost into six causal buckets. Illustrative Aug &rarr; Sep 2025 walk:</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Bucket</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Impact (USD)</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Notes</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Aug 2025 baseline</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$1,013,790</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Prior month actual</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">(+) New resources deployed</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">+$96,120</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">GenAI prod cutover + 2 AKS pools</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">(+) Existing resources &mdash; higher usage</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">+$54,880</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Storage growth, log ingestion up</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">(+) Price / SKU changes</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">+$12,410</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Some VM SKUs re-priced Sep 1</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">(&minus;) Resources decommissioned</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">&minus;$22,180</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Legacy dev subs shut down</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">(&minus;) Right-sizing / auto-scale</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#15803d;">&minus;$18,420</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2 SQL MIs down-tiered, VMSS min-count reduced</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">(+) FX / rate effect</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">+$50,955</td><td style="border:1px solid #d1d5db;padding:8px 10px;">CAD-billed subs vs. USD reporting</td></tr>
+<tr style="font-weight:700;">
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">Sep 2025 actual</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">$1,187,555</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">Net &Delta; +$173,765 (+17.1%)</td>
+</tr>
+</table>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Why the waterfall matters:</b> A 17% MoM jump sounds alarming until you see that $96K is a planned GenAI cutover, $51K is FX, and only $12K is unmanaged price drift. The waterfall converts <em>panic</em> into <em>decisions</em>.
+</div>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">How we compute each bucket in SQL</h3>
+<p>Every bucket is a set-diff or join on <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">resource_id</code> between the two months of <i>fact_daily_cost</i>:</p>
+<ul>
+  <li><b>New</b> = resources present in Sep but not in Aug.</li>
+  <li><b>Decommissioned</b> = resources present in Aug but not in Sep.</li>
+  <li><b>Higher/lower usage</b> = same resource, same SKU, different quantity.</li>
+  <li><b>Price / SKU change</b> = same resource, same quantity, different unit price OR different SKU.</li>
+  <li><b>FX</b> = residual after multiplying prior-month native-currency amounts by current-month FX.</li>
+</ul>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">5 &middot; Reserved Instances &mdash; Buying, Amortizing, and Rebalancing</h2>
+
+<p>Reserved Instances (and Savings Plans) are the single biggest lever on Azure compute cost &mdash; typically <b>28&ndash;72% savings</b> vs. pay-as-you-go, depending on term and payment. Managing them is not a one-time purchase; it is a continuous optimization loop.</p>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">The four-stage RI lifecycle we run</h3>
+<ol>
+  <li><b>Recommend</b> &mdash; we pull <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">Consumption/reservationRecommendations</code> daily. We supplement it with our own model that filters out workloads flagged for decommissioning in the next 12 months.</li>
+  <li><b>Approve &amp; buy</b> &mdash; FinOps council approves purchases >$50K TCV. Buys are made at the shared scope so utilization can float across subscriptions.</li>
+  <li><b>Monitor utilization</b> &mdash; we pull <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">reservationSummaries</code> daily. Anything under 90% for 5 consecutive days triggers an alert.</li>
+  <li><b>Exchange or scope-change</b> &mdash; underutilized RIs are either exchanged for a different SKU/region or their scope is widened to soak up matching usage elsewhere.</li>
+</ol>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Illustrative RI portfolio snapshot &mdash; Sep 2025</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Family</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Committed / mo</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Utilization</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Realized Savings</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Action</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">D-Series v5 (compute)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$118,400</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">98.4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$52,860</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Hold</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">E-Series v5 (mem)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$92,110</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#15803d;">96.1%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$41,190</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Hold</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">SQL Managed Instance vCore</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$48,220</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">99.2%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$27,610</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Renew 3-yr</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">B-Series (burstable)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$14,300</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">61.4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">$3,720</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Exchange &rarr; D-series</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Azure Savings Plan &mdash; Compute</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$62,800</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">100.0%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$18,940</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Increase commit</td></tr>
+<tr style="font-weight:700;">
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">Total</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">$335,830</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">95.6%</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#15803d;">$144,320</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">&mdash;</td>
+</tr>
+</table>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Effective saving rate this month:</b> $144,320 realized / $335,830 committed = <b>43.0%</b>. That is the number FinOps leadership reports upward &mdash; not the raw RI spend.
+</div>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Amortization &mdash; the accounting nuance nobody warns you about</h3>
+<p>A 3-year RI paid upfront hits your Azure invoice as <b>one giant charge in month 1</b> and zero for the next 35 months. Finance will hate you if you pass that through as-is. We <em>amortize</em> the RI cost daily across the reservation term by using the <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">AmortizedCost</code> field instead of <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">ActualCost</code> in the query API. Chargeback runs on amortized; cash-flow forecasting runs on actual. Two views, same source.</p>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">6 &middot; BYOL &amp; Azure Hybrid Benefit &mdash; Free Money on the Table</h2>
+
+<p>Azure Hybrid Benefit (AHB) lets you apply on-premises Windows Server and SQL Server licenses with Software Assurance to matching Azure workloads. The <b>discount is enormous</b> &mdash; up to 40% off VM cost for Windows and up to 55% off SQL Managed Instance &mdash; and the shocking industry reality is that a large share of eligible workloads never claim it.</p>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Our BYOL detection pipeline</h3>
+<ol>
+  <li>Query Resource Graph for all Windows-flavored VMs and SQL resources.</li>
+  <li>Cross-check the <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">licenseType</code> field &mdash; if it is not <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">Windows_Server</code> / <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">Windows_Client</code> / <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">AHUB</code>, we have a candidate.</li>
+  <li>Match against the SA entitlement pool maintained by the SAM (Software Asset Management) team.</li>
+  <li>Auto-apply AHB via ARM PATCH for matched resources; open a Jira ticket for unmatched ones.</li>
+</ol>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Illustrative BYOL scorecard &mdash; Sep 2025</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Workload</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Eligible resources</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">AHB applied</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Monthly savings</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Untapped opportunity</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Windows Server VMs</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">742</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">618 (83%)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">$62,140</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#b91c1c;">$12,390</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">SQL Server on IaaS</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">128</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">102 (80%)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#15803d;">$41,830</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">$10,410</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">SQL Managed Instance</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">32</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">32 (100%)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;color:#15803d;">$28,720</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">$0</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">RHEL / SLES BYOS</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">86</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">72 (84%)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#15803d;">$9,240</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;color:#b91c1c;">$1,820</td></tr>
+<tr style="font-weight:700;">
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#eff6ff;">Total</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">988</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;">824 (83.4%)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#15803d;">$141,930</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#b91c1c;">$24,620</td>
+</tr>
+</table>
+
+<div style="background:#fefce8;border-left:4px solid #ca8a04;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>What "untapped" really means:</b> $24.6K/month = ~$295K/year that we are leaving with Microsoft because 164 eligible resources have not yet been flipped to AHB. This is the FinOps equivalent of found money &mdash; usually blocked on a governance signature, not on technology.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">7 &middot; Driving Factors of Cloud Cost &mdash; The Real KPIs</h2>
+
+<p>All the plumbing above exists to isolate the <b>five drivers</b> that actually move an Azure bill. Track these and you can explain any anomaly in under 30 minutes.</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Driver</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">What controls it</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Lever</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Volume</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;">Count of resources, hours consumed, GB stored/transferred.</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Auto-scale, scheduled shutdown, decommissioning.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Unit rate</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">SKU / tier / region.</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Right-sizing, region migration, tier down.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Commitment discount</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;">RI / Savings Plan coverage.</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Buy, exchange, widen scope.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>License</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Windows / SQL license mode.</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Apply AHB, BYOS for RHEL/SUSE, dev/test pricing.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Egress / cross-zone</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;">Data movement between regions and out of Azure.</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Regional placement, caching, Private Link, Front Door.</td></tr>
+</table>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">8 &middot; The Complete FinOps Lifecycle &mdash; Inform, Optimize, Operate</h2>
+
+<p>Everything above rolls up into the three-phase FinOps lifecycle popularized by the FinOps Foundation. Here is how each phase maps to concrete Azure practice in our world:</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Phase</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Goal</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Azure primitives we use</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>1. Inform</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Visibility, allocation, benchmarking.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Cost Management APIs &rarr; ADLS &rarr; dbt &rarr; Grafana; tag hygiene; cost-center dimension; per-team dashboards.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>2. Optimize</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Right-size, buy commitments, remove waste.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Advisor recommendations, RI / SP purchases, AHB, Autoscale, Spot VMs, storage tiering, dev/test subs.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>3. Operate</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Continuous governance and accountability.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Budgets + Alerts, Azure Policy for tag enforcement, showback / chargeback reports, monthly FinOps council.</td>
+</tr>
+</table>
+
+<h3 style="color:#1e40af;font-size:18px;margin-top:22px;">Our operating rhythm</h3>
+<ul>
+  <li><b>Daily</b> &mdash; ingestion + anomaly detection ($ variance vs. 14-day moving average).</li>
+  <li><b>Weekly</b> &mdash; RI utilization review; tag-hygiene scorecard emailed to owners.</li>
+  <li><b>Monthly</b> &mdash; MoM waterfall; chargeback to cost centers; FinOps council to approve reservations and BYOL flips.</li>
+  <li><b>Quarterly</b> &mdash; budget re-planning; region strategy; long-term commitments.</li>
+</ul>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">9 &middot; What "Good" Looks Like &mdash; Our North-Star Metrics</h2>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#eff6ff;color:#1e40af;">Metric</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Current</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#eff6ff;color:#1e40af;">Target</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Tagged-cost %</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">96.0%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">&ge; 99.0%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">RI + SP coverage of eligible compute</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">78%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">&ge; 85%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">RI utilization</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">95.6%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">&ge; 95.0%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">AHB adoption on eligible workloads</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">83.4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">&ge; 95.0%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Forecast accuracy (MSFT vs. actual)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">&plusmn;6.8%</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;">&plusmn;5.0%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Anomaly MTTR (detected &rarr; owner action)</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">3.4 days</td><td style="border:1px solid #d1d5db;padding:8px 10px;text-align:right;background:#f9fafb;">&le; 2 days</td></tr>
+</table>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#1d4ed8;font-size:22px;margin-top:34px;border-left:4px solid #1d4ed8;padding-left:10px;">Closing Thoughts</h2>
+
+<p>Azure Cost Management is not a dashboard &mdash; it is a <b>data pipeline plus a governance loop</b>. Once you accept that framing, the technology choices become obvious: cost APIs for extraction, a lake for durability, a warehouse model for semantics, Grafana (or Power BI) for the last mile, and a monthly council that turns numbers into decisions.</p>
+<p>The single biggest lesson from running this at enterprise scale: <em>every dollar you cannot attribute to a cost center is a dollar you cannot manage.</em> Fix chargeback first. Everything else &mdash; RIs, AHB, right-sizing &mdash; only compounds after allocation is trustworthy.</p>
+
+<div style="background:#eff6ff;border-left:4px solid #1d4ed8;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Coming next:</b> A follow-up post on <b>anomaly detection for Azure spend</b> &mdash; how we blend prophet-style seasonality with a resource-level EMA to catch the $8K/day storage account before it becomes an $80K month-end surprise.
+</div>
+
+<div style="margin-top:36px;padding-top:14px;border-top:2px solid #e5e7eb;color:#64748b;font-size:14px;">
+All figures in this post are <b>illustrative</b> and intended to demonstrate typical FinOps dashboard structure. They are not drawn from any specific tenant, subscription, or organization. Actual numbers, subscription names, and cost-center IDs have been withheld.
+<br /><br />
+<b>About the author:</b> Sajal Agarwal writes about data platforms, cloud economics, and turning cost telemetry into engineering decisions.
+</div>
+
+</div>

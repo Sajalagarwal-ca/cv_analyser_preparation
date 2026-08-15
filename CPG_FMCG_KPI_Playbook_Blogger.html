@@ -1,0 +1,350 @@
+<div style="font-family:Georgia,'Times New Roman',serif;color:#1f2937;line-height:1.7;max-width:820px;margin:0 auto;">
+
+<h1 style="font-size:30px;color:#0f172a;border-bottom:3px solid #0f766e;padding-bottom:10px;margin-bottom:6px;">The Complete CPG / FMCG KPI Playbook</h1>
+<p style="color:#64748b;font-style:italic;margin-bottom:22px;">From primary sales to household panel &mdash; the metrics, data sources, and analytical frameworks that actually run the FMCG business. A consolidation of my four-part series into a single, practitioner-ready guide.</p>
+
+<p>
+<span style="display:inline-block;background:#e0f2fe;color:#075985;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">CPG</span>
+<span style="display:inline-block;background:#e0f2fe;color:#075985;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">FMCG</span>
+<span style="display:inline-block;background:#e0f2fe;color:#075985;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">KPIs</span>
+<span style="display:inline-block;background:#e0f2fe;color:#075985;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Nielsen</span>
+<span style="display:inline-block;background:#e0f2fe;color:#075985;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Household Panel</span>
+<span style="display:inline-block;background:#e0f2fe;color:#075985;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Analytics</span>
+</p>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Who this is for:</b> Brand managers, category managers, sales analysts, and data scientists working with consumer-goods companies (or partnering with them). If you have ever stared at a Nielsen report and wondered which two numbers actually matter &mdash; this is your map.
+</div>
+
+<h2 style="color:#0f766e;font-size:22px;margin-top:34px;border-left:4px solid #0f766e;padding-left:10px;">Why I Wrote This Guide</h2>
+<p>In FMCG, more decisions are killed by <em>wrong metric interpretation</em> than by wrong strategy. A brand manager quotes market share, sales says primary is up, Nielsen says offtake is down, panel says penetration is flat &mdash; and everyone is technically correct. The problem is not the data; it is that most people never learn how the pieces fit together.</p>
+<p>This article walks through the entire measurement stack in the order a practitioner actually uses it: <b>the vocabulary</b>, then <b>the six data sources</b>, then <b>the internal-vs-retail reconciliation</b>, and finally <b>the household-panel deep dive</b> that separates strategic brand managers from tactical ones.</p>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#0f766e;font-size:22px;margin-top:34px;border-left:4px solid #0f766e;padding-left:10px;">Part 1 &middot; The Glossary Every FMCG Analyst Must Know</h2>
+<p>Before we get to KPIs, we need shared vocabulary. Skip this section only if you already speak fluent trade.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">The three types of "sales"</h3>
+<ul>
+  <li><b>Primary Sales</b> &mdash; from the company to the distributor. This is what the finance team calls "turnover."</li>
+  <li><b>Secondary Sales</b> &mdash; from the distributor to the retailer. This is what most sales-force targets are actually built on, because this is what reaches the shelf.</li>
+  <li><b>Consumption Sales / Offtake</b> &mdash; from the retailer to the end consumer. The company cannot directly measure this in traditional trade, so it is <em>estimated</em> by market-research agencies (Nielsen being the industry default). Nielsen samples a subset of traditional-trade stores, extrapolates, and reports share. Accuracy is imperfect &mdash; but in the absence of anything better, this is what every brand manager benchmarks against. For high-value goods (makeup, durables), companies often track counter-wise offtake themselves.</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">Trade Schemes</h3>
+<p>Schemes are the levers a company pulls to push volume through the trade &mdash; retailers, wholesalers, and distributors. They come in two shapes and two flavors.</p>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">By structure</h4>
+<ul>
+  <li><b>Quantity Purchase Scheme (QPS):</b> discounts tied to units bought.
+    <br /><i>Example:</i> 144 pieces &rarr; 8%, 72 pieces &rarr; 6%, 48 pieces &rarr; 4%, 24 pieces &rarr; 2%.</li>
+  <li><b>Value Purchase Scheme (VPS):</b> discounts tied to invoice value.
+    <br /><i>Example:</i> &#8377;10,000 &rarr; 8%, &#8377;8,000 &rarr; 6%, &#8377;6,000 &rarr; 4%, &#8377;4,000 &rarr; 2%.</li>
+</ul>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">By who receives it</h4>
+<ul>
+  <li><b>Primary Schemes</b> &mdash; deducted at the invoice level to the distributor. Effectively an extra margin for the distributor.</li>
+  <li><b>Secondary Schemes</b> &mdash; the distributor is expected to first extend the scheme to the market and then claim it back from the company. This is where <em>rate ka chakkar</em> (rate leakage / arbitrage) usually creeps in and quietly erodes margin.</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">Ground-level sales terms</h3>
+<ul>
+  <li><b>Beat</b> &mdash; the route a salesman follows on a given day, planned so every store in the territory is covered at the required frequency (e.g., once a week).</li>
+  <li><b>FOC</b> &mdash; Free of Cost (samples, giveaways, incentive stock).</li>
+  <li><b>Display / FSU</b> &mdash; paid shelf space; in Modern Trade, a floor-standing unit.</li>
+  <li><b>Strike Rate</b> &mdash; % of successful sales calls out of total calls attempted.</li>
+</ul>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#0f766e;font-size:22px;margin-top:34px;border-left:4px solid #0f766e;padding-left:10px;">Part 2 &middot; The Six Sources of Truth</h2>
+<p>Every serious FMCG decision draws from one or more of these six data sources. Knowing which source answers which question is 80% of the analytical job.</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">#</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Source</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">What it tells you</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Who owns it</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">1</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Internal Sales (Primary + Secondary)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Your actual business reality</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">You / SFA system</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Nielsen (retail audit)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Retail-level share, distribution, offtake, competition</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Nielsen</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">3</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Household Panel</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Consumer purchase behavior &mdash; the "who / how much / how often"</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Nielsen / Kantar</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">4</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Brand Track</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Brand health &mdash; awareness, imagery, consideration</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Research agency</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">5</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">SOV &amp; GRPs</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Media competitiveness &mdash; spend, reach, frequency</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Media agency</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">6</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Usage &amp; Attitude (U&amp;A) Study</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">The "why" behind consumer behavior</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Research agency</td>
+</tr>
+</table>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">1. Internal Sales &mdash; the only reality</h3>
+<p>Everything else can look rosy, but if your internal secondary sales are collapsing, your brand is in trouble. <b>Primary</b> is what the company invoices to distributors. <b>Secondary</b> is what the distributor ships to the trade &mdash; and it is the single most important number to track because it determines what the consumer actually gets to see and buy.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">2. Nielsen &mdash; the retail truth</h3>
+<p>Nielsen tells you how your brand is performing across the retail universe: market share, distribution, offtake, competitive benchmarking, brand health at the store level. It is the industry's single point of reference for competitive comparison.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">3. Household Panel &mdash; the consumer truth</h3>
+<p>The panel is your <b>consumer reality</b>. It answers: <em>Who buys you? How much? How often? What else do they buy?</em> Demographics, town class, family composition &mdash; all sliceable. This is the source you use when you want to understand behavior, not just outcomes.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">4. Brand Track &mdash; the mind truth</h3>
+<p>Brand track measures what your brand stands for in the consumer's head &mdash; brand awareness, ad awareness, share of endorsements, trial and repeat rates.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">5. SOV &amp; GRPs &mdash; the media truth</h3>
+<p>How much is competition spending? How often is your ad reaching your consumer? Share of Voice and Gross Rating Points quantify your media competitiveness.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">6. Usage &amp; Attitude Study &mdash; the "why"</h3>
+<p>The U&amp;A is your bible for consumer behavior: how they use the product, why they use it, why they don't, where they buy, when they buy. Every launch or repositioning worth its salt starts here.</p>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#0f766e;font-size:22px;margin-top:34px;border-left:4px solid #0f766e;padding-left:10px;">Part 3 &middot; Reading Internal Numbers and Nielsen Together</h2>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">Rules of the road for internal numbers</h3>
+<ul>
+  <li><b>Chase growth, not absolutes.</b> Absolute numbers matter, but growth is the metric that keeps you honest.</li>
+  <li><b>Separate value growth from volume growth.</b> If you took a 10% price increase and sales grew 11%, you barely moved the needle. Consumers buy <em>units</em>, not rupees.</li>
+  <li><b>Always ask about the base effect.</b> A previous-period 1+1 offer, a stock-out, a price hike &mdash; anything that distorted the base &mdash; will distort this month's growth number.</li>
+  <li><b>Map seasonality.</b> Some categories (Glucon-D) do 60% of turnover in three months. Some brands double during festivals. Compare Q1-to-Q1, not Q1-to-Q2.</li>
+  <li><b>Get geography right.</b> Internal sales come in ASM-territory buckets, which shift over time as territories are recut. Do not compare apples to reorganized apples.</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">The four internal KPIs to track</h3>
+<ol>
+  <li>Absolute Volume</li>
+  <li>Absolute Value</li>
+  <li>SKU / Variant Mix</li>
+  <li>Volume &amp; Value Growth</li>
+</ol>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">Drill-downs that matter</h4>
+<ul>
+  <li>By SKU / Variant / Pack Type (bottles vs. sachets, jars vs. cartons)</li>
+  <li>By Geography &mdash; Urban vs. Rural, State, Metros, Tier 1 / 2 / 3 towns</li>
+  <li>By Channel &mdash; General Trade, Modern Trade, E-commerce</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">The five Nielsen KPIs I refuse to live without</h3>
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">#</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Metric</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Definition</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Why it matters</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">1</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Market Share Value (MS Val)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Your value sales &divide; total category value sales in a market.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">The headline share number every leadership deck opens with.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Market Share Volume (MS Vol)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Your volume sales &divide; total category volume sales.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Volume is the consumer reality; value is the pricing game.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">3</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Numeric Distribution (ND)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Outlets where you are present &divide; total outlets where the category is sold.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">How wide are you?</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">4</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Weighted Distribution (WtD)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Category sales in your outlets &divide; total category sales.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Are you present in the outlets that <em>matter</em>? Always chase this above ND.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">5</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Share Amongst Handlers (SAH)</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Your share only within the outlets that carry you.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">For a strong brand, SAH should be meaningfully higher than overall share.</td>
+</tr>
+</table>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>A hypothetical to seal it:</b> If your ND is 80% but your WtD is only 50%, you are present in a lot of outlets &mdash; but the wrong ones. Your feet are moving; your sales aren't. Fix quality of distribution, not just quantity.
+</div>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">Choosing the right unit for volume share</h3>
+<p>Hair colour &rarr; <b>unit</b> share (different formats, no common gram basis). Soaps &rarr; <b>tonnage</b> share (everything measures in grams). Pick whatever makes sense for the category &mdash; never blindly copy from one to the other.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">Bringing Nielsen and Internal Numbers Together &mdash; the 2&times;2</h3>
+<p>The single most powerful diagnostic in FMCG is a <b>2&times;2 of Nielsen growth vs. Internal secondary growth</b>. Every market you sell into plots somewhere on this chart. Interpret as follows:</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">&nbsp;</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">High Nielsen Growth</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Low Nielsen Growth</th>
+</tr>
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">High Secondary Growth</th>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Doing Well</b> &mdash; continue efforts, keep both engines running.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Increase Investment</b> &mdash; sales pipe is filling but consumer offtake isn't; you need more media, more consumer activation, more promo.</td>
+</tr>
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Low Secondary Growth</th>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Strong Brand &mdash; Push Sales</b> &mdash; the consumer wants you but distribution is under-serving demand; strong sales plans help.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Immediate Action Plan</b> &mdash; nothing is working; go deep before you spend another rupee.</td>
+</tr>
+</table>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">Worked example: Primary vs. Secondary sales growth by market</h4>
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Country</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Primary Sales</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#f0fdfa;color:#065f46;">Secondary Sales</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Australia</td><td style="border:1px solid #d1d5db;padding:8px 10px;">8%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">7%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Bangladesh</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">4%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">-7%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">China</td><td style="border:1px solid #d1d5db;padding:8px 10px;">9%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">-6%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Hong Kong</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">-6%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">India</td><td style="border:1px solid #d1d5db;padding:8px 10px;">8%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">1%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Indonesia</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">6%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">3%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Japan</td><td style="border:1px solid #d1d5db;padding:8px 10px;">-7%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">10%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">South Korea</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">7%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Malaysia</td><td style="border:1px solid #d1d5db;padding:8px 10px;">7%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">-6%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">New Zealand</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">-6%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">-6%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Philippines</td><td style="border:1px solid #d1d5db;padding:8px 10px;">2%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">-1%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Singapore</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">-5%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">10%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Sri Lanka</td><td style="border:1px solid #d1d5db;padding:8px 10px;">-5%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">-2%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Taiwan</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">-2%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">10%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Thailand</td><td style="border:1px solid #d1d5db;padding:8px 10px;">6%</td><td style="border:1px solid #d1d5db;padding:8px 10px;">1%</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Vietnam</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">7%</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">4%</td></tr>
+</table>
+<p>Notice China, Malaysia, Bangladesh &mdash; <b>primary is growing but secondary is bleeding</b>. That is inventory piling up at the distributor, not consumer demand. Left unattended, this becomes tomorrow's returns and mark-downs. Contrast with Japan, Singapore, Taiwan &mdash; <b>secondary is racing ahead of primary</b>, meaning consumers are pulling harder than the pipe is delivering; expand distribution urgently.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">Two more reconciliation checks worth doing</h3>
+<ul>
+  <li><b>Share-of-share ratio.</b> Build a stable ratio of internal secondary volumes (or value, if you have only one SKU) to Nielsen offtake. Every time share moves in the wrong direction, first check whether this ratio has shifted &mdash; a change in pick-up rate often explains what looks like a share issue. Critical for new brands and Modern-Trade-heavy brands.</li>
+  <li><b>Geographical contribution mismatch.</b> If your top 20 cities internally don't match your top 20 in Nielsen, wholesale is inflating internal numbers and your real consumer sits elsewhere. Your marketing needs to follow the consumer, not the invoice.</li>
+</ul>
+
+<div style="background:#fff7ed;border-left:4px solid #b45309;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Golden rule:</b> When marrying internal and Nielsen data, look for <b>trends</b>, not absolute matches. A 2&ndash;3% gap between an 8% internal growth and a 10% Nielsen growth is completely normal. If you chase absolute reconciliation, you will chase your own tail.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#0f766e;font-size:22px;margin-top:34px;border-left:4px solid #0f766e;padding-left:10px;">Part 4 &middot; The Household Panel &mdash; Where Strategy Actually Gets Made</h2>
+<p>Nielsen retail audit tells you <em>what</em> is happening. The <b>household panel</b> tells you <em>why</em>. Retail audit is a scoreboard; panel is the game film. If you make brand decisions without panel, you are guessing.</p>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">1. Penetration</h3>
+<p><b>Penetration = Brand HHs &divide; Total Category HHs.</b> Measure at two levels:</p>
+<ul>
+  <li><b>Category Penetration</b> = Category HHs &divide; Universe. This tells you the lifecycle stage of the category. Soaps are near 100% penetration &mdash; you can only grow at competitors' expense, and loyalty is low. Hair colour is under 30% &mdash; <b>category growth</b> is the single biggest brand objective.</li>
+  <li><b>Brand Penetration</b> = HHs your brand is bought into within the category. Set a realistic penetration objective (L'Or&eacute;al Excellence and Garnier Color Naturals cannot share the same target), then craft the marketing mix to hit and hold it. A drop in brand penetration is almost always a crisis &mdash; but <b>measure over a quarter, never month-on-month</b>.</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">2. Consumption</h3>
+<ul>
+  <li><b>Total Consumption</b> &mdash; total volume of your brand across all buying HHs.</li>
+  <li><b>Average Consumption</b> &mdash; volume per HH. This is the number you watch to detect seasonality, promo lift, or ad impact. Ran a "use twice a day" campaign? Avg. consumption should move up.</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">3. Share of Requirement (SOR)</h3>
+<p><b>SOR = Your brand's volume in brand HHs &divide; total category volume in brand HHs.</b> This is your <em>share inside a household that already buys you</em>. Because most HHs buy multiple brands (shampoo is the classic multi-brand category in India), SOR reveals how central you are to that HH.</p>
+<ul>
+  <li>SOR trending down &rarr; other brands are winning more occasions inside your consumer's home.</li>
+  <li>SOR trending up (especially for an occasional-use brand) &rarr; consumers are consolidating around you. Look for the enabler: distribution, pricing, affluence, communication.</li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">4. Entry&ndash;Erosion Analysis: where growth comes from</h3>
+<p>For any period, decompose your buying HHs into three groups:</p>
+<ul>
+  <li><b>New Triers</b> &mdash; HHs that bought you for the first time in the period. This is your <em>trialability</em> signal. Also check what % of your total consumption came from these new triers &mdash; are they meaningful buyers or just curious samplers? Use a period of at least 6 months; anything shorter is noise.</li>
+  <li><b>Retained Users</b> &mdash; HHs that bought you in the previous period and this one. This is your <em>loyalty</em>. Watch the consumption trend within these HHs &mdash; are they doubling down on you or slowly adding a second brand to their repertoire?</li>
+  <li><b>Lapsers</b> &mdash; HHs that bought you last period but not this one. High lapsage is a red flag, but it must always be judged inside the category context:
+    <ul>
+      <li>A baby-food brand for 6&ndash;9 month olds will demographically lose HHs every quarter &mdash; that is not a lapsage problem.</li>
+      <li>A summer brand like Glucon-D will look catastrophic if you compare Q2 to Q3 &mdash; the category simply isn't relevant.</li>
+    </ul>
+    Also ask: were the lapsers heavy users or marginal buyers? Losing marginal buyers is inconvenient; losing heavy users is an emergency.
+  </li>
+</ul>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">5. Gain / Loss Analysis: the four ways volume moves</h3>
+<ol>
+  <li><b>New Category Users / Category Lapsers</b> &mdash; HHs entering or exiting the category through you. Baby products are the classic case.</li>
+  <li><b>Increase / Decrease in Consumption</b> &mdash; HHs simply using more or less of your brand. Beware of fill-rate changes: a shampoo brand that reduces sachet fill from 7.5 ml to 6 ml will see absolute consumption per HH drop, because HHs use one sachet at a time regardless. Conversely, a 10% extra-fill promo on a small SKU may not reduce pack purchase, so absolute consumption rises.</li>
+  <li><b>Addition / Deletion to Repertoire</b> &mdash; HHs adding you <em>on top of</em> existing brands to solve a specific job. Fabric softeners live here (they don't replace detergent). Ezee liquid detergent enters winter repertoires and exits in spring.</li>
+  <li><b>Gain / Loss from Competition</b> &mdash; direct substitution. This is the number that identifies your real competition &mdash; and it is often not who you thought.</li>
+</ol>
+
+<div style="background:#fff7ed;border-left:4px solid #b45309;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>The reality check no one wants to see:</b> You launch a premium fairness cream, price it 200% above market, communicate to affluent skincare users &mdash; and panel shows your triers are actually coming from the bottom of the pyramid. That's either a media opportunity (pivot spend, embrace it) or a strategy failure (your positioning is not landing where you aimed). Either way, only panel will tell you before it is too late.
+</div>
+
+<h3 style="color:#065f46;font-size:18px;margin-top:22px;">How I actually use panel &mdash; tactical playbook</h3>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">Consumer promo evaluation</h4>
+<p>Panel gives you empirical evidence: did the promo bring in new HHs, deepen consumption in existing HHs, lift SOR, or steal from competition? Same questions for competitors' promos &mdash; so you know which mechanics work and which will hurt them most next quarter.</p>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">Cross promotion</h4>
+<p>Before you cross-promote with brand X, panel tells you the HH intersection: will you actually reach new HHs, or are you just talking to the same people twice?</p>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">SKU decisions</h4>
+<p>If All-India avg. consumption for your brand is 100 g but a particular state or SEC clocks 500 g, there is a real case for a 500 g SKU. You save packaging cost and you lock the consumer in longer &mdash; a big pack means the next brand-consideration event is further away.</p>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">Media deployment</h4>
+<p>If your intended TG was SEC A/B but your actual HHs are SEC C/D, take the media mass. Add mediums that reach your real consumer, not your imagined one.</p>
+
+<h4 style="color:#334155;font-size:16px;margin-top:16px;margin-bottom:4px;">Cannibalisation from a LUP (Low-Unit-Price) launch</h4>
+<p>The perennial FMCG debate &mdash; will a &#8377;5 sachet destroy the &#8377;50 bottle? Only panel can tell you, using competition and adjacent-category data, how much cannibalisation to expect. Guess this one wrong and you will destroy a profit pool overnight.</p>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#0f766e;font-size:22px;margin-top:34px;border-left:4px solid #0f766e;padding-left:10px;">Bringing It All Together</h2>
+<p>Here is the mental model I keep coming back to:</p>
+<ul>
+  <li><b>Internal Secondary</b> is your reality &mdash; start here, always.</li>
+  <li><b>Nielsen</b> is your competitive scoreboard &mdash; reconcile trends, not absolutes.</li>
+  <li><b>Panel</b> is your consumer film &mdash; reach for it when you need to explain <em>why</em>.</li>
+  <li><b>Brand Track, SOV/GRP, U&amp;A</b> are the diagnostics that convert insight into next quarter's plan.</li>
+</ul>
+<p>Metrics don't make decisions. But without them, you make decisions on vibes. And vibes don't scale to &#8377;500-crore brands.</p>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>What's next:</b> If there is enough interest, I'll follow up with a Part 5 on how machine learning &mdash; market-mix models, uplift modeling, propensity scores &mdash; plugs into this classical measurement stack. Drop a comment with the questions you'd want answered.
+</div>
+
+<div style="margin-top:36px;padding-top:14px;border-top:2px solid #e5e7eb;color:#64748b;font-size:14px;">
+Originally published in four parts on <i>The Practical Data Scientist</i> (2019). This is a consolidated, revised, and rewritten edition. All frameworks and definitions remain vendor-neutral and are meant to be applicable across any FMCG category or geography.
+<br /><br />
+<b>About the author:</b> Sajal Agarwal writes about analytics, data science, and how to turn data into decisions in real business contexts.
+</div>
+
+</div>

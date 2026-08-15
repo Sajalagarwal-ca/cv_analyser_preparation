@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forward Deployed Engineer - Interview Preparation Roadmap</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --info: #74b9ff;
+            --text: #dfe6e9;
+            --card-bg: #1e2a3a;
+            --border: #2d3748;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            border-bottom: 3px solid var(--highlight);
+            margin-bottom: 2rem;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #e94560, #74b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        header p { color: #b2bec3; font-size: 1.1rem; }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-tabs a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+        .nav-tabs a:hover {
+            background: var(--highlight);
+            border-color: var(--highlight);
+            transform: translateY(-2px);
+        }
+
+        section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        section h2 {
+            color: var(--highlight);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        section h3 {
+            color: var(--info);
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.8rem;
+        }
+        section h4 {
+            color: var(--success);
+            font-size: 1.05rem;
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(233, 69, 96, 0.1);
+            border-left: 4px solid var(--highlight);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .info-box {
+            background: rgba(116, 185, 255, 0.1);
+            border-left: 4px solid var(--info);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .success-box {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning-box {
+            background: rgba(253, 203, 110, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        ul, ol { padding-left: 1.5rem; margin: 0.8rem 0; }
+        li { margin-bottom: 0.5rem; }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        
+        .card {
+            background: rgba(15, 52, 96, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.15);
+        }
+        .card h4 { margin-top: 0; }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--highlight), var(--info), var(--success));
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.35rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--highlight);
+            border: 3px solid var(--card-bg);
+        }
+
+        .question-block {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 0.8rem 0;
+        }
+        .question-block p {
+            color: #dfe6e9;
+            font-style: italic;
+        }
+        .question-block .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--info);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            font-style: normal;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        th {
+            background: var(--accent);
+            color: var(--info);
+            font-weight: 600;
+        }
+        tr:nth-child(even) { background: rgba(0,0,0,0.15); }
+
+        .company-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .palantir { background: rgba(0, 184, 148, 0.2); color: #00b894; border: 1px solid #00b894; }
+        .openai { background: rgba(116, 185, 255, 0.2); color: #74b9ff; border: 1px solid #74b9ff; }
+        .anthropic { background: rgba(233, 69, 96, 0.2); color: #e94560; border: 1px solid #e94560; }
+        .google { background: rgba(253, 203, 110, 0.2); color: #fdcb6e; border: 1px solid #fdcb6e; }
+        .tiger { background: rgba(255, 165, 0, 0.2); color: #ffa500; border: 1px solid #ffa500; }
+
+        .progress-tracker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .progress-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .progress-item:hover { border-color: var(--highlight); }
+        .progress-item.active { border-color: var(--success); background: rgba(0, 184, 148, 0.1); }
+        .progress-item .week { font-size: 0.8rem; color: #636e72; text-transform: uppercase; }
+        .progress-item .label { font-weight: 600; margin-top: 0.3rem; }
+
+        .checklist { list-style: none; padding: 0; }
+        .checklist li {
+            padding: 0.5rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+            border-bottom: 1px solid rgba(45, 55, 72, 0.5);
+        }
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        .mock-interview {
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.6), rgba(26, 26, 46, 0.8));
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+        .mock-interview .role-tag {
+            display: inline-block;
+            background: var(--highlight);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .mock-interview .dialogue {
+            margin: 0.8rem 0;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+        }
+        .mock-interview .interviewer {
+            background: rgba(116, 185, 255, 0.1);
+            border-left: 3px solid var(--info);
+        }
+        .mock-interview .candidate {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 3px solid var(--success);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 1.8rem; }
+            .nav-tabs { flex-direction: column; position: static; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .progress-tracker { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Forward Deployed Engineer</h1>
+        <p>Complete Interview Preparation Roadmap &mdash; Palantir &bull; OpenAI &bull; Anthropic &bull; Google</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #636e72;">Last Updated: August 2026</p>
+    </header>
+
+    <div class="container">
+        <nav class="nav-tabs">
+            <a href="#origin">Origins & Role</a>
+            <a href="#interview-loop">Interview Loop</a>
+            <a href="#system-design">System Design</a>
+            <a href="#decomposition">Decomposition</a>
+            <a href="#project-deepdive">Project Deep Dive</a>
+            <a href="#rag-eval">RAG & Evals</a>
+            <a href="#agentic">Agentic Workflows</a>
+            <a href="#behavioral">Behavioral</a>
+            <a href="#company-diff">Company Differences</a>
+            <a href="#tiger-analytics">Tiger Analytics</a>
+            <a href="#mock-interviews">Mock Interviews</a>
+            <a href="#roadmap">4-Week Roadmap</a>
+            <a href="#red-flags">Red Flags</a>
+            <a href="#resources">Resources</a>
+        </nav>
+
+        <!-- SECTION: Origins -->
+        <section id="origin">
+            <h2>Origins of the Forward Deployed Engineer Role</h2>
+            
+            <h3>Palantir: The Inventor (2005&ndash;Present)</h3>
+            <div class="info-box">
+                <p><strong>Palantir coined the "Forward Deployed Software Engineer" (FDSE) title</strong> in the early days of the company. The role was born from necessity &mdash; Palantir's products (Gotham, Foundry) required on-site engineers who could translate messy government and enterprise data into operational software. These engineers sat with intelligence analysts, logistics officers, and corporate strategists to build bespoke deployments on top of Palantir's platform.</p>
+            </div>
+            <ul>
+                <li><strong>Philosophy:</strong> Engineering excellence + customer empathy + ownership of outcomes</li>
+                <li><strong>Key Trait:</strong> Ability to operate in ambiguous, high-stakes environments with no playbook</li>
+                <li><strong>Typical Work:</strong> Ontology modelling, data integration pipelines, deploying analytics into customer workflows</li>
+                <li><strong>Why it works:</strong> The FDSE bridges the gap between product and customer reality — solving "the last mile" of enterprise deployment</li>
+            </ul>
+
+            <h3>OpenAI: The AI-Native Evolution (2023&ndash;Present)</h3>
+            <div class="info-box">
+                <p><strong>OpenAI adopted the FDE model</strong> as enterprises began deploying GPT-4 and later models. The role focuses on deploying and securing applications around model APIs, handling enterprise-specific compliance, and proving ROI during pilot phases.</p>
+            </div>
+            <ul>
+                <li><strong>Focus:</strong> LLM deployment, RAG architectures, evaluation pipelines, security, and cost control</li>
+                <li><strong>Key Differentiator:</strong> Heavy emphasis on case studies + customer empathy (~50% of evaluation)</li>
+                <li><strong>Compensation:</strong> Median $238K, scaling past $630K at Staff level</li>
+            </ul>
+
+            <h3>Why This Role Exists</h3>
+            <div class="highlight-box">
+                <p><strong>Enterprise AI pilots fail without an FDE.</strong> The role exists because:</p>
+                <ul>
+                    <li>Enterprise data is messy, siloed, and poorly documented</li>
+                    <li>Off-the-shelf AI products need customization to deliver value</li>
+                    <li>Customers cannot self-serve complex deployments</li>
+                    <li>The gap between "demo" and "production" is where most value (and risk) lives</li>
+                </ul>
+            </div>
+
+            <h3>FDE vs. Traditional Roles</h3>
+            <table>
+                <tr><th>Aspect</th><th>Software Engineer</th><th>Solutions Engineer</th><th>Forward Deployed Engineer</th></tr>
+                <tr><td>Code Ownership</td><td>Owns product codebase</td><td>Demos/configures product</td><td>Writes custom code at customer site</td></tr>
+                <tr><td>Customer Contact</td><td>Rare/None</td><td>Pre-sales demos</td><td>Deep, ongoing embedded relationship</td></tr>
+                <tr><td>Ambiguity</td><td>Well-defined tickets</td><td>Defined playbooks</td><td>No playbook; discovers the problem</td></tr>
+                <tr><td>Sales Quota</td><td>None</td><td>Often yes</td><td>Never (0 of ~1000 postings)</td></tr>
+                <tr><td>Scope</td><td>Feature-level</td><td>Product fit</td><td>End-to-end deployment + outcome</td></tr>
+            </table>
+        </section>
+
+        <!-- SECTION: Interview Loop -->
+        <section id="interview-loop">
+            <h2>The FDE Interview Loop (5 Stages)</h2>
+            <p>Consistent across Palantir, OpenAI, Google, ElevenLabs. Expect 3&ndash;6 weeks end to end.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Stage 1: Recruiter Screen (30&ndash;45 min)</h3>
+                    <p>Background, motivation for customer-facing engineering. The #1 failure: inability to frame past work in <strong>deployment terms</strong>. Talk about outcomes you owned end-to-end, not processes you participated in.</p>
+                    <div class="warning-box">
+                        <strong>Key Signal:</strong> Can you articulate why you want to be at the intersection of engineering and customer delivery?
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Stage 2: Hiring Manager Screen (45&ndash;60 min)</h3>
+                    <p>Deeper on scope, ambiguity, operating inside someone else's organization. Evidence of customer-facing delivery work &mdash; even informal.</p>
+                    <ul>
+                        <li>How you handle scope ambiguity</li>
+                        <li>Examples of working with external stakeholders</li>
+                        <li>Evidence of ownership beyond your job title</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Stage 3: Technical Deep Dives (2 rounds, 60&ndash;75 min each)</h3>
+                    <p><strong>Round A &mdash; Coding:</strong> Live API composition, data parsing, cloud configuration (NOT LeetCode puzzles)</p>
+                    <p><strong>Round B &mdash; System Design:</strong> Messy enterprise migration, ingestion pipeline, or production AI deployment</p>
+                    <div class="info-box">
+                        <strong>Shift from traditional:</strong> No "design a URL shortener". Instead: "Design a human-in-the-loop agentic workflow for a regulated industry where every action must be auditable and reversible."
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Stage 4: Decomposition Case Study (45&ndash;60 min) &mdash; THE DECIDER</h3>
+                    <p>Vague enterprise problem. No single right answer. <strong>Lowest pass rate in the loop.</strong> Highest weight.</p>
+                    <div class="highlight-box">
+                        <strong>Instant-fail:</strong> Jumping to a solution. Your first instinct on "reduce 911 response times" will be "build a model to predict traffic." <strong>RESIST IT.</strong>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Stage 5: Behavioral & Posture (1&ndash;2 rounds)</h3>
+                    <p>STAR-format stories. Some labs add a <strong>live client simulation</strong> where interviewer role-plays a difficult stakeholder.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: System Design -->
+        <section id="system-design">
+            <h2>System Design Questions & Architecture Patterns</h2>
+            
+            <h3>API Composition & Data Pipeline Engineering</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Pipeline</span><span class="tag">RAG</span>
+                    <p>Design an enterprise-grade ingestion pipeline that processes 50,000 multi-format documents per hour into a vector database. How do you handle chunking strategies for mixed tables and text?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Security</span><span class="tag">Healthcare</span>
+                    <p>How do you build a secure, HIPAA-compliant proxy layer between an enterprise healthcare stack and a third-party LLM API? Detail your consent-revocation and data masking logic.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Data Engineering</span><span class="tag">PySpark</span>
+                    <p>If a client's legacy database exports highly unstructured ERP data, how do you construct a PySpark pipeline to enforce a clean target ontology?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">MCP</span><span class="tag">Latency</span>
+                    <p>Architect a real-time retrieval pipeline using an MCP (Model Context Protocol) server layout. What are the primary latency bottlenecks?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Scale</span><span class="tag">Cost Control</span>
+                    <p>How do you handle rate-limiting and token throttling when scaling an enterprise AI application across multiple downstream API keys?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Constraint</span><span class="tag">Architecture</span>
+                    <p>A client can only expose their core data through nightly batch exports, not a live API. How does that constraint change your architecture?</p>
+                </div>
+            </div>
+
+            <h3>Infrastructure, Security & Cloud IAM</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">IAM</span><span class="tag">AWS</span>
+                    <p>How do you configure cross-account AWS IAM roles to allow secure agentic tool access without exposing root administrative privileges?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Security</span><span class="tag">Prompt Injection</span>
+                    <p>Detail your mitigation strategy against prompt injection attacks that target backend data storage systems via user input.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Security</span><span class="tag">ML</span>
+                    <p>What mechanisms do you implement to detect and defend against training data poisoning in an active production feedback loop?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Environment</span><span class="tag">Finance</span>
+                    <p>How do you isolate staging from production inside a financial-services environment with strict data-egress rules?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">On-Premise</span><span class="tag">Trade-offs</span>
+                    <p>A client demands an on-premise deployment instead of a managed API. What trade-offs do you flag, and what do you refuse to compromise on?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Deployment</span><span class="tag">Regulated</span>
+                    <p>Design a human-in-the-loop agentic workflow for a regulated industry where every automated action must be auditable and reversible.</p>
+                </div>
+            </div>
+
+            <h3>System Design Framework (How to Answer)</h3>
+            <div class="success-box">
+                <ol>
+                    <li><strong>Clarify Constraints:</strong> Ask about data volume, latency requirements, compliance, existing infra, team capabilities</li>
+                    <li><strong>Define the MVP:</strong> What's the smallest thing that proves value? Don't over-architect</li>
+                    <li><strong>Draw the Architecture:</strong> Data flow, compute, storage, APIs, auth boundaries</li>
+                    <li><strong>Address Failure Modes:</strong> What breaks first? How do you monitor, alert, rollback?</li>
+                    <li><strong>Cost & Scale:</strong> How does this grow? What's the cost model? Where are the bottlenecks?</li>
+                    <li><strong>Customer Reality:</strong> What does the client's team look like? Can they maintain this?</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SECTION: Decomposition -->
+        <section id="decomposition">
+            <h2>The Decomposition Case Study (The Killer Round)</h2>
+            
+            <div class="highlight-box">
+                <p><strong>This round eliminates the most otherwise-strong candidates.</strong> It carries the highest weight and roughly the lowest pass rate. The failure mode is almost always the same: jumping to a solution before clarifying.</p>
+            </div>
+
+            <h3>The Winning Framework</h3>
+            <ol>
+                <li><strong>Ask Clarifying Questions</strong> &mdash; Find which problem actually matters</li>
+                <li><strong>Decompose into Solvable Chunks</strong> &mdash; Break the vague into the specific</li>
+                <li><strong>Propose a Deliberately Small MVP</strong> &mdash; Resist the urge to design the final system</li>
+                <li><strong>Iterate and Surface Failure Modes</strong> &mdash; Name the risks nobody asked about</li>
+                <li><strong>Map to Customer Reality</strong> &mdash; Cost, timeline, team capability, compliance</li>
+            </ol>
+
+            <h3>Case Study 1: Legacy Financial Services Migration</h3>
+            <div class="mock-interview">
+                <div class="dialogue interviewer">
+                    <span class="role-tag">Interviewer</span>
+                    <p>"A Fortune 100 bank wants to deploy an AI agent to automate internal portfolio compliance audits. Their data is trapped across three legacy mainframes, and their compliance parameters change quarterly based on multi-state regulations. Design the deployment strategy."</p>
+                </div>
+                <h4>Optimal Discovery Questions:</h4>
+                <ul>
+                    <li>What is the baseline latency threshold for individual compliance audit report generation?</li>
+                    <li>How are regulatory updates currently ingested and verified by the human compliance team?</li>
+                    <li>Do we have direct access to place a secure API proxy layer over the legacy mainframe environments, or must we work via intermediate batch exports?</li>
+                </ul>
+                <h4>MVP Framework:</h4>
+                <div class="success-box">
+                    <p>Propose a localized, <strong>read-only</strong> document extraction pipeline targeting a <strong>single regulatory framework first</strong>. Build a validated evaluation dataset using historical audit reports <strong>before</strong> expanding to multi-state parallel processing.</p>
+                </div>
+            </div>
+
+            <h3>Case Study 2: Supply Chain Disruption Engine</h3>
+            <div class="mock-interview">
+                <div class="dialogue interviewer">
+                    <span class="role-tag">Interviewer</span>
+                    <p>"An international logistics enterprise wants an active agentic workflow to automatically reroute shipping shipments based on real-time weather alerts and global port delays. They want the system running in production in 45 days."</p>
+                </div>
+                <h4>Optimal Discovery Questions:</h4>
+                <ul>
+                    <li>What specific downstream systems are authorized to execute shipping changes, and do they support transactional rollbacks?</li>
+                    <li>What is the historical ground-truth data available for training our evaluation suite against past rerouting decisions?</li>
+                </ul>
+                <h4>MVP Framework:</h4>
+                <div class="success-box">
+                    <p>Prioritize a <strong>human-in-the-loop advisory dashboard</strong> that outputs optimized rerouting recommendations with clear confidence scores, <strong>completely bypassing autonomous execution</strong> during the initial pilot phase.</p>
+                </div>
+            </div>
+
+            <h3>Case Study 3: Emergency Response Optimization</h3>
+            <div class="mock-interview">
+                <div class="dialogue interviewer">
+                    <span class="role-tag">Interviewer</span>
+                    <p>"A city wants to cut emergency response times using their call, traffic, and GPS data &mdash; you have 60 minutes, go."</p>
+                </div>
+                <h4>Your First Move (NOT "build a traffic prediction model"):</h4>
+                <ul>
+                    <li>What's the current average response time and what's the target?</li>
+                    <li>Where in the process is the bottleneck: dispatch, routing, or resource availability?</li>
+                    <li>What's the data quality of the GPS feeds? Real-time or delayed?</li>
+                    <li>Are there regulatory constraints on automated dispatch decisions?</li>
+                    <li>What system does dispatch currently use? Can we integrate or must we replace?</li>
+                </ul>
+            </div>
+
+            <h3>Practice Domains for Decomposition</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Healthcare</h4>
+                    <ul>
+                        <li>Patient triage optimization</li>
+                        <li>Medical records extraction</li>
+                        <li>Drug interaction alerting</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Finance</h4>
+                    <ul>
+                        <li>Fraud detection pipeline</li>
+                        <li>Portfolio compliance</li>
+                        <li>KYC automation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Logistics</h4>
+                    <ul>
+                        <li>Route optimization</li>
+                        <li>Demand forecasting</li>
+                        <li>Warehouse automation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Retail</h4>
+                    <ul>
+                        <li>Personalization engine</li>
+                        <li>Inventory management</li>
+                        <li>Customer support AI</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Project Deep Dive -->
+        <section id="project-deepdive">
+            <h2>Project Deep Dive &mdash; Architecture Walkthrough</h2>
+            
+            <div class="info-box">
+                <p>In this round, you present a past project. The interviewer will drill into your architectural decisions, trade-offs, and what you'd do differently. Prepare <strong>3 projects</strong> at different scales.</p>
+            </div>
+
+            <h3>How to Structure Your Deep Dive (10&ndash;15 min presentation)</h3>
+            <ol>
+                <li><strong>Context (2 min):</strong> Customer problem, constraints, team size, timeline</li>
+                <li><strong>Architecture (4 min):</strong> Draw the system &mdash; data flow, services, APIs, storage</li>
+                <li><strong>Key Decisions (3 min):</strong> Why you chose X over Y, trade-offs you accepted</li>
+                <li><strong>Deployment & Operations (2 min):</strong> How you shipped it, monitoring, incident response</li>
+                <li><strong>Impact & Lessons (2 min):</strong> Business metrics, what broke, what you'd change</li>
+            </ol>
+
+            <h3>Questions They Will Ask During Your Deep Dive</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Scale</span>
+                    <p>"What happens to your architecture at 100x the current load?"</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Trade-off</span>
+                    <p>"Why did you choose that database/queue/framework over alternatives?"</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Failure</span>
+                    <p>"What was the worst production incident and how did you respond?"</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Customer</span>
+                    <p>"How did you handle conflicting requirements from the customer?"</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Iteration</span>
+                    <p>"If you started over today, what would you do differently?"</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Data</span>
+                    <p>"How did you handle data quality issues from the customer's systems?"</p>
+                </div>
+            </div>
+
+            <h3>Architecture Patterns to Know Cold</h3>
+            <table>
+                <tr><th>Pattern</th><th>When to Use</th><th>FDE Context</th></tr>
+                <tr><td>RAG Pipeline</td><td>Enterprise knowledge retrieval</td><td>Document stores, chunking, vector DB, reranking</td></tr>
+                <tr><td>Event-Driven Ingestion</td><td>Real-time data from multiple sources</td><td>Kafka/EventHub + transform + sink</td></tr>
+                <tr><td>Human-in-the-Loop</td><td>High-stakes decisions, regulated industries</td><td>Confidence thresholds, escalation queues</td></tr>
+                <tr><td>Multi-Tenant Isolation</td><td>Serving multiple enterprise clients</td><td>Data isolation, auth boundaries, cost allocation</td></tr>
+                <tr><td>API Gateway + LLM Router</td><td>Multiple model providers, cost optimization</td><td>Rate limiting, fallback chains, token budgets</td></tr>
+                <tr><td>Batch → Streaming Migration</td><td>Modernizing legacy ETL</td><td>CDC, schema evolution, backward compatibility</td></tr>
+            </table>
+        </section>
+
+        <!-- SECTION: RAG & Eval -->
+        <section id="rag-eval">
+            <h2>RAG & Evaluation Engineering</h2>
+
+            <h3>Quantifying Model Performance</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Eval</span>
+                    <p>How do you design an automated evaluation suite to catch subtle model regressions before a new version ships to production?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Metrics</span>
+                    <p>Detail the exact differences between tracking recall@k, Mean Reciprocal Rank (MRR), and hit-rate analysis in a RAG system.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">LLM-as-Judge</span>
+                    <p>How do you build an LLM-as-a-Judge pipeline that remains deterministic and cost-effective at enterprise scale?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Security</span>
+                    <p>What baseline datasets do you construct to validate that an enterprise chatbot does not leak proprietary company information?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">CI/CD</span>
+                    <p>A client's compliance team flags a critical hallucination pattern during a pilot phase. How do you wire an automated rollback gate into the CI/CD pipeline?</p>
+                </div>
+            </div>
+
+            <h3>Context Window & Retrieval Optimization</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Context</span>
+                    <p>How do you optimize context window usage when an application needs to reference long, multi-turn conversational histories?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Hybrid Search</span>
+                    <p>What are the architectural benefits of utilizing a hybrid search pattern (sparse + dense) over dense vector embeddings alone?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Lost in Middle</span>
+                    <p>How do you resolve the "lost in the middle" phenomenon when passing long retrieved contexts to LLMs?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Chunking</span>
+                    <p>Explain your approach to dynamically adjusting chunk sizes based on document metadata filters.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Index Maintenance</span>
+                    <p>How do you manage vector database index fragmentation when an enterprise client runs thousands of real-time data updates daily?</p>
+                </div>
+            </div>
+
+            <h3>Key Eval Metrics Cheat Sheet</h3>
+            <table>
+                <tr><th>Metric</th><th>What It Measures</th><th>When to Use</th></tr>
+                <tr><td>Recall@k</td><td>% of relevant docs in top-k results</td><td>Retrieval quality assessment</td></tr>
+                <tr><td>MRR (Mean Reciprocal Rank)</td><td>Position of first relevant result</td><td>Single-answer retrieval</td></tr>
+                <tr><td>Hit Rate</td><td>% of queries with at least one relevant result in top-k</td><td>Coverage assessment</td></tr>
+                <tr><td>Faithfulness</td><td>Is the answer grounded in retrieved context?</td><td>Hallucination detection</td></tr>
+                <tr><td>Answer Relevance</td><td>Does the answer address the question?</td><td>End-to-end quality</td></tr>
+                <tr><td>Context Precision</td><td>How much noise is in the retrieved context?</td><td>Retrieval tuning</td></tr>
+            </table>
+        </section>
+
+        <!-- SECTION: Agentic -->
+        <section id="agentic">
+            <h2>Advanced Agentic Workflows & Compliance</h2>
+
+            <h3>Multi-Agent Coordination & Tool Execution</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Routing</span>
+                    <p>How do you architect a deterministic routing layer to prevent multi-agent systems from getting trapped in infinite loop states?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Write Access</span>
+                    <p>What safeguards do you implement when an enterprise agent is granted direct write access to a production CRM database?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Audit</span>
+                    <p>Detail your approach to logging and auditing agentic execution paths for compliance tracking in a regulated industry.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">State</span>
+                    <p>How do you optimize state management when an agentic workflow spans multiple asynchronous, long-running human approval steps?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Schema</span>
+                    <p>What are the primary operational failure modes when an application relies on dynamic, model-generated tool schema definitions?</p>
+                </div>
+            </div>
+
+            <h3>Global Regulatory Compliance</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">EU AI Act</span>
+                    <p>How does your deployment strategy change when implementing an enterprise AI pipeline within EU AI Act boundaries?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">SOC 2</span>
+                    <p>What architectural steps ensure an application strictly adheres to localized SOC 2 Type II data handling requirements?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">PII</span>
+                    <p>How do you prevent sensitive PII from leaking into shared foundational model caching layers?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Audit Trail</span>
+                    <p>Explain how you build a verifiable audit trail for an AI-generated decision in an insurance claims adjustment application.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Governance</span>
+                    <p>How do you handle data governance and retention boundaries when utilizing public model APIs for private enterprise workflows?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Behavioral -->
+        <section id="behavioral">
+            <h2>Behavioral & Customer Posture Questions</h2>
+            
+            <h3>Navigating High-Friction Engagements</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Discovery</span>
+                    <p>Tell me about a time you embedded with a client and discovered the problem in the SOW was completely different from their actual technical bottleneck.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Pushback</span>
+                    <p>How do you respond to a client CTO who insists on a complex custom fine-tuning framework when a simple RAG implementation solves the business goal?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Mistake</span>
+                    <p>Describe a scenario where you made a critical technical mistake during a live client deployment. How did you communicate the issue and handle remediation?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Speed vs Quality</span>
+                    <p>How do you balance writing clean, sustainable production code with the intense timeline pressures of an on-site enterprise pilot?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Trust</span>
+                    <p>A client's internal data engineering team views your presence as an outsourced threat to their jobs. How do you establish trust and collaboration?</p>
+                </div>
+            </div>
+
+            <h3>Structuring Strategic Value Narratives</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">ROI</span>
+                    <p>How do you translate a complex system regression metrics shift into a clear ROI metric for a non-technical corporate sponsor?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Expansion</span>
+                    <p>Give an example of how you proactively identified a contract expansion opportunity during a routine technical integration phase.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Scope Creep</span>
+                    <p>How do you manage scope creep when a customer requests custom platform enhancements outside the original deployment roadmap?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Pilot→Prod</span>
+                    <p>What metrics do you track to prove to an enterprise buyer that an AI deployment has moved from experimental pilot to production readiness?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Blocked</span>
+                    <p>How do you handle a scenario where a client's internal security team completely blocks your cloud deployment architecture due to legacy data policies?</p>
+                </div>
+            </div>
+
+            <h3>STAR Stories to Prepare (5 Required)</h3>
+            <div class="warning-box">
+                <p>Prepare these 5 stories. Keep each under 90 seconds. Trim ruthlessly.</p>
+                <ol>
+                    <li><strong>Cross-functional collaboration</strong> &mdash; Working across teams/orgs to deliver</li>
+                    <li><strong>Handling ambiguity</strong> &mdash; No clear requirements, you figured it out</li>
+                    <li><strong>Failed project</strong> &mdash; What went wrong, what you learned, how you recovered</li>
+                    <li><strong>Technical disagreement</strong> &mdash; How you navigated conflict with a peer/stakeholder</li>
+                    <li><strong>Impact without authority</strong> &mdash; Driving outcomes when you had no formal power</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SECTION: Company Differences -->
+        <section id="company-diff">
+            <h2>How Interviews Differ by Company</h2>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h4><span class="company-badge palantir">Palantir</span> Forward Deployed Software Engineer</h4>
+                    <ul>
+                        <li><strong>Invented the category</strong></li>
+                        <li>Heavy on data engineering & ontology modelling</li>
+                        <li>Decomposition round is legendarily tough</li>
+                        <li>~4 weeks average process</li>
+                        <li>PySpark, data pipelines, graph modelling</li>
+                        <li>Customer simulations with high ambiguity</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><span class="company-badge openai">OpenAI</span> Forward Deployed Engineer</h4>
+                    <ul>
+                        <li>Faster loop (~3 weeks)</li>
+                        <li>Case studies + customer empathy = ~50% of eval</li>
+                        <li>Deploying & securing apps around model APIs</li>
+                        <li>RAG, evals, token economics</li>
+                        <li>Business judgment weighted heavily</li>
+                        <li>Emphasis on proving pilot → production value</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><span class="company-badge anthropic">Anthropic</span> Applied AI Engineer</h4>
+                    <ul>
+                        <li>Production LLM systems (RAG, evals, agents, fine-tuning)</li>
+                        <li>Operational safety and alignment emphasis</li>
+                        <li>4&ndash;6 weeks (can stretch longer)</li>
+                        <li>Consulting fluency expected</li>
+                        <li>3-stage loop: behavioral → systems design → case study</li>
+                        <li>Exceptional emphasis on responsible AI</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><span class="company-badge google">Google & Startups</span> FDE / Applied AI</h4>
+                    <ul>
+                        <li>Google: newer 2026 format, FDE II&ndash;IV ladder</li>
+                        <li>Strong RAG, vector-DB, cloud deployment expectations</li>
+                        <li>Sometimes compressed into fewer rounds</li>
+                        <li>ElevenLabs: leaner loop, hacker mindset</li>
+                        <li>End-to-end ownership over process polish</li>
+                        <li>Startups move fastest (under 3 weeks)</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-color: #ffa500;">
+                    <h4><span class="company-badge tiger">Tiger Analytics</span> AI Consulting &mdash; FDE-Adjacent Delivery</h4>
+                    <ul>
+                        <li>7,000+ person AI & analytics consulting firm</li>
+                        <li>FDE-style embedded client delivery is core to their model</li>
+                        <li>Heavy on data science, ML engineering, and enterprise AI operationalization</li>
+                        <li>Interviews weight domain depth (CPG, BFSI, Healthcare, Logistics)</li>
+                        <li>&ldquo;Tiger Gene&rdquo;: ownership mindset, future-focused, daring to experiment</li>
+                        <li>Cloud partnerships: AWS, Azure, GCP, Databricks, Snowflake</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Comparison Matrix</h3>
+            <table>
+                <tr><th>Dimension</th><th>Palantir</th><th>OpenAI</th><th>Anthropic</th><th>Google</th><th>Tiger Analytics</th></tr>
+                <tr><td>Primary Weight</td><td>Decomposition + Data</td><td>Case Study + Business</td><td>LLM Systems + Safety</td><td>RAG + Cloud</td><td>Domain AI + Delivery</td></tr>
+                <tr><td>Coding Style</td><td>PySpark, ontology</td><td>API composition</td><td>Production systems</td><td>Cloud-native</td><td>Python, PySpark, SQL, Cloud</td></tr>
+                <tr><td>Timeline</td><td>~4 weeks</td><td>~3 weeks</td><td>4&ndash;6+ weeks</td><td>Variable</td><td>~3&ndash;4 weeks</td></tr>
+                <tr><td>Unique Element</td><td>Ontology modelling</td><td>Token economics</td><td>Alignment focus</td><td>Leveling (II-IV)</td><td>Industry domain depth</td></tr>
+                <tr><td>Behavioral</td><td>Client simulation</td><td>Customer empathy</td><td>Consulting fluency</td><td>Ownership stories</td><td>Ownership + consulting</td></tr>
+            </table>
+        </section>
+
+        <!-- SECTION: Tiger Analytics -->
+        <section id="tiger-analytics">
+            <h2>Tiger Analytics &mdash; FDE Role Expectations</h2>
+
+            <div class="info-box">
+                <p><strong>Tiger Analytics</strong> is a global AI & analytics consulting firm founded in 2011 by Mahesh Kumar and Pradeep Gulipalli, with 7,000+ technologists and consultants across North America, Europe, and Asia-Pacific. While they don't use the exact "Forward Deployed Engineer" title, their delivery model is <strong>structurally identical to the FDE role</strong> &mdash; engineers are embedded with Fortune 500 clients, solve ambiguous problems with AI/ML, and own end-to-end outcomes from discovery through production deployment.</p>
+            </div>
+
+            <h3>Company DNA &mdash; &ldquo;The Tiger Gene&rdquo;</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4 style="color: #ffa500;">Ownership Mindset</h4>
+                    <p>Teams operate with flexibility and autonomy but are highly accountable. Entrepreneurial streak in every engagement &mdash; you own the outcome, not just the code.</p>
+                </div>
+                <div class="card">
+                    <h4 style="color: #ffa500;">Future-Focused Approach</h4>
+                    <p>Solve not just for the present but for what the future might hold. Build for scale. Account for the visible today and the uncertain tomorrow.</p>
+                </div>
+                <div class="card">
+                    <h4 style="color: #ffa500;">Strong Expertise</h4>
+                    <p>Data scientists, engineers, developers, statisticians, domain experts, strategy consultants, designers, and experience consultants bring breadth of perspectives and deep problem-solving skills.</p>
+                </div>
+                <div class="card">
+                    <h4 style="color: #ffa500;">Daring to Experiment</h4>
+                    <p>Uncommon problems require unconventional approaches. Freedom to experiment, fail, learn, and evolve. Breakthroughs via learning experiments.</p>
+                </div>
+            </div>
+
+            <h3>Service Areas You Must Understand</h3>
+            <table>
+                <tr><th>Service Pillar</th><th>What It Covers</th><th>FDE Relevance</th></tr>
+                <tr><td>Strategy & Advisory</td><td>Analytics roadmap, data strategy, platform strategy</td><td>Discovery & scoping phase of FDE engagements</td></tr>
+                <tr><td>Engineer Your Data</td><td>Data modernization, data foundation, data operations</td><td>Core infrastructure work at client sites</td></tr>
+                <tr><td>Differentiate with AI/ML</td><td>Data science, AI engineering, ML products & platforms</td><td>Model building, RAG, GenAI &mdash; the technical core</td></tr>
+                <tr><td>Operationalize Insights</td><td>App engineering, BI, experience consulting, MLOps</td><td>Deploying AI into production workflows</td></tr>
+            </table>
+
+            <h3>Key Industry Domains (Interview Preparation)</h3>
+            <div class="warning-box">
+                <p>Tiger Analytics serves specific verticals deeply. You <strong>must</strong> be able to discuss AI use cases in at least 2&ndash;3 of these:</p>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>CPG & Retail</h4>
+                    <ul>
+                        <li>Demand forecasting (ForecastPro)</li>
+                        <li>Trade promotion optimization (TPOptimizer)</li>
+                        <li>Marketing mix modelling (MMX Planner)</li>
+                        <li>Trend detection (TrendSpotter)</li>
+                        <li>Revenue growth management</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Banking, Financial Services & Insurance</h4>
+                    <ul>
+                        <li>Fraud detection & risk modelling</li>
+                        <li>Underwriting automation (UWSmartFill)</li>
+                        <li>Claims processing with AI</li>
+                        <li>Customer churn prediction</li>
+                        <li>Regulatory compliance automation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Healthcare & Life Sciences</h4>
+                    <ul>
+                        <li>Clinical trial optimization</li>
+                        <li>Patient outcome prediction</li>
+                        <li>Drug discovery analytics</li>
+                        <li>HIPAA-compliant AI pipelines</li>
+                        <li>Real-world evidence (RWE) analytics</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Manufacturing, T&L & Tech</h4>
+                    <ul>
+                        <li>Supply chain optimization</li>
+                        <li>Predictive maintenance</li>
+                        <li>Route & logistics optimization</li>
+                        <li>IoT sensor analytics</li>
+                        <li>Quality control with computer vision</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Tiger Analytics Open IP &mdash; Products to Know</h3>
+            <div class="info-box">
+                <p>Tiger has proprietary accelerators. Knowing these shows you've done your homework:</p>
+            </div>
+            <table>
+                <tr><th>Product</th><th>Purpose</th><th>Interview Angle</th></tr>
+                <tr><td><strong>TigerML</strong></td><td>ML accelerator framework for rapid model development</td><td>Talk about accelerating model-to-production timelines</td></tr>
+                <tr><td><strong>Tiger Blueprints</strong></td><td>Pre-built solution templates for common business problems</td><td>Reference as examples of reusable deployment patterns</td></tr>
+                <tr><td><strong>Tiger DataSphere</strong></td><td>Data management and integration platform</td><td>Discuss data foundation work at enterprise clients</td></tr>
+                <tr><td><strong>Tiger AI Hub</strong></td><td>Centralized AI platform for enterprise deployment</td><td>MLOps, model governance, and operationalization</td></tr>
+                <tr><td><strong>Insights Pro</strong></td><td>Self-service analytics and business intelligence</td><td>Enabling business users to act on AI outputs</td></tr>
+                <tr><td><strong>ForecastPro</strong></td><td>Demand forecasting solution</td><td>Time series, accuracy vs. business value trade-offs</td></tr>
+            </table>
+
+            <h3>What Tiger Analytics Expects (FDE-Style Role)</h3>
+            <div class="grid-2">
+                <div class="card" style="border-color: #ffa500;">
+                    <h4 style="color: #ffa500;">Technical Depth</h4>
+                    <ul>
+                        <li>Python, PySpark, SQL &mdash; production-grade</li>
+                        <li>ML/DL frameworks: scikit-learn, PyTorch, TensorFlow</li>
+                        <li>Cloud platforms: AWS, Azure, GCP (at least one deeply)</li>
+                        <li>Data platforms: Databricks, Snowflake, Spark</li>
+                        <li>GenAI: RAG pipelines, LLM integration, prompt engineering</li>
+                        <li>MLOps: CI/CD for models, monitoring, drift detection</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-color: #ffa500;">
+                    <h4 style="color: #ffa500;">Consulting & Delivery Skills</h4>
+                    <ul>
+                        <li>Translate business problems into technical solutions</li>
+                        <li>Communicate with non-technical stakeholders</li>
+                        <li>Navigate ambiguity &mdash; discover the real problem</li>
+                        <li>Manage scope, expectations, and timelines</li>
+                        <li>Work embedded at client sites (onsite/hybrid)</li>
+                        <li>Prioritize long-term value over flashy tech</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Tiger Analytics Interview Questions (Expected Themes)</h3>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Domain</span><span class="tag">CPG</span>
+                    <p>A global CPG brand wants to optimize trade promotions across 50 markets. They have fragmented POS data and inconsistent retailer reporting. How do you design the data pipeline and ML solution?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Delivery</span><span class="tag">Client</span>
+                    <p>You're embedded at a client site and discover their data quality is far worse than what was scoped in the SOW. The delivery timeline is fixed. How do you handle this?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Architecture</span><span class="tag">Scale</span>
+                    <p>Design a real-time demand forecasting system for a retail chain with 2,000 stores and 50,000 SKUs. How do you handle cold-start products and seasonal patterns?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">ML</span><span class="tag">Production</span>
+                    <p>Your ML model performs well in dev but shows significant drift within 2 weeks of production deployment at a financial services client. Walk through your diagnosis and remediation process.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">GenAI</span><span class="tag">Enterprise</span>
+                    <p>A Fortune 100 insurer wants to automate underwriting using their historical data and LLMs. How do you architect the solution, and what guardrails do you put around AI-generated decisions?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Ownership</span><span class="tag">Consulting</span>
+                    <p>You&rsquo;ve been asked to build an analytics roadmap for a manufacturing client with zero data infrastructure. They want &ldquo;AI&rdquo; in 3 months. How do you set expectations and sequence the work?</p>
+                </div>
+            </div>
+
+            <h3>Cloud & Partnership Stack</h3>
+            <div class="success-box">
+                <p>Tiger Analytics has deep partnerships with these platforms. Be ready to discuss at least 2 in depth:</p>
+                <ul>
+                    <li><strong>Microsoft Azure:</strong> Azure ML, Synapse, Data Factory, Cognitive Services</li>
+                    <li><strong>AWS:</strong> SageMaker, Glue, Redshift, Bedrock, Lambda</li>
+                    <li><strong>Google Cloud:</strong> Vertex AI, BigQuery, Dataflow, Cloud Functions</li>
+                    <li><strong>Databricks:</strong> Unity Catalog, MLflow, Delta Lake, Spark</li>
+                    <li><strong>Snowflake:</strong> Snowpark, data sharing, streaming, Cortex AI</li>
+                </ul>
+            </div>
+
+            <h3>How Tiger Analytics Differs from Pure-Play FDE Companies</h3>
+            <table>
+                <tr><th>Dimension</th><th>Palantir / OpenAI FDE</th><th>Tiger Analytics Delivery Engineer</th></tr>
+                <tr><td>Product</td><td>Deploy company's own product/API</td><td>Build custom solutions; no single product to deploy</td></tr>
+                <tr><td>Client Type</td><td>Enterprise, government</td><td>Fortune 500 across CPG, BFSI, Healthcare, Mfg, T&L</td></tr>
+                <tr><td>Engagement Length</td><td>Weeks to months</td><td>Months to multi-year partnerships</td></tr>
+                <tr><td>Team Structure</td><td>Often solo or small pod</td><td>Cross-functional team: DS + DE + App Eng + Domain</td></tr>
+                <tr><td>Tech Stack</td><td>Company-specific tools</td><td>Cloud-agnostic; multi-platform (AWS/Azure/GCP + Databricks/Snowflake)</td></tr>
+                <tr><td>Career Path</td><td>IC → Staff FDE</td><td>Consultant → Lead → Senior Lead → Principal → Director</td></tr>
+                <tr><td>Hiring Locations</td><td>US-centric (NYC, SF)</td><td>India (Chennai, Bangalore, Hyderabad), US, UK, Singapore, Australia</td></tr>
+            </table>
+
+            <h3>What to Emphasize in a Tiger Analytics Interview</h3>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>End-to-end project ownership</strong> &mdash; from problem discovery to production ML</li>
+                    <li><strong>Domain expertise</strong> in at least one industry vertical they serve</li>
+                    <li><strong>Consulting mindset</strong> &mdash; &ldquo;We keep our customers honest about long-term value&rdquo;</li>
+                    <li><strong>Data engineering chops</strong> &mdash; messy real-world data, not clean Kaggle datasets</li>
+                    <li><strong>Cloud fluency</strong> &mdash; multi-cloud experience or deep expertise in one</li>
+                    <li><strong>Collaboration</strong> &mdash; working with cross-functional teams (DS, DE, domain, design)</li>
+                    <li><strong>Speed to value</strong> &mdash; using accelerators (TigerML, Blueprints) over building from scratch</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION: Mock Interviews -->
+        <section id="mock-interviews">
+            <h2>Sample Mock Interview Scripts</h2>
+
+            <h3>Mock 1: System Design Round (OpenAI Style)</h3>
+            <div class="mock-interview">
+                <div class="dialogue interviewer">
+                    <span class="role-tag">Interviewer</span>
+                    <p>"We have a Fortune 500 insurance company that wants to automate claims processing. They have 10 million historical claims in a legacy system, adjusters currently take 3 days per claim, and they want to reduce it to same-day. The data includes PDFs, scanned forms, handwritten notes, and structured database records. Design the system."</p>
+                </div>
+                <div class="dialogue candidate">
+                    <span class="role-tag">Strong Candidate Response</span>
+                    <p>"Before I jump into architecture, I have some clarifying questions:</p>
+                    <ul>
+                        <li>What's the regulatory requirement for human oversight on claim decisions? Can we auto-approve below a threshold?</li>
+                        <li>What's the current accuracy rate of human adjusters? That sets our bar.</li>
+                        <li>Are there categories of claims (auto, property, liability) with different complexity levels?</li>
+                        <li>What's the existing API surface on the legacy system &mdash; do we get real-time access or batch exports?</li>
+                        <li>What's the budget constraint? Are we optimizing for speed-to-deploy or long-term cost?</li>
+                    </ul>
+                    <p>Based on typical insurance constraints, here's my proposed approach:</p>
+                    <p><strong>Phase 1 MVP (4 weeks):</strong> Start with the simplest claim category. Build a document ingestion pipeline (OCR for scans, PDF parsing for structured). Create an extraction layer that pulls key fields into a structured format. Route to an LLM for decision recommendation with confidence scores. Human adjuster reviews all decisions initially.</p>
+                    <p><strong>Key Architecture Decisions:</strong></p>
+                    <ul>
+                        <li>Confidence threshold: Below 0.85 → always human review. Above 0.95 with simple claims → auto-approve candidate for supervisor batch review</li>
+                        <li>Evaluation: Build ground-truth from historical adjuster decisions. Track faithfulness, extraction accuracy, decision agreement rate</li>
+                        <li>Audit trail: Every AI decision logged with full provenance chain for regulatory compliance</li>
+                    </ul>
+                    <p><strong>Failure modes I'd flag early:</strong> OCR quality on handwritten notes (likely needs separate model), claims with multiple parties (complexity explosion), regulatory changes mid-deployment."</p>
+                </div>
+            </div>
+
+            <h3>Mock 2: Decomposition Case Study (Palantir Style)</h3>
+            <div class="mock-interview">
+                <div class="dialogue interviewer">
+                    <span class="role-tag">Interviewer</span>
+                    <p>"A national hospital network with 200 facilities wants to reduce patient readmission rates. They have EHR data, staffing schedules, patient satisfaction surveys, and insurance claims data. The CEO wants results within 6 months. Go."</p>
+                </div>
+                <div class="dialogue candidate">
+                    <span class="role-tag">Strong Candidate Response</span>
+                    <p>"I want to resist the temptation to jump to 'build a readmission prediction model.' Let me first understand the problem space:</p>
+                    <ul>
+                        <li>What's the current readmission rate vs. target? Which facilities are outliers?</li>
+                        <li>Is the goal to predict who will be readmitted, or to intervene to prevent it? Those are very different systems.</li>
+                        <li>What interventions are currently available? (Follow-up calls, nurse visits, medication management)</li>
+                        <li>What's the data quality across 200 facilities? Is EHR standardized or does each facility use different systems?</li>
+                        <li>What does 'results' mean to the CEO? A deployed system, or evidence of reduced readmissions?</li>
+                    </ul>
+                    <p><strong>My decomposition:</strong></p>
+                    <ol>
+                        <li><strong>Discovery Sprint (Weeks 1-3):</strong> Pick 3 representative facilities. Assess data quality. Identify the top 3 readmission categories by volume.</li>
+                        <li><strong>MVP (Weeks 4-10):</strong> Focus on ONE high-volume readmission category at ONE facility. Build a risk scoring model using available structured data only. Integrate score into discharge workflow so staff can see high-risk patients.</li>
+                        <li><strong>Validation (Weeks 11-16):</strong> A/B test: does surfacing the score change clinician behavior? Measure intervention rate, not just prediction accuracy.</li>
+                        <li><strong>Scale (Weeks 17-24):</strong> If validated, roll out to 10 facilities with similar EHR systems. Address data standardization for the rest.</li>
+                    </ol>
+                    <p><strong>Critical risks:</strong> EHR data fragmentation across facilities, clinician adoption (they may ignore the scores), regulatory approval for automated risk flags in clinical workflows, and the classic trap of optimizing a metric (readmission prediction) while the actual goal is intervention effectiveness."</p>
+                </div>
+            </div>
+
+            <h3>Mock 3: Behavioral + Client Simulation</h3>
+            <div class="mock-interview">
+                <div class="dialogue interviewer">
+                    <span class="role-tag">Interviewer (as difficult CTO)</span>
+                    <p>"Look, we've already spent $2M on our internal ML team building a custom fine-tuned model. You're telling me we should throw that away and use RAG with a generic API? My team has been working on this for 8 months."</p>
+                </div>
+                <div class="dialogue candidate">
+                    <span class="role-tag">Strong Candidate Response</span>
+                    <p>"I absolutely respect the investment your team has made, and I'm not suggesting we throw it away. Let me share what I'm seeing from the data:</p>
+                    <p>Your fine-tuned model performs well on the training distribution, but we're seeing significant accuracy drops on the 30% of queries that fall outside that distribution &mdash; and those tend to be the high-value, complex cases your users care about most.</p>
+                    <p>What I'd propose isn't a replacement &mdash; it's a hybrid approach. We keep your fine-tuned model for the cases it handles well, and add a retrieval layer that handles the long-tail. Your team built great domain expertise into that model; the RAG layer just gives it access to current information it wasn't trained on.</p>
+                    <p>Can we run a 2-week evaluation comparing both approaches on a held-out set of those edge cases? That gives us data to make the decision together, rather than opinions."</p>
+                </div>
+                <div class="success-box">
+                    <p><strong>Why this works:</strong> Acknowledges investment, provides data-driven framing, proposes a time-boxed experiment rather than demanding a decision, and positions it as collaborative rather than adversarial.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Roadmap -->
+        <section id="roadmap">
+            <h2>4-Week Preparation Roadmap</h2>
+            
+            <div class="progress-tracker">
+                <div class="progress-item">
+                    <div class="week">Week 1</div>
+                    <div class="label">Foundations</div>
+                </div>
+                <div class="progress-item">
+                    <div class="week">Week 2</div>
+                    <div class="label">Systems</div>
+                </div>
+                <div class="progress-item">
+                    <div class="week">Week 3</div>
+                    <div class="label">Decomposition</div>
+                </div>
+                <div class="progress-item">
+                    <div class="week">Week 4</div>
+                    <div class="label">Mock Loops</div>
+                </div>
+            </div>
+
+            <h3>Week 1: Foundations & Framing</h3>
+            <div class="card">
+                <ul class="checklist">
+                    <li>Re-sharpen SQL &mdash; window functions, CTEs, complex joins, data reconciliation</li>
+                    <li>Rebuild a small end-to-end pipeline you can talk through (ingestion → transform → serve)</li>
+                    <li>Draft 5 STAR behavioral stories, trim each to under 90 seconds</li>
+                    <li>Practice framing past work in deployment terms (outcomes owned, not processes participated in)</li>
+                    <li>Study the RAG evaluation metrics table above &mdash; know recall@k, MRR, faithfulness cold</li>
+                    <li>Review your 3 best projects and write architecture summaries for each</li>
+                    <li>Set up a practice environment: Python + cloud SDK + vector DB + LLM API</li>
+                </ul>
+            </div>
+
+            <h3>Week 2: Systems & Deployment</h3>
+            <div class="card">
+                <ul class="checklist">
+                    <li>Drill enterprise-flavoured system design: ingestion pipelines, RAG architectures, evals, secure deployment patterns</li>
+                    <li>Work through all system design questions in this document</li>
+                    <li>Practice designing for constraints: on-premise, batch-only data, regulated industries</li>
+                    <li>Study IAM patterns: cross-account roles, least privilege for agentic systems</li>
+                    <li>Build a working RAG pipeline end-to-end (even toy-scale) so you can speak from experience</li>
+                    <li>Study MCP (Model Context Protocol) architecture and tool routing</li>
+                    <li>Practice live API composition: auth flows, webhook handling, error recovery</li>
+                    <li>Review compliance frameworks: SOC 2, HIPAA, GDPR, EU AI Act (vocabulary level)</li>
+                </ul>
+            </div>
+
+            <h3>Week 3: Decomposition Reps</h3>
+            <div class="card">
+                <ul class="checklist">
+                    <li>Run 2&ndash;3 timed case studies (45 min) with a partner playing the client</li>
+                    <li>Use real enterprise problem types: healthcare, finance, logistics, retail</li>
+                    <li>Narrate continuously &mdash; silence reads as being stuck</li>
+                    <li>After each: "Did I clarify before I solved? Did I name failure modes myself?"</li>
+                    <li>Practice the client simulation: defend technical choices without damaging relationships</li>
+                    <li>Record yourself and review &mdash; check for jumping to solutions</li>
+                    <li>Practice scoping MVPs that are deliberately small and fast to validate</li>
+                    <li>Study the worked case studies in this document until you can reproduce the frameworks</li>
+                </ul>
+            </div>
+
+            <h3>Week 4: Company Tuning & Mock Loops</h3>
+            <div class="card">
+                <ul class="checklist">
+                    <li>Research your target company's real customers and recent deployments</li>
+                    <li>Tailor your stories to match company culture (Palantir = data intensity, OpenAI = API deployment)</li>
+                    <li>Run full mock loops under realistic conditions (back-to-back rounds, 4+ hours)</li>
+                    <li>Practice "Why FDE?" answer: focus on engineering impact of solving the delivery bottleneck</li>
+                    <li>Prepare questions to ask your interviewers (shows genuine interest)</li>
+                    <li>Review compensation bands and be ready to negotiate</li>
+                    <li>Get sleep. Performance degrades significantly when exhausted.</li>
+                </ul>
+            </div>
+
+            <h3>Daily Practice Routine (30&ndash;60 min)</h3>
+            <div class="info-box">
+                <ul>
+                    <li><strong>Morning (15 min):</strong> One SQL problem focused on data reconciliation or window functions</li>
+                    <li><strong>Midday (15 min):</strong> Read one enterprise case study and practice decomposing it aloud</li>
+                    <li><strong>Evening (15&ndash;30 min):</strong> One system design question from this document &mdash; draw architecture, identify failure modes</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION: Red Flags -->
+        <section id="red-flags">
+            <h2>Red Flags Interviewers Screen For</h2>
+            
+            <div class="grid-2">
+                <div class="card" style="border-color: var(--highlight);">
+                    <h4 style="color: var(--highlight);">&#x2718; Solving Before Clarifying</h4>
+                    <p>The #1 instant rejection in case-study rounds. If your first response to a problem is a solution instead of a question, you're done.</p>
+                </div>
+                <div class="card" style="border-color: var(--highlight);">
+                    <h4 style="color: var(--highlight);">&#x2718; Ignoring Cost & Constraints</h4>
+                    <p>Optimizing for technical elegance while the customer's real limits go unaddressed. The best architecture is useless if the client can't afford it or maintain it.</p>
+                </div>
+                <div class="card" style="border-color: var(--highlight);">
+                    <h4 style="color: var(--highlight);">&#x2718; Thin Deployment Depth</h4>
+                    <p>Strong abstract design with no evidence you've actually shipped into a live, messy environment. Theory without battle scars.</p>
+                </div>
+                <div class="card" style="border-color: var(--highlight);">
+                    <h4 style="color: var(--highlight);">&#x2718; Compliance Blind Spots</h4>
+                    <p>No vocabulary for data governance, audit trails, or regulated-industry handling. FDEs work in enterprise &mdash; compliance is table stakes.</p>
+                </div>
+                <div class="card" style="border-color: var(--highlight);">
+                    <h4 style="color: var(--highlight);">&#x2718; No Customer Instinct</h4>
+                    <p>Inability to translate a technical metric into the ROI a non-technical sponsor cares about. You must bridge engineering and business.</p>
+                </div>
+                <div class="card" style="border-color: var(--highlight);">
+                    <h4 style="color: var(--highlight);">&#x2718; Freezing Under Ambiguity</h4>
+                    <p>The decomposition round is deliberately vague. If you need a well-defined spec to operate, this role isn't for you.</p>
+                </div>
+            </div>
+
+            <h3>Green Flags (What Earns Offers)</h3>
+            <div class="grid-2">
+                <div class="card" style="border-color: var(--success);">
+                    <h4 style="color: var(--success);">&#x2714; Clarify → Decompose → MVP → Iterate</h4>
+                    <p>Demonstrating this sequence naturally and consistently across all rounds.</p>
+                </div>
+                <div class="card" style="border-color: var(--success);">
+                    <h4 style="color: var(--success);">&#x2714; Naming Failure Modes Unprompted</h4>
+                    <p>"The first thing that'll break is..." &mdash; showing you think about production reality, not just happy paths.</p>
+                </div>
+                <div class="card" style="border-color: var(--success);">
+                    <h4 style="color: var(--success);">&#x2714; Customer-First Framing</h4>
+                    <p>Every technical decision tied back to business value, customer constraints, or deployment reality.</p>
+                </div>
+                <div class="card" style="border-color: var(--success);">
+                    <h4 style="color: var(--success);">&#x2714; Evidence of End-to-End Ownership</h4>
+                    <p>Stories where you owned the problem from discovery through deployment and measured the outcome.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Data & SQL -->
+        <section id="data-sql" style="display:block;">
+            <h2>Data & SQL Questions</h2>
+            <div class="grid-2">
+                <div class="question-block">
+                    <span class="tag">Data Quality</span>
+                    <p>Given two poorly-joined operational tables with duplicate keys, how do you reconcile them into a clean entity model the rest of the deployment can trust?</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Analytics</span>
+                    <p>Write the query logic to surface customers most at risk of churn from raw event data &mdash; then explain what you would validate before trusting it.</p>
+                </div>
+                <div class="question-block">
+                    <span class="tag">Eval Data</span>
+                    <p>How do you design an evaluation dataset from historical records when the client has no labelled ground truth?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Resources -->
+        <section id="resources">
+            <h2>Resources & References</h2>
+            
+            <h3>Essential Reading</h3>
+            <ul>
+                <li><a href="https://aidevdayindia.org/blogs/forward-deployed-ai-engineer/fde-interview-questions.html" style="color: var(--info);">FDE Interview Questions (2026) &mdash; Full Guide</a></li>
+                <li><a href="https://aidevdayindia.org/blogs/forward-deployed-ai-engineer/fde-interview-questions-openai-palantir.html" style="color: var(--info);">50 FDE Interview Questions &mdash; OpenAI & Palantir Bank</a></li>
+                <li><a href="https://aidevdayindia.org/blogs/forward-deployed-ai-engineer/how-to-become-a-forward-deployed-engineer.html" style="color: var(--info);">90-Day Plan to Become a Forward Deployed Engineer</a></li>
+                <li><a href="https://aidevdayindia.org/blogs/forward-deployed-ai-engineer/forward-deployed-ai-engineer.html" style="color: var(--info);">What is a Forward-Deployed AI Engineer? (Pillar Guide)</a></li>
+                <li><a href="https://aidevdayindia.org/blogs/forward-deployed-ai-engineer/forward-deployed-ai-engineer-salary-openai-anthropic.html" style="color: var(--info);">FDE Salary Bands &mdash; OpenAI & Anthropic</a></li>
+            </ul>
+
+            <h3>Technical Skills to Sharpen</h3>
+            <table>
+                <tr><th>Category</th><th>Must-Know Topics</th></tr>
+                <tr><td>SQL & Data</td><td>Window functions, CTEs, data reconciliation, entity resolution, PySpark</td></tr>
+                <tr><td>RAG & LLM</td><td>Chunking strategies, embedding models, vector DBs, reranking, prompt engineering</td></tr>
+                <tr><td>Evaluation</td><td>Recall@k, MRR, faithfulness, LLM-as-Judge, regression detection</td></tr>
+                <tr><td>Cloud & Infra</td><td>IAM, VPC isolation, secrets management, CI/CD, Docker/K8s</td></tr>
+                <tr><td>Security</td><td>Prompt injection defense, PII handling, data egress controls, audit logging</td></tr>
+                <tr><td>Agentic Systems</td><td>Tool routing, state management, human-in-the-loop, infinite loop prevention</td></tr>
+                <tr><td>APIs</td><td>REST design, webhook handling, rate limiting, error recovery, API composition</td></tr>
+                <tr><td>Compliance</td><td>SOC 2, HIPAA, GDPR, EU AI Act (vocabulary level sufficient)</td></tr>
+            </table>
+
+            <h3>Key Mantras</h3>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>"Clarify before you build."</strong> &mdash; The golden rule of decomposition</li>
+                    <li><strong>"What's the smallest thing that proves value?"</strong> &mdash; MVP thinking</li>
+                    <li><strong>"What breaks first?"</strong> &mdash; Production mindset</li>
+                    <li><strong>"Algorithms are table stakes, not the differentiator."</strong> &mdash; Judgment > puzzles</li>
+                    <li><strong>"Solve for the customer's constraint, not technical elegance."</strong> &mdash; Deployment reality</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer style="text-align: center; padding: 2rem; color: #636e72; border-top: 1px solid var(--border);">
+        <p>Forward Deployed Engineer Interview Prep &mdash; Sajal Agarwal &mdash; August 2026</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Sources: aidevdayindia.org, Palantir, OpenAI, Anthropic career pages</p>
+    </footer>
+</body>
+</html>
