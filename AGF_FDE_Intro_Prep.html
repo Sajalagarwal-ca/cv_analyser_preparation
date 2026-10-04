@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGF Investments - Forward Deployed AI Engineer - Intro Call Prep</title>
+    <style>
+        :root {
+            --primary: #1a1a2e; --secondary: #16213e; --accent: #0f3460; --highlight: #e94560;
+            --success: #00b894; --warning: #fdcb6e; --info: #74b9ff; --text: #dfe6e9;
+            --card-bg: #1e2a3a; --border: #2d3748;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--text); line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        header { text-align: center; padding: 2.5rem 2rem; background: linear-gradient(135deg, #0f3460, #1a1a2e); border-bottom: 3px solid var(--highlight); }
+        header h1 { font-size: 2.2rem; background: linear-gradient(90deg, #e94560, #74b9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: #b2bec3; }
+        .nav-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 2rem 0; background: var(--card-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .nav-tabs a { color: var(--text); text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.85rem; border: 1px solid var(--border); }
+        .nav-tabs a:hover { background: var(--highlight); border-color: var(--highlight); }
+        section { background: var(--card-bg); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; border: 1px solid var(--border); }
+        section h2 { color: var(--highlight); font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        section h3 { color: var(--info); font-size: 1.15rem; margin: 1.4rem 0 0.7rem; }
+        section h4 { color: var(--success); margin: 1rem 0 0.4rem; }
+        .highlight-box, .info-box, .success-box, .warning-box { padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box { background: rgba(233,69,96,0.1); border-left: 4px solid var(--highlight); }
+        .info-box { background: rgba(116,185,255,0.1); border-left: 4px solid var(--info); }
+        .success-box { background: rgba(0,184,148,0.1); border-left: 4px solid var(--success); }
+        .warning-box { background: rgba(253,203,110,0.1); border-left: 4px solid var(--warning); }
+        ul, ol { padding-left: 1.5rem; margin: 0.6rem 0; }
+        li { margin-bottom: 0.4rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1.2rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .card { background: rgba(15,52,96,0.4); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; }
+        .card h4 { margin-top: 0; }
+        .stat { text-align: center; }
+        .stat .num { font-size: 1.7rem; font-weight: 700; color: var(--warning); }
+        .stat .lbl { font-size: 0.85rem; color: #b2bec3; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+        th, td { padding: 0.65rem 0.9rem; text-align: left; border: 1px solid var(--border); vertical-align: top; }
+        th { background: var(--accent); color: var(--info); }
+        tr:nth-child(even) { background: rgba(0,0,0,0.15); }
+        .script { background: rgba(0,184,148,0.08); border: 1px dashed var(--success); border-radius: 8px; padding: 1rem 1.3rem; margin: 0.8rem 0; font-style: italic; }
+        .q { background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1.2rem; margin: 0.7rem 0; }
+        .q strong { color: var(--info); }
+        .tag { display: inline-block; font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 4px; margin-right: 0.3rem; font-style: normal; }
+        .strong { background: rgba(0,184,148,0.2); color: var(--success); }
+        .gap { background: rgba(233,69,96,0.2); color: var(--highlight); }
+        .partial { background: rgba(253,203,110,0.2); color: var(--warning); }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 0.4rem 0 0.4rem 1.8rem; position: relative; border-bottom: 1px solid rgba(45,55,72,0.5); }
+        .checklist li::before { content: '\2610'; position: absolute; left: 0; }
+        a { color: var(--info); }
+        footer { text-align: center; padding: 2rem; color: #636e72; border-top: 1px solid var(--border); }
+        @media (max-width: 768px) { .nav-tabs { position: static; } }
+    </style>
+</head>
+<body>
+<header>
+    <h1>AGF Investments &mdash; Forward Deployed AI Engineer</h1>
+    <p>Company analysis &bull; Role decode &bull; Profile fit &bull; 30-minute introductory call game plan</p>
+    <p style="font-size:0.85rem;color:#636e72;margin-top:0.4rem;">Prepared for Sajal Agarwal &mdash; October 2026 &mdash; Job req R11327</p>
+</header>
+
+<div class="container">
+<nav class="nav-tabs">
+    <a href="#snapshot">Snapshot</a>
+    <a href="#business">Products &amp; Distribution</a>
+    <a href="#financials">Financials</a>
+    <a href="#people">People &amp; Stability</a>
+    <a href="#role">Role Decode</a>
+    <a href="#fit">Profile Fit</a>
+    <a href="#usecases">Use-Case Ideas</a>
+    <a href="#call-plan">30-Min Call Plan</a>
+    <a href="#questions">Likely Questions</a>
+    <a href="#ask">Questions to Ask</a>
+    <a href="#prep-plan">Prep Timeline</a>
+</nav>
+
+<!-- SNAPSHOT -->
+<section id="snapshot">
+    <h2>1. Company Snapshot</h2>
+    <div class="grid-4">
+        <div class="card stat"><div class="num">1957</div><div class="lbl">Founded, Toronto HQ</div></div>
+        <div class="card stat"><div class="num">$74.2B</div><div class="lbl">AUM + fee-earning assets (Aug 31, 2026), +31% YoY</div></div>
+        <div class="card stat"><div class="num">~615</div><div class="lbl">Employees (FY-end 2024), 9 offices in Canada, U.S., Europe</div></div>
+        <div class="card stat"><div class="num">820K+</div><div class="lbl">Investors served</div></div>
+        <div class="card stat"><div class="num">AGF.B</div><div class="lbl">Listed on TSX (non-voting Class B)</div></div>
+        <div class="card stat"><div class="num">$0.135</div><div class="lbl">Quarterly dividend per share (up from $0.125 YoY)</div></div>
+    </div>
+    <div class="info-box">
+        <strong>One-liner to remember:</strong> AGF is a ~70-year-old, family-controlled, independent Canadian asset manager (~600 people). It manages ~$74B across three businesses: retail/institutional funds (AGF Investments), alternatives/private markets (AGF Capital Partners) and high-net-worth wealth management (AGF Private Wealth). It is now <strong>building an enterprise AI capability from scratch</strong> through a new AI Centre of Expertise (AI CoE).
+    </div>
+    <div class="warning-box">
+        <strong>Why "small" matters for you:</strong> With ~600 employees, a founding FDE team will work directly with the CIO's portfolio managers and distribution heads. Visibility is high and so is the expectation that you will ship. Manulife has tens of thousands of employees; at AGF, one good copilot can change how the whole firm works.
+    </div>
+</section>
+
+<!-- BUSINESS -->
+<section id="business">
+    <h2>2. What They Sell &amp; How They Sell It</h2>
+
+    <h3>Three Business Lines</h3>
+    <table>
+        <tr><th>Business</th><th>AUM (Aug 31, 2026)</th><th>Products</th><th>Who Buys</th></tr>
+        <tr>
+            <td><strong>AGF Investments</strong><br>(core, wholly owned)</td>
+            <td>$48.9B<br>&bull; Mutual funds $37.5B<br>&bull; ETFs &amp; SMAs $5.5B<br>&bull; Segregated / sub-advisory $5.9B</td>
+            <td>Mutual funds (equity, fixed income, balanced and multi-asset), ETFs (incl. the newly launched AENP ETF series of AGF Enhanced U.S. Income Plus), separately managed accounts (SMAs), model portfolios, pooled funds</td>
+            <td>Retail investors <em>via financial advisors</em>, plus institutions (pensions, corporate plans, sovereign wealth funds, endowments) and U.S. advisory platforms</td>
+        </tr>
+        <tr>
+            <td><strong>AGF Capital Partners</strong><br>(multi-boutique alternatives)</td>
+            <td>$13.5B AUM + $2.1B fee-earning<br>(~C$15.7B alternatives)</td>
+            <td>Private equity, private credit and alternative strategies through affiliate managers: <strong>Kensington Capital Partners</strong>, <strong>New Holland Capital</strong> and <strong>AGF SAF Private Credit</strong></td>
+            <td>Institutional and retail investors looking for exposure to private markets</td>
+        </tr>
+        <tr>
+            <td><strong>AGF Private Wealth</strong></td>
+            <td>$9.7B</td>
+            <td>Discretionary wealth management through <strong>Cypress, Doherty and Highstreet</strong></td>
+            <td>High-net-worth families and individuals (direct relationships)</td>
+        </tr>
+    </table>
+
+    <h3>How They Sell (Distribution Model)</h3>
+    <div class="grid-2">
+        <div class="card">
+            <h4>1. Intermediated Retail (the core engine)</h4>
+            <p>AGF does not sell funds directly to the public. It sells through <strong>independent financial advisors and dealers</strong> (IIROC/CIRO dealers, mutual fund dealers and bank channels). <strong>Wholesalers</strong> (external and internal sales reps) cover advisors. In Q3 AGF paid <strong>$40.7M in trailing commissions</strong> in a single quarter, which shows how advisor-centric the model is.</p>
+        </div>
+        <div class="card">
+            <h4>2. ETFs &amp; SMAs / Model Delivery</h4>
+            <p>This is the fastest-growing channel. ETF and SMA AUM rose from <strong>$3.5B to $5.5B</strong> year over year. AGF supplies model portfolios to third-party managed-account platforms and earns a fee <em>without custody</em> of the assets. Its U.S. Large Cap Growth strategy was recently added to a leading U.S. advisory platform.</p>
+        </div>
+        <div class="card">
+            <h4>3. Institutional</h4>
+            <p>Segregated mandates and sub-advisory work for pensions, sovereign wealth funds, endowments and foundations. These sales run on <strong>RFPs, due-diligence questionnaires and consultant relationships</strong>, all of which are heavy on documents and well suited to GenAI.</p>
+        </div>
+        <div class="card">
+            <h4>4. Direct HNW (Private Wealth)</h4>
+            <p>Relationship managers at the boutique wealth firms work directly with clients. The work centers on client reviews, financial planning and reporting.</p>
+        </div>
+    </div>
+
+    <div class="success-box">
+        <strong>Key insight for the interview:</strong> The AI CoE's first priorities are <strong>Investment Management</strong> (PMs, analysts, research) and <strong>Distribution</strong> (wholesalers, advisors, marketing, RFPs). These are the two revenue engines: investment performance drives flows, and distribution converts performance into sales. Frame every idea you raise as either <em>"better or faster investment decisions"</em> or <em>"more productive sales conversations"</em>.
+    </div>
+
+    <h3>Investment Philosophy Keywords (use them naturally)</h3>
+    <ul>
+        <li>Brand principles: <strong>"Invested in Discipline"</strong>, built on <strong>Shared Intelligence, Measured Approach, Active Accountability</strong></li>
+        <li>Capabilities: <strong>fundamental, quantitative and alternative</strong> investing. AGF has a long-standing quant team, so ML is not foreign to them.</li>
+        <li>Tagline: "Bringing stability to the world of investing since 1957"</li>
+        <li>Strong emphasis on responsible and sustainable investing (ESG)</li>
+    </ul>
+</section>
+
+<!-- FINANCIALS -->
+<section id="financials">
+    <h2>3. Financial Health (Q3 FY2026, quarter ended Aug 31, 2026)</h2>
+    <table>
+        <tr><th>Metric</th><th>Q3 2026</th><th>Q3 2025</th><th>Read</th></tr>
+        <tr><td>Net management, advisory &amp; admin fees</td><td>$101.0M</td><td>$88.8M</td><td style="color:var(--success)">+14%: core fee business is growing</td></tr>
+        <tr><td>Adjusted EBITDA</td><td>$48.8M</td><td>$46.2M</td><td>Margin 43.4%: healthy</td></tr>
+        <tr><td>Adjusted diluted EPS</td><td>$0.49</td><td>$0.46</td><td>9-month: $1.50 vs $1.33</td></tr>
+        <tr><td>Free cash flow</td><td>$38.9M</td><td>$30.6M</td><td style="color:var(--success)">+27%: has cash to invest in AI</td></tr>
+        <tr><td>Adjusted SG&amp;A</td><td>$63.7M</td><td>$61.3M</td><td>Increase driven by <em>non-compensation</em> spend (tech is a likely contributor)</td></tr>
+        <tr><td>Canadian retail net flows</td><td>+$271M</td><td>+$309M</td><td>Positive, but slowing</td></tr>
+        <tr><td>Mutual fund net sales</td><td style="color:var(--highlight)">&minus;$30M</td><td>+$247M</td><td style="color:var(--highlight)">First net redemption in five quarters</td></tr>
+        <tr><td>ETF &amp; SMA net sales</td><td>+$179M</td><td>+$47M</td><td style="color:var(--success)">Nearly 4x: the shift to ETFs and SMAs is real</td></tr>
+        <tr><td>Capital Partners AUM</td><td>$13.5B</td><td>$2.5B</td><td>Step change in Q2 2026 (a $14.7M gain on the NHC transaction was recognized that quarter)</td></tr>
+    </table>
+    <div class="info-box">
+        <strong>So what?</strong> The business is profitable, generates cash, pays a growing dividend and is <strong>not in distress</strong>. The strategic pressures are the classic ones for a mid-size active manager: fee compression, retail moving from mutual funds to ETFs and SMAs, and competition from banks and passive giants. <strong>AI is a lever for both productivity (cost) and distribution (growth)</strong>, which is exactly how the job ad describes it.
+    </div>
+</section>
+
+<!-- PEOPLE -->
+<section id="people">
+    <h2>4. People &amp; Stability</h2>
+
+    <h3>Executive Management Team</h3>
+    <table>
+        <tr><th>Name</th><th>Role</th><th>Tenure Signal</th></tr>
+        <tr><td>Blake C. Goldring</td><td>Executive Chairman</td><td>At AGF since 1987; CEO 2000&ndash;2006, then CEO &amp; Chairman. Son of co-founder C. Warren Goldring.</td></tr>
+        <tr><td>Judy G. Goldring</td><td>CEO</td><td>Joined 1998 as General Counsel, then COO, then President &amp; Head of Global Distribution. Lawyer by background, so <em>governance-minded</em>.</td></tr>
+        <tr><td>Chris Jackson</td><td>President &amp; COO</td><td>14 years at AGF. <strong>Oversees Operations, Technology, Legal &amp; Compliance, Product &amp; Marketing and Private Wealth.</strong> Former Deloitte Consulting and fintech executive; Waterloo Math; Chair of Fundserv. <strong>Most likely executive sponsor of the AI CoE.</strong></td></tr>
+        <tr><td>John Porter</td><td>Chief Investment Officer</td><td>Recent external hire from BNY / Newton Investment Management (ran ~$100B across 75+ investment professionals). Ex-Fidelity. Aerospace engineering background. <strong>Your Investment Management "customer".</strong></td></tr>
+        <tr><td>Ken Tsang</td><td>CFO</td><td>Since June 2023. Ex-Capital One Canada, BMO, McKinsey.</td></tr>
+        <tr><td>Ash Lawrence</td><td>Head of AGF Capital Partners</td><td>Ex-Brookfield. Leads the alternatives build-out.</td></tr>
+    </table>
+
+    <h3>Stability Assessment</h3>
+    <div class="grid-2">
+        <div class="card" style="border-color:var(--success)">
+            <h4>Stabilizing Factors</h4>
+            <ul>
+                <li><strong>Family control</strong> (Goldring family holds the voting shares). This allows long-term decisions and protects against activist pressure or a sudden hostile takeover.</li>
+                <li><strong>Long-tenured leaders</strong>: the CEO has been there 28 years, the Chairman 39 years, the COO 14 years, and board members since 2009 and 2017.</li>
+                <li>Profitable, with free cash flow up 27%, a rising dividend and AUM up 31%.</li>
+                <li>The AI CoE is a <strong>funded, enterprise-wide strategic program</strong> with governance in place. It is not a side experiment.</li>
+            </ul>
+        </div>
+        <div class="card" style="border-color:var(--warning)">
+            <h4>Watch-outs (probe gently)</h4>
+            <ul>
+                <li><strong>Leadership turnover in investments</strong>: there is a new CIO from outside, and new CIOs often restructure investment teams. Ask how the AI CoE fits his agenda.</li>
+                <li>Mutual fund flows turned negative in Q3. If performance or sales weaken, discretionary tech budgets can get squeezed.</li>
+                <li>A small firm means fewer internal platform teams. You may own more of the infrastructure, DevOps and support work yourself (the JD mentions "ongoing support").</li>
+                <li>Family-run culture can be conservative and slow to approve new things, which may clash with a "move fast" FDE model.</li>
+                <li>Check Glassdoor and LinkedIn for AGF Technology attrition and recent layoffs before the call.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="info-box">
+        <strong>Recruiter:</strong> Jeff Farrell, Talent Acquisition Leader, AGF Investments (job poster). The posting is about one week old with ~91 applicants, so move fast and send a follow-up thank-you note within 24 hours.
+    </div>
+</section>
+
+<!-- ROLE -->
+<section id="role">
+    <h2>5. Role Decode: Forward Deployed AI Engineer</h2>
+    <div class="highlight-box">
+        <strong>What it really is:</strong> An <strong>internal FDE</strong>. Your "customers" are AGF's own portfolio managers, analysts, wholesalers, marketing and operations teams. You will be a <strong>founding member</strong> of the FDE team inside the <strong>AI Centre of Expertise</strong>, working as an individual contributor (IC) who owns the full cycle: discovery, build, deploy, adoption and support.
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h4>4 Responsibility Pillars</h4>
+            <ol>
+                <li><strong>Business engagement</strong>: discovery workshops, process analysis, scoring ideas on value, feasibility and risk, acting as a trusted advisor</li>
+                <li><strong>AI solution engineering</strong>: agents, Copilot solutions, RAG, intelligent workflows, integrations and reusable frameworks</li>
+                <li><strong>Product delivery &amp; ops</strong>: production deployment, monitoring, adoption and enhancement</li>
+                <li><strong>Governance, risk &amp; compliance</strong>: architecture reviews, risk assessments and responsible AI, working with Legal, Privacy, Cyber and Audit</li>
+            </ol>
+        </div>
+        <div class="card">
+            <h4>Tech Stack Signals</h4>
+            <p><strong>Required:</strong> Advanced Python, AI agents, prompt engineering &amp; orchestration, RAG, APIs &amp; integration, GitHub/DevOps, enterprise data integration, SDLC</p>
+            <p><strong>Preferred:</strong> <strong>Azure AI Foundry, Azure OpenAI, Microsoft Copilot Studio, Power Platform</strong>, Azure Cloud, Databricks, vector DBs, knowledge graphs, ML/analytics, investment/distribution workflows</p>
+            <p style="color:var(--warning)">&rarr; They are a <strong>Microsoft shop</strong>. Expect M365 Copilot rollout plus custom agents in Foundry and Copilot Studio.</p>
+        </div>
+    </div>
+
+    <h3>Success Measures (how you'll be judged; mirror these words)</h3>
+    <ul>
+        <li>Business value delivered and contribution to <strong>revenue-generating</strong> initiatives</li>
+        <li><strong>User adoption</strong>, engagement and stakeholder satisfaction</li>
+        <li>Number and quality of production AI solutions shipped</li>
+        <li>Reliability and maintainability, plus <strong>reuse of components and patterns</strong></li>
+        <li>Governance and compliance alignment, and growth of AGF's AI maturity</li>
+    </ul>
+
+    <h3>Requirements &amp; Compensation</h3>
+    <table>
+        <tr><th>Item</th><th>Detail</th></tr>
+        <tr><td>Experience</td><td>7+ years in software, AI or data engineering, solution architecture or tech consulting; 3+ years building AI, ML or GenAI</td></tr>
+        <tr><td>Education</td><td>Bachelor's in CS, Engineering, Math or Data Science (Master's is an asset)</td></tr>
+        <tr><td>Domain</td><td>Financial services, investment management, wealth or capital markets is a strong asset</td></tr>
+        <tr><td>Level</td><td>Mid-Senior IC, full-time, Toronto</td></tr>
+        <tr><td>Compensation</td><td><strong>$130,000 &ndash; $180,000</strong> total (base plus variable such as bonus), plus benefits and retirement savings</td></tr>
+    </table>
+</section>
+
+<!-- FIT -->
+<section id="fit">
+    <h2>6. Your Profile vs. the Role</h2>
+    <div class="success-box">
+        <strong>Your headline story:</strong> "For the last six years I have <em>literally</em> been a forward-deployed engineer. I was a TCS consultant embedded inside Manulife, a Toronto asset manager and insurer. I sat with business owners, found problems they hadn't articulated, built ML and GenAI solutions on Azure, and took them to production. The flagship anomaly-detection system saved $12.8M CAD a year."
+    </div>
+
+    <table>
+        <tr><th>JD Requirement</th><th>Your Evidence</th><th>Status</th></tr>
+        <tr><td>Business engagement &amp; discovery</td><td>6 years embedded with a Manulife client; presented to senior leadership; client-facing work at WNS (UK/US clients); MBA</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>Production AI with measurable value</td><td>$12.8M CAD/year cloud-cost anomaly detection (Prophet, Azure Functions, automated alerts to cost-center owners)</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>Advanced Python</td><td>Python, FastAPI, Flask, Streamlit, Pandas, Databricks</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>RAG architectures</td><td>RAG Document Assistant (FAISS, HuggingFace embeddings, source citations); Insurance Fraud RAG chatbot (Azure OpenAI GPT-4)</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>Azure OpenAI / Azure Cloud / Databricks</td><td>Azure OpenAI, ADF, Databricks, Azure Functions, plus deep Azure billing data knowledge</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>Financial services domain</td><td>Manulife (insurance, wealth, asset management); credit risk PD/LGD/ECL; fraud; insurance pricing</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>Enterprise data integration</td><td>ADF ETL pipelines, PostgreSQL, SQL Server, daily refresh pipelines</td><td><span class="tag strong">Strong</span></td></tr>
+        <tr><td>AI agent design</td><td>NL-to-SQL agent (LangChain <code>create_sql_agent</code> with memory); travel assistant with tool calls (Google Places)</td><td><span class="tag partial">Partial: build one multi-tool agent before the technical rounds</span></td></tr>
+        <tr><td>API development &amp; integration</td><td>FastAPI, Flask, Google Places API integration</td><td><span class="tag partial">Partial: emphasize FastAPI services</span></td></tr>
+        <tr><td>GitHub &amp; DevOps</td><td>Public GitHub portfolio</td><td><span class="tag partial">Partial: be ready to talk CI/CD (GitHub Actions, environments, testing)</span></td></tr>
+        <tr><td>Azure AI Foundry, Copilot Studio, Power Platform</td><td>Not on resume (Power BI cert is adjacent to Power Platform)</td><td><span class="tag gap">Gap: do a hands-on lab this week</span></td></tr>
+        <tr><td>Knowledge graphs</td><td>Not on resume</td><td><span class="tag gap">Gap: know the concepts (entities like fund, holding, issuer, PM, client)</span></td></tr>
+        <tr><td>Investment management workflows</td><td>Exposure via Manulife; your options/wheel screener and ETF strategy side projects</td><td><span class="tag partial">Partial: learn PM, research and wholesaler workflows</span></td></tr>
+        <tr><td>"Software engineer" title</td><td>Titles say Data Scientist / Analytics</td><td><span class="tag partial">Reframe: "I build and deploy apps, not just models"</span></td></tr>
+    </table>
+
+    <div class="warning-box">
+        <strong>Sensitive point:</strong> Manulife Investment Management competes with AGF. Talk about <em>patterns, outcomes and your own role</em>, never about confidential Manulife data, systems or clients. Saying so explicitly ("I'll keep client specifics high-level") earns trust with a governance-minded firm.
+    </div>
+</section>
+
+<!-- USE CASES -->
+<section id="usecases">
+    <h2>7. AI Use-Case Ideas for AGF (bring 2&ndash;3 to the call)</h2>
+    <p>Do not pitch solutions as if you already know their problems; that is the classic FDE failure. Offer these as <em>hypotheses</em>: "Typical opportunities I'd want to validate in discovery are&hellip;"</p>
+
+    <table>
+        <tr><th>Area</th><th>Use Case</th><th>Value</th><th>Feasibility / Risk</th></tr>
+        <tr><td rowspan="3"><strong>Investment Management</strong></td>
+            <td><strong>PM research copilot</strong>: RAG over internal research notes, earnings call transcripts, broker research and AGF's own commentary, with citations</td>
+            <td>Analyst hours saved; faster idea generation</td><td>High feasibility. Needs entitlements on content and licensing checks on broker research.</td></tr>
+        <tr><td><strong>Fund commentary drafting</strong>: monthly and quarterly commentary drafted from performance attribution data plus PM notes, followed by compliance review</td>
+            <td>PM time saved, faster time-to-publish</td><td>Medium. Compliance sign-off and hallucination controls on numbers are mandatory.</td></tr>
+        <tr><td><strong>Portfolio exposure Q&amp;A</strong>: NL-to-SQL over holdings and risk data ("What's our exposure to U.S. regional banks across funds?")</td>
+            <td>Faster decisions</td><td>Medium. Direct reuse of your NL-to-SQL project. Needs a semantic layer and guardrails.</td></tr>
+        <tr><td rowspan="3"><strong>Distribution</strong></td>
+            <td><strong>Wholesaler / advisor copilot</strong>: meeting-prep briefs combining CRM history, advisor book and flows, relevant fund talking points, and next-best-action</td>
+            <td><strong>Revenue</strong>: more productive sales calls</td><td>Medium. Needs CRM integration (likely Salesforce or Dynamics).</td></tr>
+        <tr><td><strong>RFP / DDQ automation</strong>: draft institutional RFP and due-diligence answers from an approved answer library</td>
+            <td>Faster responses, more mandates bid</td><td>High feasibility. Classic RAG with human review. A strong first quick win.</td></tr>
+        <tr><td><strong>Marketing compliance pre-check</strong>: flag sales communications that conflict with regulatory and disclosure rules before formal review</td>
+            <td>Shorter review cycles</td><td>Medium. Assistive only; human approval stays.</td></tr>
+        <tr><td><strong>Operations / Client Service</strong></td>
+            <td>Call-centre summarization and knowledge assistant; flow and redemption anomaly alerts (reuse of your Prophet anomaly pattern)</td>
+            <td>Cost and service quality</td><td>High feasibility</td></tr>
+    </table>
+
+    <div class="info-box">
+        <strong>Prioritization framework to mention:</strong> Score each idea on <em>Business value &times; Feasibility (data readiness, integration) &times; Risk (regulatory, client data)</em>. Start with an internal-facing, human-in-the-loop, read-only quick win, such as an RFP assistant or research copilot, to build trust. Measure adoption weekly. Turn the pieces into reusable components (ingestion, retrieval, eval harness, guardrails) so the second and third solutions ship faster.
+    </div>
+</section>
+
+<!-- CALL PLAN -->
+<section id="call-plan">
+    <h2>8. The 30-Minute Introductory Call: Minute-by-Minute</h2>
+    <div class="info-box">
+        Most likely this is the <strong>recruiter screen</strong> (Jeff Farrell) or a <strong>hiring-manager intro</strong> (AI CoE lead). The goals are to (1) pass the "can they talk to business people" sniff test, (2) confirm basics such as comp, location and status, and (3) leave them convinced you are an FDE already.
+    </div>
+
+    <table>
+        <tr><th>Time</th><th>Segment</th><th>Your Objective</th></tr>
+        <tr><td>0&ndash;2 min</td><td>Rapport</td><td>Warm and brief. Mention something real, e.g. "I saw the Q3 results last week; nice to see ETF and SMA sales nearly quadruple."</td></tr>
+        <tr><td>2&ndash;5 min</td><td>"Tell me about yourself"</td><td>Deliver the <strong>90-second pitch</strong> below. Don't walk through the resume chronologically.</td></tr>
+        <tr><td>5&ndash;18 min</td><td>Their questions</td><td>Use STAR answers of about 90 seconds each. Always end with a <strong>number</strong> and the <strong>business owner</strong> you served.</td></tr>
+        <tr><td>18&ndash;25 min</td><td>Your questions</td><td>Ask 3&ndash;4 sharp questions (next section). This is where you show FDE thinking.</td></tr>
+        <tr><td>25&ndash;30 min</td><td>Logistics &amp; close</td><td>Comp expectations, notice period, hybrid policy, next steps. Close with a one-line restatement of fit.</td></tr>
+    </table>
+
+    <h3>Your 90-Second Pitch</h3>
+    <div class="script">
+        "I'm a data scientist and GenAI engineer with 15 years in analytics, the last six embedded with Manulife in Toronto as a TCS consultant. That's essentially a forward-deployed role: I sit with business owners, find where the real problem is, and ship a working solution on Azure.<br><br>
+        My flagship example: Manulife had a cloud-cost problem nobody owned. I built a Prophet-based anomaly detection system on Azure Functions and Data Factory that alerts each cost-center owner with a resource-level breakdown. It's in production and saves about <strong>$12.8 million a year</strong>. The model mattered less than getting the alerts in front of the right owners so they actually acted.<br><br>
+        On the GenAI side I've built RAG assistants with source citations, an insurance fraud-investigation copilot on Azure OpenAI, and a natural-language-to-SQL agent over PostgreSQL.<br><br>
+        What excites me about AGF is that you're building the AI CoE from the ground up, with Investment Management and Distribution as first priorities. I want to be one of the founding engineers who turns those workflows into production tools people actually use, inside a governance framework that a regulated asset manager needs."
+    </div>
+
+    <h3>Logistics Answers (have these ready)</h3>
+    <ul>
+        <li><strong>Compensation:</strong> "Based on the posted range of $130K to $180K, I'm targeting the upper part of it given my production track record. I'm flexible on how base and bonus split." (Decide your walk-away number beforehand.)</li>
+        <li><strong>Notice period:</strong> Know your TCS notice terms and state them clearly.</li>
+        <li><strong>Work authorization:</strong> Confirm your Canadian status in one sentence.</li>
+        <li><strong>Hybrid / onsite:</strong> "Very comfortable onsite in Toronto. Being close to the business is the point of the role."</li>
+        <li><strong>Why leaving:</strong> "I want to be on the inside, building an AI capability I own long-term, rather than delivering as a vendor."</li>
+    </ul>
+</section>
+
+<!-- LIKELY QUESTIONS -->
+<section id="questions">
+    <h2>9. Likely Questions &amp; Answer Outlines</h2>
+
+    <div class="q"><strong>Q1. Why AGF, and why this role?</strong><br>
+    Founding-team opportunity; a mid-size firm where AI can measurably move the business; Investment and Distribution are both areas where you have finance domain depth; you are already an Azure and Microsoft-stack engineer; and you want to move from vendor to owner.</div>
+
+    <div class="q"><strong>Q2. What does "forward deployed" mean to you?</strong><br>
+    "Engineering embedded with the business. You own the outcome, not the ticket. You discover the real problem, ship a small working version fast, measure adoption, then harden and reuse it. The hard part is rarely the model; it's workflow fit, data access and trust."</div>
+
+    <div class="q"><strong>Q3. Tell me about a time you identified a problem the business hadn't articulated.</strong><br>
+    Cloud cost story: nobody owned overspend. Use the STAR format: S (unowned Azure spend across cost centers), T (find and stop waste), A (Prophet forecast, resource-level anomaly detection, automated owner alerts, Grafana and Power BI), R ($12.8M CAD per year, a governance process adopted by owners).</div>
+
+    <div class="q"><strong>Q4. Walk me through a GenAI/RAG solution you built. How did you handle hallucinations?</strong><br>
+    RAG Document Assistant or Fraud Copilot. Cover chunking, embeddings, FAISS retrieval and citations (file, page, chunk ID). For grounding: answer only from retrieved context, "I don't know" fallback, and an eval set. Mention what you'd add in production: hybrid search, reranking, an eval harness (faithfulness, recall@k), and access controls on documents.</div>
+
+    <div class="q"><strong>Q5. How would you ensure AI solutions are compliant in a regulated asset manager?</strong><br>
+    Data classification and entitlements (PMs see only what they're allowed to); Azure OpenAI in AGF's tenant with no training on data; PII redaction; logging and audit trail of prompts and responses; human-in-the-loop for anything client-facing (sales communications must go through compliance review); model risk documentation; involve Legal, Compliance and Cyber early, not at the end.</div>
+
+    <div class="q"><strong>Q6. How do you work with a non-technical stakeholder, e.g. a portfolio manager?</strong><br>
+    Shadow their workflow for an hour. Quantify time spent. Build a clickable prototype in days (Streamlit or Copilot Studio). Let them break it. Iterate weekly. Report in their language (hours saved, decisions faster), not model metrics.</div>
+
+    <div class="q"><strong>Q7. Your experience with Copilot Studio / AI Foundry / Power Platform?</strong><br>
+    Be honest and show momentum: "My production work has been code-first on Azure: Azure OpenAI, Functions, ADF, Databricks. I've been getting hands-on with AI Foundry agents and Copilot Studio [only say this if you have done the lab]. Those are the low-code front ends for the same patterns I've built in Python. I'd use Copilot Studio for fast M365-native experiences and Foundry or code for complex, integrated agents."</div>
+
+    <div class="q"><strong>Q8. How do you decide what to build first?</strong><br>
+    Value &times; feasibility &times; risk scoring. Start with an internal, human-in-the-loop, read-only quick win with a clear owner and measurable baseline. Prove adoption, then expand.</div>
+
+    <div class="q"><strong>Q9. Your titles say "Data Scientist". Are you a software engineer?</strong><br>
+    "I build and ship applications, not just notebooks: FastAPI services, Streamlit apps, Azure Functions, ADF pipelines, deployed and monitored in production. The $12.8M system is an end-to-end application with scheduled jobs, alerting and dashboards."</div>
+</section>
+
+<!-- QUESTIONS TO ASK -->
+<section id="ask">
+    <h2>10. Questions to Ask (pick 3&ndash;4)</h2>
+    <h3>About the AI CoE &amp; Team</h3>
+    <ul>
+        <li>Who does the FDE team report to, and how is the AI CoE sponsored at the executive level?</li>
+        <li>How many FDEs are you hiring for the founding team, and what other roles sit in the CoE (platform, data, governance)?</li>
+        <li>What does the AI tech stack look like today? Is M365 Copilot rolled out, and is there an Azure AI Foundry landing zone?</li>
+    </ul>
+    <h3>About the Work</h3>
+    <ul>
+        <li>What are the first two or three problems you expect this team to tackle in Investment Management and Distribution?</li>
+        <li><strong>What would success look like at 90 days and at 12 months?</strong> (the best question to ask)</li>
+        <li>How mature is the data foundation, e.g. holdings, CRM and research content? Is there a central data platform such as Databricks?</li>
+        <li>How does the AI governance process work today? How long does it take a use case to go from idea to approved production?</li>
+    </ul>
+    <h3>About Culture &amp; Process</h3>
+    <ul>
+        <li>How does AGF balance the "build fast" FDE model with its governance and risk culture?</li>
+        <li>What are the next steps in the process and the timeline?</li>
+    </ul>
+</section>
+
+<!-- PREP TIMELINE -->
+<section id="prep-plan">
+    <h2>11. Preparation Plan (3 days before the call)</h2>
+
+    <h3>Day -3: Company &amp; Role Research (~2 hours)</h3>
+    <div class="card"><ul class="checklist">
+        <li>Read the Q3 2026 press release and skim the <a href="https://www.agf.com/agf-files/en/investor-relations/presentations/q3-2026-conference-call-presentation.pdf">Q3 conference call deck</a>, focusing on strategy slides</li>
+        <li>Browse the AGF Investments product shelf (agf.com/ca/en): top funds, ETF lineup, SMAs</li>
+        <li>Read 2&ndash;3 pieces on AGF "Perspectives" / insights (to speak their language)</li>
+        <li>Look up the recruiter (Jeff Farrell) and search LinkedIn for "AI Centre of Expertise AGF" to find the CoE leader</li>
+        <li>Check Glassdoor reviews for AGF Technology and recent org changes</li>
+        <li>Look for any 1st/2nd-degree connections at AGF and ask for a referral or a 10-minute chat</li>
+    </ul></div>
+
+    <h3>Day -2: Stories &amp; Skill Gaps (~3 hours)</h3>
+    <div class="card"><ul class="checklist">
+        <li>Rehearse the 90-second pitch out loud 5 times; record yourself once</li>
+        <li>Write four STAR stories: ($12.8M cost anomaly), (RAG / fraud copilot), (stakeholder pushback or ambiguity), (a failure and what you learned)</li>
+        <li>Do the Microsoft Learn quickstarts for <strong>Azure AI Foundry Agent Service</strong> and <strong>Copilot Studio</strong> (build one small agent each)</li>
+        <li>Skim the knowledge graph basics: entities and relationships, GraphRAG concept</li>
+        <li>Learn asset-management vocabulary: AUM, net flows, gross sales, redemptions, trailing commissions, wholesaler, SMA, model portfolio, attribution, DDQ/RFP, sub-advisory, NI 81-102</li>
+    </ul></div>
+
+    <h3>Day -1: Mock &amp; Logistics (~1.5 hours)</h3>
+    <div class="card"><ul class="checklist">
+        <li>Run a 30-minute mock with a friend (or with Copilot) using the Likely Questions section</li>
+        <li>Pick 2 use-case ideas to mention (recommend: RFP/DDQ assistant + wholesaler meeting-prep copilot)</li>
+        <li>Finalize your comp number, notice period and availability</li>
+        <li>Prepare 4 questions; print or open this page</li>
+        <li>Test video/audio; have resume, JD and notes open; glass of water</li>
+    </ul></div>
+
+    <h3>Day 0: After the Call</h3>
+    <div class="card"><ul class="checklist">
+        <li>Send a thank-you email within 24 hours: 3 lines, reference one specific thing discussed, restate fit</li>
+        <li>Write down every question asked and the names and roles of the next interviewers</li>
+        <li>Start technical prep: build a small Azure OpenAI + AI Search RAG demo over public AGF fund documents, with citations and a mini eval set. You can demo it in later rounds.</li>
+    </ul></div>
+
+    <div class="highlight-box">
+        <strong>Three things to leave them with:</strong>
+        <ol>
+            <li>"I've been a forward-deployed engineer for six years, embedded at a Toronto financial services firm."</li>
+            <li>"I ship production systems that business owners actually use, with $12.8M a year in measured savings."</li>
+            <li>"I'm Azure-native and governance-minded, and I'd build reusable patterns, not one-off demos."</li>
+        </ol>
+    </div>
+</section>
+</div>
+
+<footer>
+    <p>AGF Forward Deployed AI Engineer &mdash; Intro Call Prep &mdash; Sajal Agarwal &mdash; October 2026</p>
+    <p style="font-size:0.8rem;margin-top:0.4rem;">Sources: agf.com (Our Story, Our People, Q3 2026 results press release, Sept 23, 2026); LinkedIn job posting R11327</p>
+</footer>
+</body>
+</html>

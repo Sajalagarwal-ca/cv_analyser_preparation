@@ -1,0 +1,497 @@
+<div style="font-family:Georgia,'Times New Roman',serif;color:#1f2937;line-height:1.7;max-width:860px;margin:0 auto;">
+
+<h1 style="font-size:30px;color:#0f172a;border-bottom:3px solid #f2c811;padding-bottom:10px;margin-bottom:6px;">Power BI, End to End &mdash; From Data Connection to DAX and a Reusable Date Table</h1>
+<p style="color:#64748b;font-style:italic;margin-bottom:22px;">A practitioner's tour of Microsoft Power BI: what it is, how it moves data, the DAX measures that show up in every real report, and a battle-tested Power Query function that spins up a full-featured date table with a single line of M.</p>
+
+<p>
+<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Power BI</span>
+<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">DAX</span>
+<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Power Query</span>
+<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Data Modeling</span>
+<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Time Intelligence</span>
+<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px;font-family:Arial,sans-serif;">Star Schema</span>
+</p>
+
+<div style="background:#fffbeb;border-left:4px solid #d97706;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Who this is for:</b> Analysts, BI developers, and data engineers who want a single reference that goes from "what is Power BI?" to "what should my measures look like?" &mdash; without the marketing gloss.
+</div>
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">1 &middot; Power BI in One Paragraph</h2>
+<p>Power BI is Microsoft's cloud-hosted business analytics platform. It is a family of tools &mdash; <b>Power BI Desktop</b> for authoring, the <b>Power BI Service</b> for sharing, <b>Power BI Mobile</b> for consumption, and <b>Power BI Premium</b> for dedicated capacity &mdash; that together let you ingest data from almost anywhere, model it, visualize it, and distribute the result. The engine underneath is the same tabular / VertiPaq engine that ships in SQL Server Analysis Services, which is why serious modeling in Power BI feels a lot like modeling in SSAS.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">Why teams pick it</h3>
+<ul>
+  <li><b>Real-time analysis</b> via direct connections and scheduled refresh.</li>
+  <li><b>100+ built-in data connectors</b> covering files, databases, SaaS, and web services.</li>
+  <li><b>Custom visuals gallery</b> for anything the standard visuals don't cover.</li>
+  <li><b>Quick Insights</b> for automated "what's interesting?" scans.</li>
+  <li><b>On-premises data gateway</b> for secure hybrid connectivity.</li>
+  <li><b>Modern web stack</b> (HTML5, column-store, cloud, mobile) with monthly feature drops.</li>
+</ul>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">The five-step workflow</h3>
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Step</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">What happens</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Tool</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Get Data</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;">Connect, clean and mash up data.</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Power Query</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Analyze</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Build models, relationships, and flexible measures.</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Power Pivot / DAX</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Visualize</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;">Interactive reports and dashboards.</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Power View / Power Map</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Publish</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Push to the service.</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Power BI Service</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Collaborate</b></td><td style="border:1px solid #d1d5db;padding:8px 10px;">Workspaces, apps, Teams / SharePoint embed.</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Power BI Service / Mobile</td></tr>
+</table>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">The component map (jargon decoder)</h3>
+<ul>
+  <li><b>Power Query</b> &mdash; access, search, and transform data. This is the ETL layer.</li>
+  <li><b>Power Pivot</b> &mdash; in-memory tabular modeling and DAX calculations.</li>
+  <li><b>Power View</b> &mdash; the interactive visual layer.</li>
+  <li><b>Power Map</b> &mdash; 3D geo-spatial visualization.</li>
+  <li><b>Power BI Desktop</b> &mdash; the free authoring tool that packages all of the above.</li>
+  <li><b>Power BI Website / Service</b> &mdash; SaaS for sharing dashboards and reports.</li>
+  <li><b>Power Q&amp;A</b> &mdash; natural language querying against the model.</li>
+  <li><b>Power BI Mobile</b> &mdash; iOS, Android, Windows apps for consumption on the go.</li>
+  <li><b>Data Management Gateway</b> &mdash; secure bridge to on-prem sources; owns refresh schedules.</li>
+</ul>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">Three-stage architecture</h3>
+<p>Every Power BI solution &mdash; no matter how big &mdash; collapses into three stages:</p>
+<ol>
+  <li><b>Data Integration</b> &mdash; connectors + Power Query pull data in.</li>
+  <li><b>Data Processing</b> &mdash; the tabular engine models, relates, and stores it in-memory.</li>
+  <li><b>Data Presentation</b> &mdash; reports, dashboards, apps, and Q&amp;A serve it out.</li>
+</ol>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">2 &middot; Data Connections &mdash; The Three Modes That Change Everything</h2>
+
+<p>Power BI Desktop supports <b>100+ data sources and growing</b>, but the choice that actually shapes your architecture is not <em>where</em> you connect &mdash; it is <b>how</b>. There are three connection modes, and each one trades off freshness, performance, and modeling flexibility.</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Aspect</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Import</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">DirectQuery</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Live Connection</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Behavior</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">ETL &mdash; data is downloaded into the .pbix file's VertiPaq store.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">No data download. Every visual fires a live query to the source.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">No data download. The report is a thin visualization layer over a remote model.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Supported sources</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">All 100+ sources.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">SQL Server, Azure SQL DB, Azure Synapse, SAP HANA, Oracle, Teradata (and a growing list).</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">SSAS Tabular &amp; Multidimensional, Power BI datasets.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Data sources per report</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Unlimited &mdash; mashup at will.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">One.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">One.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Transformations</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">All Power Query transformations (hundreds).</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Partial &mdash; varies by source; anything must fold to native SQL.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">None &mdash; the model is owned upstream.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Mashup</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Merge (joins), Append (unions), parameterized queries.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Merge, Append &mdash; within the single source.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">None.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>Modeling</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Full &mdash; relationships, calculated columns &amp; tables, measures, hierarchies.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Limited &mdash; calculated columns, measures, column type changes.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">None &mdash; model lives on the server.</td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>When to pick it</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Best performance, most flexibility, most typical case. Refresh cadence is scheduled.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Very large or highly volatile data, or where a single source of truth cannot be duplicated.</td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">Enterprise SSAS shops with governed semantic models.</td>
+</tr>
+</table>
+
+<div style="background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Rule of thumb:</b> Start with <b>Import</b>. Move a table to <b>DirectQuery</b> only when it is too large to fit in memory or too volatile to survive a scheduled refresh. Use <b>Live</b> only when someone else already owns the semantic model.
+</div>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">Common Power Query steps you will actually use</h3>
+<p>Once you have chosen Import, Power Query is where 60% of a BI developer's time goes. The moves that repeat on every project:</p>
+<ul>
+  <li>Remove rows &amp; columns; rename tables and columns.</li>
+  <li>Change data types to control downstream calculation behavior.</li>
+  <li>Merge (join) and Append (union) queries.</li>
+  <li>Pivot / unpivot columns and group rows.</li>
+  <li>Extract date parts &mdash; weekday, month name, hour &mdash; from datetime.</li>
+  <li>Identify and fix errors row-by-row.</li>
+  <li>Precisely re-order, add, edit, or delete steps in the query.</li>
+  <li>Drop into R or Python scripts for anything the UI can't do.</li>
+</ul>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">3 &middot; Model First &mdash; Star Schema Is Still the Answer</h2>
+
+<p>Before any DAX, the model has to be right. Power BI's engine is heavily optimized for the <b>star schema</b>: one central <em>fact</em> table (quantitative measurements &mdash; sales, quantity, price, cost) surrounded by short-and-wide <em>dimension</em> tables (customer, product, date, geography). Get this shape right and everything downstream &mdash; performance, DAX, visuals, drill-through &mdash; gets easier.</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Star schema pros</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Star schema cons</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;vertical-align:top;">
+    <ul style="margin:0;padding-left:18px;">
+      <li>Simpler joins &mdash; fact joins to each dim on one key.</li>
+      <li>Simplified reporting logic: as-of, period-over-period.</li>
+      <li>Feeds OLAP / ROLAP cubes efficiently &mdash; the engine loves it.</li>
+    </ul>
+  </td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;vertical-align:top;">
+    <ul style="margin:0;padding-left:18px;">
+      <li>Denormalization weakens data integrity at load time.</li>
+      <li>Less flexible than a 3NF model for open-ended analysis.</li>
+      <li>Many-to-many relationships need bridge tables.</li>
+    </ul>
+  </td>
+</tr>
+</table>
+
+<div style="background:#fffbeb;border-left:4px solid #d97706;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Golden rule:</b> Every date-related question you will ever ask needs a proper <b>Date dimension</b> &mdash; never rely on the invisible auto-date/time tables. That is the whole reason section 5 exists.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">4 &middot; DAX &mdash; The Measures That Ship on Every Real Report</h2>
+
+<p>DAX (Data Analysis Expressions) is the formula language of Power BI, Power Pivot, and SSAS Tabular. Instead of covering every function, here are the measures we end up writing in almost every sales / operations model &mdash; and the pattern each one teaches.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.1 &nbsp; Foundation measures</h3>
+<p>Start with the base facts. Everything else builds on these.</p>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Measure</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Expression</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>TotalQuantity</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SUM(Salestable[Quantity])</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>TotalSales</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SUMX(Sales, Sales[SellingPrice] * Sales[Amount])</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>TotalCost</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SUMX(Salestable, Salestable[Quantity] * RELATED(Product_Data[Cost]))</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>TotalProfit</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">[TotalSales] - [TotalCost]</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>ProfitMargin</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">[TotalProfit] / [TotalSales]</code></td>
+</tr>
+</table>
+
+<p><b>Why <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SUMX</code> and not <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SUM</code>?</b> <code>SUMX</code> is an <em>iterator</em>. It walks the fact table row-by-row and evaluates the expression per row before summing. That is exactly what you need when the value depends on two or more columns (price &times; amount), or when it depends on a related table via <code>RELATED()</code>.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.2 &nbsp; Time-intelligence &mdash; last year, parallel period, YoY</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Measure</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Expression</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>TotalSalesLY</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSales], SAMEPERIODLASTYEAR(Datestable[Date]))</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>TotalSalesLY2</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSales], DATEADD(Datestable[Date], -1, YEAR))</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>ParallelPeriod</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSales], PARALLELPERIOD(Datestable[Date], -1, YEAR))</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>SalesChange</b> / <b>SalesdifferencevsLY</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">[TotalSales] - [TotalSalesLY]</code></td>
+</tr>
+</table>
+
+<p><b>All three time-intelligence functions need a proper marked Date table</b> &mdash; a contiguous, single-column-of-dates-with-no-gaps table. Which is exactly what the function in section 5 produces.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.3 &nbsp; Cumulative &amp; running totals</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Measure</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Expression</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>CummulativeSales</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSales], FILTER(ALLSELECTED(Datestable[Date]), Datestable[Date] &lt;= MAX(Datestable[Date])))</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>CummulativeSalesLY</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSalesLY], FILTER(ALLSELECTED(Datestable[Date]), Datestable[Date] &lt;= MAX(Datestable[Date])))</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>RunningTotal30day</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">
+    <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSales], FILTER(ALL(Datestable[Date]), Datestable[Date] &gt; MAX(Datestable[Date]) - 30 &amp;&amp; Datestable[Date] &lt;= MAX(Datestable[Date])))</code>
+  </td>
+</tr>
+</table>
+
+<p><b>The pattern:</b> <code>CALCULATE</code> + <code>FILTER</code> + <code>ALL / ALLSELECTED</code> + <code>MAX(current date in scope)</code>. Once you internalize this triangle you can build almost any running-window aggregation.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.4 &nbsp; Ranking &amp; Top-N</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Measure</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Expression</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Profitranking</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">RANKX(ALL(Sales[Category]), [TotalProfit], , DESC)</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>RanksToShow</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">IF([Profitranking] &lt;= RanksToShow[RanksToShow Value], [TotalProfit], BLANK())</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>Top10Clients</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">
+    <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalProfit], FILTER(VALUES(Sales[CustomerCompany]), RANKX(ALL(Sales[CustomerCompany]), [TotalProfit], , DESC) &lt;= 10))</code>
+  </td>
+</tr>
+</table>
+
+<p><code>RANKX</code> paired with <code>ALL()</code> to break the filter context is the canonical Top-N recipe. Return <code>BLANK()</code> for out-of-rank rows to keep the visual clean.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.5 &nbsp; What-if scenarios via parameter tables</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Measure</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Expression</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>PriceChange Value</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SELECTEDVALUE('PriceChange'[PriceChange])</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>DemandChange Value</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SELECTEDVALUE('DemandChange'[DemandChange])</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>TotalScenarioSales</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;">
+    <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">SUMX(Sales, Sales[Amount] * Sales[SellingPrice] * (1 + PriceChange[PriceChange Value]) * (1 + DemandChange[DemandChange Value]))</code>
+  </td>
+</tr>
+</table>
+
+<p>Combine a disconnected parameter table + a slicer + <code>SELECTEDVALUE</code> and you have a live what-if lever &mdash; no VBA, no re-modeling.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.6 &nbsp; Customer segmentation &amp; distinct counts</h3>
+
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;width:22%;">Measure</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Expression</th>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><b>CustomersPerWeekday</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;"><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">DISTINCTCOUNT(Sales[CustomerCompany])</code></td>
+</tr>
+<tr>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;"><b>ClassifyCustomers</b></td>
+  <td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">
+    <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">CALCULATE([TotalSales], FILTER(VALUES(Sales[CustomerCompany]), COUNTROWS(FILTER(CustomerClassificationTable, RANKX(ALL(Sales[CustomerCompany]), [TotalSales], , DESC) &gt;= CustomerClassificationTable[Min] &amp;&amp; RANKX(ALL(Sales[CustomerCompany]), [TotalSales], , DESC) &lt;= CustomerClassificationTable[Max])) &gt; 0))</code>
+  </td>
+</tr>
+</table>
+
+<p><b>ABC / VIP customer buckets</b> in one measure: a classification table with <em>Min</em> / <em>Max</em> rank bounds, and <code>RANKX</code> checked twice inside a nested <code>FILTER</code>. Ugly but powerful.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">4.7 &nbsp; Weekday vs. weekend &mdash; using variables</h3>
+
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:6px;overflow-x:auto;font-family:Consolas,'Courier New',monospace;font-size:13px;line-height:1.5;">
+TotalSalesonWeekends =
+VAR weekends =
+    FILTER(Datestable, OR(Datestable[DayInWeek] = 5, Datestable[DayInWeek] = 6))
+RETURN
+    SUMX(weekends, [TotalSales])
+
+TotalSalesonWeekdays =
+VAR weekdays =
+    FILTER(Datestable, AND(Datestable[DayInWeek] &lt;&gt; 5, Datestable[DayInWeek] &lt;&gt; 6))
+RETURN
+    SUMX(weekdays, [TotalSales])
+</pre>
+
+<p><code>VAR</code> / <code>RETURN</code> makes complex measures readable <em>and</em> faster &mdash; the engine evaluates each variable once and caches it. Adopt this style universally.</p>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>DAX mental model in one line:</b> Every measure evaluates in a <em>filter context</em>. <code>CALCULATE</code> is the only function that can change that context. Master those two ideas and 90% of DAX makes sense.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">5 &middot; The Date Table Function &mdash; One M Function, Every Time-Intelligence Measure Just Works</h2>
+
+<p>Every DAX time-intelligence function above assumes a <b>proper Date dimension</b>: contiguous dates, no gaps, marked as a date table, joined to your fact via a real relationship. Building that by hand every time is painful. The Power Query function below builds it in seconds.</p>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">What the function produces</h3>
+<p>Given a start date and a fiscal-year-start month, it returns a table with all of these columns computed for you:</p>
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;font-family:Arial,sans-serif;">
+<tr>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Column</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Example</th>
+  <th style="border:1px solid #d1d5db;padding:8px 10px;text-align:left;background:#fffbeb;color:#92400e;">Use</th>
+</tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Date</td><td style="border:1px solid #d1d5db;padding:8px 10px;">2026-08-17</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Relationship key to fact table.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Year / YearNumber</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2026</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Slicers and axes.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">QuarterOfYear</td><td style="border:1px solid #d1d5db;padding:8px 10px;">3</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Quarterly grouping.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">MonthOfYear</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">8</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Sort-by column for month names.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">MonthName</td><td style="border:1px solid #d1d5db;padding:8px 10px;">August</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Human-readable axis.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">DayOfMonth</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">17</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Day-level detail.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">DateInt</td><td style="border:1px solid #d1d5db;padding:8px 10px;">20260817</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Integer surrogate for fast joins/sorts.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">MonthInCalendar</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Aug 2026</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Trend-line axis labels.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">QuarterInCalendar</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Q3 2026</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Quarter axis labels.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">DayInWeek</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">0&ndash;6</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Weekend / weekday logic (see 4.7).</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">DayOfWeekName</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Monday</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Day-name slicers.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">WeekEnding</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">2026-08-22</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Weekly rollups without holes.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">Week Number</td><td style="border:1px solid #d1d5db;padding:8px 10px;">33</td><td style="border:1px solid #d1d5db;padding:8px 10px;">ISO-style week bucketing.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">MonthnYear / QuarternYear</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">integer keys</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Sort-by columns for calendar labels.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;">ShortYear</td><td style="border:1px solid #d1d5db;padding:8px 10px;">26</td><td style="border:1px solid #d1d5db;padding:8px 10px;">Compact axis labels.</td></tr>
+<tr><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">FY</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">FY27</td><td style="border:1px solid #d1d5db;padding:8px 10px;background:#f9fafb;">Fiscal-year label &mdash; respects the <code>FYStartMonth</code> parameter.</td></tr>
+</table>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">The function &mdash; drop this into Power Query as a Blank Query</h3>
+
+<pre style="background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:6px;overflow-x:auto;font-family:Consolas,'Courier New',monospace;font-size:12.5px;line-height:1.5;">
+let fnDateTable = (StartDate as date, FYStartMonth as number) as table =&gt;
+  let
+    DayCount = Duration.Days(Duration.From(DateTime.Date(DateTime.LocalNow()) - StartDate)),
+    Source = List.Dates(StartDate, DayCount, #duration(1, 0, 0, 0)),
+    TableFromList = Table.FromList(Source, Splitter.SplitByNothing()),
+    ChangedType = Table.TransformColumnTypes(TableFromList, {{"Column1", type date}}),
+    RenamedColumns = Table.RenameColumns(ChangedType, {{"Column1", "Date"}}),
+    InsertYear = Table.AddColumn(RenamedColumns, "Year", each Date.Year([Date]), type text),
+    InsertYearNumber = Table.AddColumn(RenamedColumns, "YearNumber", each Date.Year([Date])),
+    InsertQuarter = Table.AddColumn(InsertYear, "QuarterOfYear", each Date.QuarterOfYear([Date])),
+    InsertMonth = Table.AddColumn(InsertQuarter, "MonthOfYear", each Date.Month([Date]), type text),
+    InsertDay = Table.AddColumn(InsertMonth, "DayOfMonth", each Date.Day([Date])),
+    InsertDayInt = Table.AddColumn(InsertDay, "DateInt",
+        each [Year] * 10000 + [MonthOfYear] * 100 + [DayOfMonth]),
+    InsertMonthName = Table.AddColumn(InsertDayInt, "MonthName",
+        each Date.ToText([Date], "MMMM"), type text),
+    InsertCalendarMonth = Table.AddColumn(InsertMonthName, "MonthInCalendar",
+        each (try(Text.Range([MonthName], 0, 3)) otherwise [MonthName]) &amp; " " &amp; Number.ToText([Year])),
+    InsertCalendarQtr = Table.AddColumn(InsertCalendarMonth, "QuarterInCalendar",
+        each "Q" &amp; Number.ToText([QuarterOfYear]) &amp; " " &amp; Number.ToText([Year])),
+    InsertDayWeek = Table.AddColumn(InsertCalendarQtr, "DayInWeek",
+        each Date.DayOfWeek([Date])),
+    InsertDayName = Table.AddColumn(InsertDayWeek, "DayOfWeekName",
+        each Date.ToText([Date], "dddd"), type text),
+    InsertWeekEnding = Table.AddColumn(InsertDayName, "WeekEnding",
+        each Date.EndOfWeek([Date]), type date),
+    InsertWeekNumber = Table.AddColumn(InsertWeekEnding, "Week Number",
+        each Date.WeekOfYear([Date])),
+    InsertMonthnYear = Table.AddColumn(InsertWeekNumber, "MonthnYear",
+        each [Year] * 10000 + [MonthOfYear] * 100),
+    InsertQuarternYear = Table.AddColumn(InsertMonthnYear, "QuarternYear",
+        each [Year] * 10000 + [QuarterOfYear] * 100),
+    ChangedType1 = Table.TransformColumnTypes(InsertQuarternYear, {
+        {"QuarternYear", Int64.Type}, {"Week Number", Int64.Type},
+        {"Year", type text}, {"MonthnYear", Int64.Type}, {"DateInt", Int64.Type},
+        {"DayOfMonth", Int64.Type}, {"MonthOfYear", Int64.Type},
+        {"QuarterOfYear", Int64.Type}, {"MonthInCalendar", type text},
+        {"QuarterInCalendar", type text}, {"DayInWeek", Int64.Type}}),
+    InsertShortYear = Table.AddColumn(ChangedType1, "ShortYear",
+        each Text.End(Text.From([Year]), 2), type text),
+    AddFY = Table.AddColumn(InsertShortYear, "FY",
+        each "FY" &amp; (if [MonthOfYear] &gt;= FYStartMonth
+                     then Text.From(Number.From([ShortYear]) + 1)
+                     else [ShortYear]))
+  in
+    AddFY
+in
+  fnDateTable
+</pre>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">How to use it (three clicks)</h3>
+<ol>
+  <li>In Power BI Desktop, open <b>Transform Data</b> &rarr; <b>New Source</b> &rarr; <b>Blank Query</b>.</li>
+  <li>Open the <b>Advanced Editor</b>, paste the code above, and rename the query to <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">fnDateTable</code>.</li>
+  <li>Create another Blank Query and invoke it: <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">= fnDateTable(#date(2020,1,1), 4)</code> &mdash; that gives you every day from 1&nbsp;Jan&nbsp;2020 through today, on an April fiscal year. Rename the result to <b>Datestable</b>.</li>
+</ol>
+
+<h3 style="color:#92400e;font-size:18px;margin-top:22px;">After you load it &mdash; do these three things in DAX</h3>
+<ol>
+  <li><b>Mark as date table</b> &mdash; right-click <b>Datestable</b> &rarr; <em>Mark as date table</em> &rarr; pick the <code>Date</code> column. This is what activates <code>SAMEPERIODLASTYEAR</code>, <code>DATEADD</code>, <code>PARALLELPERIOD</code>, etc.</li>
+  <li><b>Relate</b> the fact table's date column to <code>Datestable[Date]</code> (many-to-one).</li>
+  <li><b>Sort-by columns</b>: sort <code>MonthName</code> by <code>MonthOfYear</code>, <code>MonthInCalendar</code> by <code>MonthnYear</code>, and <code>QuarterInCalendar</code> by <code>QuarternYear</code>. Otherwise everything alphabetizes and April sits before January.</li>
+</ol>
+
+<div style="background:#ecfdf5;border-left:4px solid #059669;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Why this function beats "just use CALENDARAUTO":</b> It gives you a fiscal year, weekday indexes, week-ending dates, and integer surrogate keys &mdash; none of which <code>CALENDARAUTO</code> produces. And because it's a function, you invoke it with <em>any</em> start date and <em>any</em> fiscal-year start month.
+</div>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">6 &middot; Reporting &amp; Publishing</h2>
+
+<p>Once the model and measures are in place, publishing follows the same short path every time:</p>
+<ol>
+  <li>In Power BI Desktop, click <b>Publish</b> and pick a workspace in the Power BI Service.</li>
+  <li>Set a <b>scheduled refresh</b> on the dataset (Import mode) or a <b>gateway connection</b> (DirectQuery / on-prem).</li>
+  <li>Pin visuals from the report to a <b>dashboard</b> for the executive one-pager.</li>
+  <li>Package related reports and dashboards into a Power BI <b>app</b> for role-based distribution.</li>
+  <li>Embed in <b>Teams</b>, <b>SharePoint</b>, or a custom web app for the last mile.</li>
+</ol>
+
+<hr style="border:0;border-top:1px dashed #cbd5e1;margin:28px 0;" />
+
+<h2 style="color:#b45309;font-size:22px;margin-top:34px;border-left:4px solid #f2c811;padding-left:10px;">7 &middot; What Comes Next</h2>
+
+<p>This post covered the "shape of the world" &mdash; connections, modeling, DAX measures, and the date table. What we deliberately deferred:</p>
+<ul>
+  <li><b>Filter functions</b>: <code>FILTER</code>, <code>ALL</code>, <code>ALLEXCEPT</code>, <code>KEEPFILTERS</code>, <code>REMOVEFILTERS</code>.</li>
+  <li><b>Information functions</b>: <code>HASONEVALUE</code>, <code>ISFILTERED</code>, <code>ISCROSSFILTERED</code>.</li>
+  <li><b>Logical &amp; math</b>: <code>IF</code>, <code>SWITCH</code>, <code>DIVIDE</code>, <code>ROUND</code>.</li>
+  <li><b>Parent-child</b>: <code>PATH</code>, <code>PATHITEM</code> &mdash; org hierarchies flattened for slicers.</li>
+  <li><b>Visual, page, and report filters</b> &mdash; the filter hierarchy that decides who sees what.</li>
+  <li><b>Row-level security</b> &mdash; role-based DAX filters at the model level.</li>
+</ul>
+
+<div style="background:#fffbeb;border-left:4px solid #d97706;padding:12px 16px;margin:14px 0;border-radius:4px;">
+<b>Coming next:</b> A follow-up on <b>DAX filter context, <code>CALCULATE</code>, and row-level security</b> &mdash; because most "DAX is hard" complaints are really "filter context is subtle" complaints.
+</div>
+
+<div style="margin-top:36px;padding-top:14px;border-top:2px solid #e5e7eb;color:#64748b;font-size:14px;">
+Function and measure snippets in this post are adapted from a working Power BI training deck and a production date-dimension utility used across multiple analytics models.
+<br /><br />
+<b>About the author:</b> Sajal Agarwal writes about data platforms, cloud economics, and turning cost telemetry into engineering decisions.
+</div>
+
+</div>
